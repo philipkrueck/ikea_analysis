@@ -1,0 +1,20 @@
+---
+#########################################
+# options for knitting a single chapter #
+#########################################
+output:
+  bookdown::html_document2: default
+  bookdown::word_document2: default
+  bookdown::pdf_document2:
+    template: templates/brief_template.tex
+documentclass: book
+bibliography: references.bib
+---
+
+# Theoretical Background & Research Question 
+
+## Theoretical Background {#theoretical_background}
+The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means of webscraping techniques from the Saudi Arabian Ikea website in the furniture category on the 20th of April 2020. Noteworthy features include the name, category, price in Saudi Riyals, the designer and dimensions (width, height and depth). The data set has 13 variables and 2962 observations.
+
+## Research Question {#research_question}
+This paper explores the influence for different variables on the price in the given data set. The motivating forces for this research question are the possible implications for price determination of new items.
