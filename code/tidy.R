@@ -15,7 +15,7 @@ ikea <- read_delim("ikea.csv", ";",
 ## tidy designer
 tidy_ikea <- ikea
 
-tidy_ikea$designer[grepl("\\d",tidy_ikea$designer)]<- NA
+tidy_ikea$designer[grepl("\\d",tidy_ikea$designer)] <- NA
 
 
 tidy_ikea <- tidy_ikea %>%
@@ -47,8 +47,10 @@ tidy_ikea <- tidy_ikea %>%
   mutate(size_m3 = round(depth/100 * width/100 * height/100, 2))
 
 # transform price and old price in eur
+sr_to_eur_conversion_factor <- 0.24537 # conversion factor from 20.04.2020 (https://www.xe.com/de/currencyconverter/convert/?Amount=1&From=EUR&To=SAR)
+
 tidy_ikea <- tidy_ikea %>%
-  mutate(price_eur = round(price * 0.23 / 10, 2), old_price_eur = round(old_price * 0.23 / 10, 2))
+  mutate(price_eur = round(price * sr_to_eur_conversion_factor / 10, 2), old_price_eur = round(old_price * sr_to_eur_conversion_factor / 10, 2))
 
 ## select relevant data
 tidy_ikea <- tidy_ikea %>%

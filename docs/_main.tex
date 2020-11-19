@@ -215,15 +215,64 @@ This paper explores the influence for different variables on the price in the gi
 \chapter{Methods}\label{methods}}
 
 \hypertarget{datacleaning}{%
-\section{Data Cleaning}\label{datacleaning}}
+\section{Data Cleaning and Transformatoin}\label{datacleaning}}
 
-Here we describe our tidying step \autocite[pp.~33-35]{von_goethe_wilhelm_1829}.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+To examine our data set properly, we first had to restructure and reformat it. This initial data cleaning step included type conversions, value mutation, addition of new calculated fields and the dropping of irrelevant columns.
+Concretely, we converted name, category and designer to categorical variables. In the designer column, we converted blank strings and values prefixed by ``IKEA of Sweden'' to missing values (\texttt{NA}). Furthermore, we converted both the price and old price to double values and changed the currency from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author @ref(\#theoretical\_background). To better facilitate the comparison of the different sizes of furniture items, we calcuted the size in cubic meters based on the depth, width and height values.
+Finally, we selected only columns that could have a potential impact in our analysis (see Table \ref{tab:initial-ikea} and \ref{tab:tidy-ikea}).
+
+TODO: Format these tables
+
+\begin{table}
+
+\caption{\label{tab:initial-ikea}Initial Data Set formatting.}
+\centering
+\begin{tabular}[t]{r|r|l|l|r|l|l|l|l|l|l|r|r|r}
+\hline
+X1 & item\_id & name & category & price & old\_price & sellable\_online & link & other\_colors & short\_description & designer & depth & height & width\\
+\hline
+0 & 90420332 & FREKVENS & Bar furniture & 2650 & No old price & TRUE & https://www.ikea.com/sa/en/p/frekvens-bar-table-in-outdoor-black-90420332/ & No & Bar table, in/outdoor,          51x51 cm & Nicholai Wiig Hansen & NA & 99 & 51\\
+\hline
+1 & 368814 & NORDVIKEN & Bar furniture & 9950 & No old price & FALSE & https://www.ikea.com/sa/en/p/nordviken-bar-table-black-00368814/ & No & Bar table,          140x80 cm & Francis Cayouette & NA & 105 & 80\\
+\hline
+2 & 9333523 & NORDVIKEN / NORDVIKEN & Bar furniture & 20950 & No old price & FALSE & https://www.ikea.com/sa/en/p/nordviken-nordviken-bar-table-and-4-bar-stools-black-black-s09333523/ & No & Bar table and 4 bar stools & Francis Cayouette & NA & NA & NA\\
+\hline
+3 & 80155205 & STIG & Bar furniture & 690 & No old price & TRUE & https://www.ikea.com/sa/en/p/stig-bar-stool-with-backrest-black-silver-colour-80155205/ & Yes & Bar stool with backrest,          74 cm & Henrik Preutz & 50 & 100 & 60\\
+\hline
+4 & 30180504 & NORBERG & Bar furniture & 2250 & No old price & TRUE & https://www.ikea.com/sa/en/p/norberg-wall-mounted-drop-leaf-table-white-30180504/ & No & Wall-mounted drop-leaf table,          74x60 cm & Marcus Arvonen & 60 & 43 & 74\\
+\hline
+5 & 10122647 & INGOLF & Bar furniture & 3450 & No old price & TRUE & https://www.ikea.com/sa/en/p/ingolf-bar-stool-with-backrest-white-10122647/ & No & Bar stool with backrest,          63 cm & Carina Bengs & 45 & 91 & 40\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{\label{tab:tidy-ikea}Data Set after cleaning process.}
+\centering
+\begin{tabular}[t]{l|l|r|r|l|l|l|r}
+\hline
+name & category & price\_eur & old\_price\_eur & sellable\_online & other\_colors & designer & size\_m3\\
+\hline
+FREKVENS & Bar furniture & 65.02 & NA & TRUE & FALSE & Nicholai Wiig Hansen & NA\\
+\hline
+NORDVIKEN & Bar furniture & 244.14 & NA & FALSE & FALSE & Francis Cayouette & NA\\
+\hline
+NORDVIKEN / NORDVIKEN & Bar furniture & 514.05 & NA & FALSE & FALSE & Francis Cayouette & NA\\
+\hline
+STIG & Bar furniture & 16.93 & NA & TRUE & TRUE & Henrik Preutz & 0.30\\
+\hline
+NORBERG & Bar furniture & 55.21 & NA & TRUE & FALSE & Marcus Arvonen & 0.19\\
+\hline
+INGOLF & Bar furniture & 84.65 & NA & TRUE & FALSE & Carina Bengs & 0.16\\
+\hline
+\end{tabular}
+\end{table}
 
 \hypertarget{tbd}{%
 \section{8 Step EDA (nice heading)}\label{tbd}}
 
-Here we describe our EDA after the ZUUR paper method.
+Here we describe our EDA after the ZUUR paper method \autocite[pp.~33-35]{von_goethe_wilhelm_1829}.
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
 \hypertarget{step-1}{%

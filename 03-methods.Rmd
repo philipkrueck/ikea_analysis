@@ -11,13 +11,26 @@ bibliography: references.bib
 # Methods {#methods}
 
 
-## Data Cleaning {#datacleaning}
-Here we describe our tidying step [@von_goethe_wilhelm_1829, pp. 33-35].
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+## Data Cleaning and Transformatoin {#datacleaning}
+To examine our data set properly, we first had to restructure and reformat it. This initial data cleaning step included type conversions, value mutation, addition of new calculated fields and the dropping of irrelevant columns.
+Concretely, we converted name, category and designer to categorical variables. In the designer column, we converted blank strings and values prefixed by “IKEA of Sweden” to missing values (```NA```). Furthermore, we converted both the price and old price to double values and changed the currency from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author \@ref(#theoretical_background). To better facilitate the comparison of the different sizes of furniture items, we calcuted the size in cubic meters based on the depth, width and height values. 
+Finally, we selected only columns that could have a potential impact in our analysis (see Table \@ref(tab:initial-ikea) and \@ref(tab:tidy-ikea)).
+
+TODO: Format these tables
+```{r initial-ikea, echo=FALSE}
+library('kableExtra')
+
+knitr::kable(head(ikea), caption = "Initial Data Set formatting.")
+```
+
+```{r tidy-ikea, echo=FALSE}
+knitr::kable(head(tidy_ikea), caption = "Data Set after cleaning process.")
+```
+
 
 
 ## 8 Step EDA (nice heading) {#tbd}
-Here we describe our EDA after the ZUUR paper method.
+Here we describe our EDA after the ZUUR paper method [@von_goethe_wilhelm_1829, pp. 33-35].
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
 ### Step 1
