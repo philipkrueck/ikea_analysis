@@ -56,6 +56,108 @@ tidy_ikea %>%
   labs(x = "name", y = "price in €", fill = "", title = "Homogeneity of Category and Name", subtitle = "category") +
   facet_grid(~ category)
 
-# 3. 
+# 3. Normality Y
 
-             
+tidy_ikea %>%
+  select(where(is.numeric)) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "num") %>% group_by(variable) %>%
+  arrange(num) %>%
+  mutate(observation = 1:n()) %>%
+  ungroup() %>%
+  ggplot(aes(x = num)) + theme_bw() +
+  geom_histogram(bins = 100) + facet_wrap(~ variable, scales = "free") + ylab("") + xlab("")
+
+ggplot(tidy_ikea, aes(x = price_eur)) + geom_density() +
+  facet_grid(~ fct_lump_n(name, 10))
+
+ggplot(tidy_ikea, aes(x = price_eur)) + geom_density() +
+  facet_grid(~ fct_lump_n(category, 10))
+
+ggplot(tidy_ikea, aes(x = price_eur)) + geom_density() +
+  facet_grid(~ fct_lump_n(designer, 10))
+
+# 4. Missing Values Trouble
+
+
+## code taken from: https://jenslaufer.com/data/analysis/visualize_missing_values_with_ggplot.html
+
+missing.values <- tidy_ikea %>%
+  gather(key = "key", value = "val") %>%
+  mutate(isna = is.na(val)) %>%
+  group_by(key) %>%
+  mutate(total = n()) %>%
+  group_by(key, total, isna) %>%
+  summarise(num.isna = n()) %>%
+  mutate(pct = num.isna / total * 100)
+## `summarise()` regrouping output by 'key', 'total' (override with `.groups` argument)
+levels <-
+  (missing.values  %>% filter(isna == T) %>% arrange(desc(pct)))$key
+
+percentage.plot <- missing.values %>%
+  ggplot() +
+  geom_bar(aes(x = reorder(key, desc(pct)), 
+               y = pct, fill=isna), 
+           stat = 'identity', alpha=0.8) +
+  scale_x_discrete(limits = levels) +
+  scale_fill_manual(name = "", 
+                    values = c('steelblue', 'tomato3'), labels = c("Present", "Missing")) +
+  coord_flip() +
+  labs(title = "Percentage of missing values", x =
+         'Variable', y = "% of missing values")
+
+percentage.plot
+
+# 5. Collinearity X
+
+## corvif Function taken from Zuur et al.
+tidy_ikea %>% select(where(is.numeric)) %>% corvif()
+tidy_ikea %>% select(where(is.numeric) & -old_price_eur) %>% corvif()
+
+# 6. Relationships Y & X
+
+tidy_ikea %>%
+  mutate(across(where(is.character), as.factor)) %>% mutate(across(where(is.factor), as.numeric)) %>%
+  # select() %>% # De-select variables here if necessary
+  pivot_longer(-price_eur, names_to = "variable", values_to = "num") %>% group_by(variable) %>%
+  arrange(num) %>%
+  mutate(observation = 1:n()) %>%
+  ungroup() %>%
+  ggplot(aes(x = num, y = price_eur)) + theme_bw() +
+  geom_point(shape = 1, alpha = 0.8, position = "jitter") +
+  geom_smooth(se = FALSE, colour = "blue", method = "loess", formula = 'y ~ x') +
+  facet_wrap(~ variable, scales = "free_x") + ylab("Dependent variable") + xlab("")
+
+### --> see eda_covariance.R for detailed plots
+
+tidy_ikea %>% select(where(is.numeric)) %>%
+  as.data.frame() %>%
+  ggpairs(diag = list(continuous = "barDiag"))
+
+
+# 7. Interactions
+
+coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + fct_lump_n(name, 5), data = tidy_ikea, ylab = "Size in m^3",
+       xlab = "Price in €", panel = function(x, y, ...) {
+         tmp <- lm(y ~ x, na.action = na.omit)
+         abline(tmp)
+         points(x, y )})
+
+coplot(size_m3 ~ price_eur | fct_lump_n(category, 5) + fct_lump_n(name, 5), data = drop_na(tidy_ikea), ylab = "Size in m^3",
+       xlab = "Price in €", panel = function(x, y, ...) {
+         tmp <- lm(y ~ x, na.action = na.omit)
+         abline(tmp)
+         points(x, y )})
+
+coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + fct_lump_n(category, 5), data = drop_na(tidy_ikea), ylab = "Size in m^3",
+       xlab = "Price in €", panel = function(x, y, ...) {
+         tmp <- lm(y ~ x, na.action = na.omit)
+         abline(tmp)
+         points(x, y )})
+
+
+
+
+
+
+
+

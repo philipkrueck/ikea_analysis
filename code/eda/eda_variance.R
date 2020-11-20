@@ -71,7 +71,7 @@ old_price_na_count <- tidy_ikea %>%
   filter(!is.na(old_price_eur)) %>%
   count()
 
-(percent_na_old_price_eur <- as.double(round((old_price_count / total * 100), 2)))
+(percent_na_old_price_eur <- as.double(round((old_price_na_count / total * 100), 2)))
 
 # 5. sellable_online
 
