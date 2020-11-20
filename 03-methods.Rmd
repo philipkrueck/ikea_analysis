@@ -30,20 +30,30 @@ knitr::kable(head(tidy_ikea), caption = "Data Set after cleaning process.")
 
 
 ## 8 Step EDA (nice heading) {#tbd}
-Here we describe our EDA after the ZUUR paper method [@von_goethe_wilhelm_1829, pp. 33-35].
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+[@Zuur2010, pp. 33-35].
+- Our EDA analysis is based on the protocol for data exploration proposed by ZUUR paper
+- This 8 step analysis is especially useful for regression models
 
-### Step 1
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
-### Step 2
-### Step 3
-### Step 4
-### Step 5
-### Step 6
-### Step 7
-### Step 8
+### Step 1: Outliers in Price and Independent Variables
+- Assumption: outliers are not by chance or random (no observer error)
+- Assumption seems to hold up when looking at individual outlier observations. These are congruent in themselves. Assume: web scraping technique is highly unlikely to have measurement error ocurrence
+- Use outliers in model
+
+### Step 2: Homogeneity of Price
+- To test the assumption of  homogeneity of variance for price (homoscedasticity) by the means of conditional boxplotting
+- As can be seen, price is homogoneous for all category  variable except for beds where the variance differes widely (see plot xxx)
+- price is heterogenous for all individual names by category (see plot xxx)
+- Looking at both categories simultaneously -> homogenous
+- Im Rahmen der Arbeit nicht möglich alle kategorischen Variablen Kombinationen anzuschauen. 5 kategorische Variablen -> 2^5 = 32 Möglichkeiten
+
+
+### Step 3: Normality of Price
+### Step 4: Zero Trouble of Price
+### Step 5: Collinearity between Independent Variables
+### Step 6: Relationship between Independent Variables and Price
+### Step 7: Interactions
+### Step 8: Independence of Price
 
 
 ## Random Forest Regression Model {#tbd2}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
