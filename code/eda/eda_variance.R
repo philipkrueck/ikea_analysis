@@ -119,4 +119,9 @@ tidy_ikea %>%
 
 tidy_ikea %>%
   select(size_m3) %>%
-  summary()
+  summary
+
+tidy_ikea %>%
+  group_by(category) %>%
+  summary(count = count())
+

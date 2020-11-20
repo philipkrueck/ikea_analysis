@@ -48,12 +48,53 @@ knitr::kable(head(tidy_ikea), caption = "Data Set after cleaning process.")
 - Im Rahmen der Arbeit nicht möglich alle kategorischen Variablen Kombinationen anzuschauen. 5 kategorische Variablen -> 2^5 = 32 Möglichkeiten
 
 
-### Step 3: Normality of Price
-### Step 4: Zero Trouble of Price
+### Step 3: Missing Value Trouble
+- not normal verteilt
+- ikea ist im Niedrigpreissegment angesiedelt
+- see figure ....
+- exponential decay in price, old price and size (e^-x)
+
+
+### Step 4: Zeros
+- many missing values from old price -> assume those were not on sale
+- size_m3 missing values because of calculation formula
+- designer -> removed values containing digits (were clearly falsely scraped)
+
+
+
 ### Step 5: Collinearity between Independent Variables
+- high collinearity between old price and price
+- relatively high collinearity between price and size
+- as can be seen in table
+
+
 ### Step 6: Relationship between Independent Variables and Price
+- from eda_covariance.Rc (in Anhang + verweisen)
+- strong relationship b/w price + old price & b/w price + size (see )
+- other relationships aren't strong
+
+
 ### Step 7: Interactions
+- Coplotting designer and name works, while the two combination would not plot
+- The linear model predicted infinite values and thus coplot the values properly for the other two options
+- However, dropping all NA values and thus reducing the total data size to 354 observations would case for the combination coplot name and category while name + designer combination would not work
+- The authors hypothesized that infinite values were caused by a division of zeros of the linear model since there occured 0 values in size
+- This however proved to be wrong after applying respective filters
+
+- The following interaction could be analyzed
+- - There is probably no significant interaction between size, price, name & designer as can be seen in coplot -> lines are nearly parallel
+- Based on the coplot of category and name with the 354 observations, inparallelity could be observed and thus could conclude a interaction. However, this could also be due to the small sample size 
+-  
+
+
+(footnote): the authors would highly appreciate any solutions on this matter
+
+
+
 ### Step 8: Independence of Price
+- 
 
 
 ## Random Forest Regression Model {#tbd2}
+- TODO: is normal distribution relevant for random forest (step 3)
+- remove old price because of high correlation factor

@@ -46,13 +46,10 @@ tidy_ikea <- tidy_ikea %>%
 tidy_ikea <- tidy_ikea %>%
   mutate(size_m3 = round(depth/100 * width/100 * height/100, 2))
 
-<<<<<<< HEAD
 # transform price and old price in eur
 sr_to_eur_conversion_factor <- 0.24537 # conversion factor from 20.04.2020 (https://www.xe.com/de/currencyconverter/convert/?Amount=1&From=EUR&To=SAR)
 
-=======
 ## transform price and old_price to euro
->>>>>>> 444c4b7c8ad3a37bb327ce2279f245009d70d8ef
 tidy_ikea <- tidy_ikea %>%
   mutate(price_eur = round(price * sr_to_eur_conversion_factor / 10, 2), old_price_eur = round(old_price * sr_to_eur_conversion_factor / 10, 2))
 
