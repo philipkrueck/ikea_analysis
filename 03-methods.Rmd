@@ -106,12 +106,19 @@ knitr::kable(head(tidy_ikea), caption = "Data Set after cleaning process.")
 
 
 ## Random Forest Regression Model {#tbd2}
+- We chose rf
 - random forest erklären -> article (for in depth reference see article)
-- why random forest? -> article to explain why random forest is great to explain feature importance
+- why random forest (not lm)? -> article to explain why random forest is great to explain feature importance
   - see article 
-
-- TODO: is normal distribution relevant for random forest (step 3) -> see article or site something
-- remove old price because of high correlation factor (step 5 + 6) which would fuck up our overall result
+  - TODO: is normal distribution relevant for random forest (step 3) -> see article or site something
+  
+- To reproduce our results...
+  - We chose randomForest R package for our analysis -> as in ... (cite article)
+  - data base is tidy ikea (step ...)
+  - then transform this data set to apply rf (johannes)
+    - remove old price because of high correlation factor (step 5 + 6) which would fuck up our overall result
+    - fct_lump erklären
+    - rf has problems with na values -> 3 different methods to solve problem -> calculated 3 feature importances -> mean(a, b, c) 
 
 
 

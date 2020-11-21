@@ -68,7 +68,7 @@ tidy_ikea %>%
   geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
   scale_color_manual(values = mycolors) +
   theme_minimal() +
-  labs(x = "price in €", y = "sellable online", fill = "", title = "Price Distribution Other Colors")
+  labs(x = "price in €", y = "other colors", fill = "", title = "Price Distribution Other Colors")
 
 # price + designer
 top_ten_designers <- fct_lump(tidy_ikea$designer, 10)
