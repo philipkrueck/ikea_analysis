@@ -16,6 +16,16 @@ To examine our data set properly, we first had to restructure and reformat it. T
 Concretely, we converted name, category and designer to categorical variables. In the designer column, we converted blank strings and values prefixed by “IKEA of Sweden” to missing values (```NA```). Furthermore, we converted both the price and old price to double values and changed the currency from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author \@ref(#theoretical_background). To better facilitate the comparison of the different sizes of furniture items, we calcuted the size in cubic meters based on the depth, width and height values. 
 Finally, we selected only columns that could have a potential impact in our analysis (see Table \@ref(tab:initial-ikea) and \@ref(tab:tidy-ikea)).
 
+tidy category -> duplicate filtering
+- there were some observations with the same item id. All other value were the same in these instances except for the category. 
+- The authors considered multiple approaches to handle these data duplications
+- Option one -> mutate duplicates into one combination of categories (e.g. a and b to a, b), then the newly created categories would have a low count of observations while the single categories would have a decreased count. We would then have an increased count in categories. Because the count of the individual categories is low, no definite conclusion can be drawn for the interaction on the price
+- Option two -> create multiple variables for each observed category for the same item id. The authors wanted to analyze the feature importance of category variable as such and not the multiple occurrences of the category variable
+- The authors chose option of selecting the observations where the category count occurred most frequent.
+
+
+
+
 TODO: Format these tables
 ```{r initial-ikea, echo=FALSE}
 library('kableExtra')
@@ -92,9 +102,31 @@ knitr::kable(head(tidy_ikea), caption = "Data Set after cleaning process.")
 
 
 ### Step 8: Independence of Price
-- 
+- Durch das tidying in (cross reference) duplicate removal -> Zuur paper Step 8 1. citation: meaning that information from any one observation should not provide information on another after the effects of other variables have been accounted for. This concept is best explained with examples.
 
 
 ## Random Forest Regression Model {#tbd2}
-- TODO: is normal distribution relevant for random forest (step 3)
-- remove old price because of high correlation factor
+- random forest erklären -> article (for in depth reference see article)
+- why random forest? -> article to explain why random forest is great to explain feature importance
+  - see article 
+
+- TODO: is normal distribution relevant for random forest (step 3) -> see article or site something
+- remove old price because of high correlation factor (step 5 + 6) which would fuck up our overall result
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
