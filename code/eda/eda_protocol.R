@@ -110,6 +110,8 @@ percentage.plot
 # 5. Collinearity X
 
 ## corvif Function taken from Zuur et al.
+## execute HighstatLib.r to load function
+
 tidy_ikea %>% select(where(is.numeric)) %>% corvif()
 tidy_ikea %>% select(where(is.numeric) & -old_price_eur) %>% corvif()
 
@@ -153,7 +155,6 @@ coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + fct_lump_n(category, 5), 
          tmp <- lm(y ~ x, na.action = na.omit)
          abline(tmp)
          points(x, y )})
-
 
 
 

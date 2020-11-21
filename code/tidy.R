@@ -12,8 +12,19 @@ ikea <- read_delim("./ikea.csv", ";",
 
 # tidy data
 
-## tidy designer
 tidy_ikea <- ikea
+
+## tidy category
+
+tidy_ikea <- tidy_ikea %>%
+  group_by(category) %>%
+  mutate(n = n()) %>%
+  ungroup() %>%
+  arrange(-n) %>%
+  select(-n) %>%
+  distinct(item_id, .keep_all = TRUE)
+
+## tidy designer
 
 tidy_ikea$designer[grepl("\\d",tidy_ikea$designer)] <- NA
 

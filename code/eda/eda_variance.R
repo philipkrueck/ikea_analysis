@@ -71,7 +71,11 @@ old_price_na_count <- tidy_ikea %>%
   filter(!is.na(old_price_eur)) %>%
   count()
 
-(percent_na_old_price_eur <- as.double(round((old_price_na_count / total * 100), 2)))
+old_price_count <- tidy_ikea %>%
+  filter(is.na(old_price_eur)) %>%
+  count()
+
+(percent_na_old_price_eur <- as.double(round((old_price_count / total * 100), 2)))
 
 # 5. sellable_online
 
@@ -113,15 +117,10 @@ tidy_ikea %>%
   filter(!is.na(size_m3)) %>%
   ggplot() +
     geom_histogram(mapping = aes(x = size_m3), binwidth = 0.3, fill = mycolors[1]) +
-    xlim(0, 10)
+    xlim(0, 10) +
     theme_minimal() +
     labs(x = "size in m^3", y = "# of items", title = "Number of Items by Size")
 
 tidy_ikea %>%
   select(size_m3) %>%
-  summary
-
-tidy_ikea %>%
-  group_by(category) %>%
-  summary(count = count())
-
+  summary()
