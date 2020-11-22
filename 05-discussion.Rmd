@@ -39,6 +39,9 @@ general results might contain bias or variance errors, further investigating
     - analyze designer overfitting, recommend using overfitting techniques (e.g. ...)
     - analyze same research question with other techniques (lm, name more) and compare
     - data scraping from other country-pages
+    
+    
+show practical usefulness ! ! !! ! 
 
 
 
