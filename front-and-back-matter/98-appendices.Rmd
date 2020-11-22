@@ -5,12 +5,10 @@
 <!-- If you feel it necessary to include an appendix, it goes here. The first appendix should include the commands above. -->
 
 
-# Plots
-
-## Plot xyz
+# Appendix
 
 ## Plot abc
 
+## Plot xyz
 
-
-# Another Appendix
+# Bibliography
