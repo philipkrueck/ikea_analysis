@@ -7,8 +7,49 @@
 
 # Appendix
 
-## Plot abc
+## Price Distribution per Designer {#price_distribution_designer}
 
-## Plot xyz
+```{r echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+tidy_ikea %>%
+  ggplot(mapping = aes(x = fct_reorder(fct_lump(tidy_ikea$designer, 25), price_eur), y = price_eur, colour = fct_lump(tidy_ikea$designer, 25))) +
+    geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
+    theme_minimal() +
+    labs(x = "", y = "price in €", fill = "", title = "Price Distribution per Designer") +
+    coord_flip()
+```
+
+## Price Distribution per Category {#price_distribution_category}
+
+```{r echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+tidy_ikea %>%
+  ggplot(aes(x = reorder(fct_lump(tidy_ikea$category, 15), price_eur), y = price_eur, colour = fct_lump(tidy_ikea$category, 15))) +
+    geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
+    scale_color_manual(values = mycolors) +
+    theme_minimal() +
+    labs(x = "", y = "price in €", fill = "", title = "Price Distribution per Category") +
+    coord_flip()
+```
+
+## Price Distribution Other Colors {#price_distribution_other_colors}
+
+```{r echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+tidy_ikea %>%
+  ggplot(aes(x = price_eur, y = other_colors, color = other_colors)) +
+  geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
+  scale_color_manual(values = mycolors) +
+  theme_minimal() +
+  labs(x = "price in €", y = "other_colors", fill = "", title = "Price Distribution Other Colors")
+```
+
+## Price Distribution Sellable Online
+
+```{r echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+tidy_ikea %>%
+  ggplot(aes(x = price_eur, y = sellable_online, color = sellable_online)) +
+    geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
+    scale_color_manual(values = mycolors) +
+    theme_minimal() +
+    labs(x = "price in €", y = "sellable_online", fill = "", title = "Price Distribution Sellable Online")
+```
 
 # Bibliography

@@ -86,7 +86,8 @@ mean_imp <- mean_imp %>%
 # Results {#results}
 \hfill\textcolor{gray}{by J. Pein}
 
-## TODO: set n_trees to 2000 before handing in
+TODO: set n_trees to 2000 before handing in
+TODO: The results  sectionshould  comprise  all  necessary  calculations,  including checking  of  assumptions  (if applicable), which are thendiscussedinconnection with the research questionin the following section. 
 
 In this chapter, the results of the analysis of the feature importance of different predictor variables (features) on the response variable price of Ikea products are presented.
 

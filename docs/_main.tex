@@ -211,10 +211,14 @@ The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means o
 \hypertarget{rf-basics}{%
 \subsection{RF Basics}\label{rf-basics}}
 
+\textcolor{gray}{by J. Pein}
+
 In order to analyze the feature importance in relation to the price variable, a random forest regression model was chosen. A random forest consists of many decision trees, which make a prediction based on a majority decision process. In standard decision trees, each nodes is split to achieve the best performing model. In random forests however, the nodes are randomly split. Compared to linear regression models, the random forests model not only takes into account the mean and covariance structure of response, but also deeper deeper aspects of data\footnote{Grömping, ``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.''} leading to a more advanced and robust model.
 
 \hypertarget{feature-importance}{%
 \subsection{Feature Importance}\label{feature-importance}}
+
+\textcolor{gray}{by J. Pein}
 
 \begin{itemize}
 \tightlist
@@ -424,6 +428,10 @@ INGOLF & Bar furniture & 84.65 & NA & TRUE & FALSE & Carina Bengs & 0.16\\
 \hypertarget{rf}{%
 \section{Random Forest Regression Model}\label{rf}}
 
+\textcolor{gray}{by J. Pein}
+
+TODO: Students should decide on an appropriate statistical procedure to answer their chosen research questionand should state any prerequisites /assumptions of this methodaccordingly.
+
 This analysis was conducted using the R randomForest package, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To learn more about how random forests work or the randomForest package, see Liaw and Wiener\footnote{``Classification and Regression by randomForest.''} or \#chapter2 \#TODO. To reproduce the analysis conducted in this paper, the prepatory steps are described now. The following steps are based on an already cleaned ikea data frame which is described in \ref{datacleaning}. This data frame is then transformed further to be used with the randomForest package.
 First, the variable \texttt{old\_price\_eur} is removed from the data frame, due to a very high correlation and relationship to the price variable analyzed in \ref{collinearity} and \ref{relationship} Then, the designers and names, which are not part of the 50 \texttt{designers} and 49 \texttt{names} with the highest number of occurences, are grouped in the \texttt{other} value. This is because the \texttt{randomForest} method does not allow categorical variables with more than 53 predictors. The last step is dealing with the missing values in the data. As described in \ref{zeros}, there are missing values in the \texttt{size\_m3} and \texttt{designer} variables. To use the \texttt{randomForest} method of the randomForest package on the data, those missing values are dealt with using three different approaches. In the first approach the rows with missing values are deleted, reducing the total number of rows by aproximately 50\%. In the second approach the missing values are dummy coded with a value of -1000. The third approach uses the \texttt{na.roughfix\ =\ na.omit} argument, which is the built in way of the randomForest package to deal with missing values.
 After preparing the data, the \texttt{randomForest} method of the randomForest package is applied to the data with number of trees set to 2000 and importance set to \texttt{TRUE}.
@@ -443,8 +451,8 @@ Then the \texttt{importance} method of the randomForest package is used to save 
 
 \hfill\textcolor{gray}{by J. Pein}
 
-\hypertarget{todo-set-n_trees-to-2000-before-handing-in}{%
-\section{TODO: set n\_trees to 2000 before handing in}\label{todo-set-n_trees-to-2000-before-handing-in}}
+TODO: set n\_trees to 2000 before handing in
+TODO: The results sectionshould comprise all necessary calculations, including checking of assumptions (if applicable), which are thendiscussedinconnection with the research questionin the following section.
 
 In this chapter, the results of the analysis of the feature importance of different predictor variables (features) on the response variable price of Ikea products are presented.
 
@@ -461,81 +469,30 @@ These results are further discussed in the following section.
 \hypertarget{discussion}{%
 \chapter{Discussion}\label{discussion}}
 
-\hypertarget{size_m3}{%
-\section{size\_m3}\label{size_m3}}
+\hfill\textcolor{gray}{by J. Pein}
 
-\begin{itemize}
-\tightlist
-\item
-  material cost
-\item
-  big items more expensive than small ones
-\item
-  high correlation to price
-\end{itemize}
+In this chapter, the results are discussed in connection with the research question. The question that the results were supposed to answer is the following:
 
-\hypertarget{designer}{%
-\section{designer}\label{designer}}
+\emph{How important are the different features of Ikea products in regard to their price?}
 
-\begin{itemize}
-\item
-  designers with high number of products produce products in wide price range : plot reference -\textgreater{} appendix
-\item
-  many different combinations of designer (49-53)
-\item
-  many designer-combinations with low number of products:
+\hypertarget{feature-importance-1}{%
+\section{Feature Importance}\label{feature-importance-1}}
 
-  \begin{itemize}
-  \tightlist
-  \item
-    n combinations with occurrences\textless{}5
-  \end{itemize}
-\end{itemize}
+The \texttt{size\_m3} variable is the most important feature. Probably the main reason for this is that the size of a product is closely linked to its material cost. Big items are generally more costly to produce, thus leading to a higher selling price and vice versa. Due to the high correlation to the price variable described in \ref{collinearity} and \ref{relationship}, it is worth discussing where or not to include this variable in a possible predictive analysis model.
 
--\textgreater{} overfitting: cite scholarly article
--\textgreater{} low generalization : model might perfom bad on other data
+The \texttt{designer} variable is the second most important feature. It might seem, that this is due to \emph{overfitting}, since the random forest regression model takes into account around 50 different combinations of designers, partly with a low number of occurences. But according to Grömping\footnote{``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.''} random forest models are relatively robust against overfitting. Further research should be conducted to analyze whether overfitting is present or not.
+When looking at the price distribution per designer, in can be clearly seen that the interquartile range (IQR) of price varies for each designer. In addition, the IQR often is smaller than 300€, thus showing a tendency towards a certain price range, which might be the reason for the relatively high feature importance of the designer variable. The plot @ref(price\_distribution\_designer) is available in the appendix.
+The random forest regression model includes around 50 different product names with partly small numbers of occurences. Thus, the relatively high feature importance of the \texttt{name} variable might also be caused by overfitting. As discussed above, further research should be conducted to analyze whether this is the case.
 
-\hypertarget{name}{%
-\section{name}\label{name}}
+\texttt{Category} is another feature with a relatively high importance. This is because the different category's price distributions show a clear tendency towards certain price segments @ref(price\_distribution\_category). Wardrobes and beds are generally more expensive than chairs.
+To the authors it seems counterintuitive that \texttt{designer} and \texttt{name} have higher feature importances than the \texttt{category} feature, because the IQR in the price distribution per category is often a lot smaller than the IQR of the designer and name price distributions. This also hints towards overfitting of the name and designer variables. However, in the categories with the most occurrences, namely \texttt{Wardrobes}, \texttt{Sofas\ \&\ armchairs} and \texttt{Beds}, the interquartile range is relatively large and there are many overlapping prices ranges for different categories, which explains a lower feature importance.
 
-\begin{itemize}
-\tightlist
-\item
-  overfitting
-\end{itemize}
+The feature importance of \texttt{other\_colors} is the second lowest, but still considerable. This still relatively high feature importance might be due to the difference of the mean price and the relatively small IQR @ref(price\_distribution\_other\_colors). On the other hand, there is a large overlapping area within the IQR in the two expressions of \texttt{other\_colors} possibly reducing the feature importance.
 
-\hypertarget{category}{%
-\section{category}\label{category}}
+The very low feature importance of the \texttt{sellable\_online} variable is mainly because the low number of occurences of a product being sellable online. Only around 0.6\% of the products are sellable online.
 
-\begin{itemize}
-\tightlist
-\item
-  beds are more expensive than chairs : some categories are more expensive than others (show plot)
-\item
-  but, price range varies heavily in category (show plot)
-\end{itemize}
-
-\hypertarget{other_colors}{%
-\section{other\_colors}\label{other_colors}}
-
-\begin{itemize}
-\tightlist
-\item
-  products of every price range have both options : low importance
-\item
-  mean price is higher if other\_colors is true (show plot covariance price+other\_colors)
-\item
-  interquartile-range is smaller if other\_colors is false
-\end{itemize}
-
-\hypertarget{sellable_online}{%
-\section{sellable\_online}\label{sellable_online}}
-
-sellable true: price range too high
-sellable ntrue: very rare
-
-\hypertarget{conclusion-ausblick}{%
-\section{Conclusion \& Ausblick}\label{conclusion-ausblick}}
+\hypertarget{conclusion-outlook}{%
+\section{Conclusion \& Outlook}\label{conclusion-outlook}}
 
 general results might contain bias or variance errors, further investigating
 
@@ -569,11 +526,25 @@ general results might contain bias or variance errors, further investigating
 \hypertarget{appendix}{%
 \chapter{Appendix}\label{appendix}}
 
-\hypertarget{plot-abc}{%
-\section{Plot abc}\label{plot-abc}}
+\hypertarget{price_distribution_designer}{%
+\section{Price Distribution per Designer}\label{price_distribution_designer}}
 
-\hypertarget{plot-xyz}{%
-\section{Plot xyz}\label{plot-xyz}}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\hypertarget{price_distribution_category}{%
+\section{Price Distribution per Category}\label{price_distribution_category}}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\hypertarget{price_distribution_other_colors}{%
+\section{Price Distribution Other Colors}\label{price_distribution_other_colors}}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{price-distribution-sellable-online}{%
+\section{Price Distribution Sellable Online}\label{price-distribution-sellable-online}}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-9-1.pdf}
 
 \hypertarget{bibliography}{%
 \chapter{Bibliography}\label{bibliography}}

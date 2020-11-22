@@ -10,47 +10,28 @@ bibliography: references.bib
   
 # Discussion {#discussion}
 \hfill\textcolor{gray}{by J. Pein}
+\n
 
+In this chapter, the results are discussed in connection with the research question. The question that the results were supposed to answer is the following:
 
-## size_m3
+*How important are the different features of Ikea products in regard to their price?*
 
-- material cost
-- big items more expensive than small ones
-- high correlation to price
+## Feature Importance
 
+The `size_m3` variable is the most important feature. Probably the main reason for this is that the size of a product is closely linked to its material cost. Big items are generally more costly to produce, thus leading to a higher selling price and vice versa. Due to the high correlation to the price variable described in \@ref(collinearity) and \@ref(relationship), it is worth discussing where or not to include this variable in a possible predictive analysis model. 
 
-## designer
+The `designer` variable is the second most important feature. It might seem, that this is due to *overfitting*, since the random forest regression model takes into account around 50 different combinations of designers, partly with a low number of occurences. But according to @Groemping2009 random forest models are relatively robust against overfitting. Further research should be conducted to analyze whether overfitting is present or not.
+When looking at the price distribution per designer, in can be clearly seen that the interquartile range (IQR) of price varies for each designer. In addition, the IQR often is smaller than 300€, thus showing a tendency towards a certain price range, which might be the reason for the relatively high feature importance of the designer variable. The plot \@ref(price_distribution_designer) is available in the appendix.
+The random forest regression model includes around 50 different product names with partly small numbers of occurences. Thus, the relatively high feature importance of the `name` variable might also be caused by overfitting. As discussed above, further research should be conducted to analyze whether this is the case.
 
-- designers with high number of products produce products in wide price range : plot reference -> appendix
+`Category` is another feature with a relatively high importance. This is because the different category's price distributions show a clear tendency towards certain price segments \@ref(price_distribution_category), i.e. Wardrobes and beds are generally more expensive than chairs.
+To the authors it seems counterintuitive that `designer` and `name` have higher feature importances than the `category` feature, because the IQR in the price distribution per category is often a lot smaller than the IQR of the designer and name price distributions. This also hints towards overfitting of the name and designer variables. However, in the categories with the most occurrences, namely `Wardrobes`, `Sofas & armchairs` and `Beds`, the IQR is relatively large and there are many overlapping prices ranges for different categories, which explains a lower feature importance.
 
-- many different combinations of designer (49-53)
-- many designer-combinations with low number of products:
-  - n combinations with occurrences<5
+The feature importance of `other_colors` is the second lowest, but still considerable. This still relatively high feature importance might be due to the difference of the mean price and the relatively small IQR \@ref(price_distribution_other_colors). On the other hand, there is a large overlapping area within the IQR in the two expressions of `other_colors` possibly reducing the feature importance.
 
--> overfitting: cite scholarly article
--> low generalization : model might perfom bad on other data
+The very low feature importance of the `sellable_online` variable is mainly because the low number of occurences of a product being sellable online. Only around 0.6% of the products are sellable online.
 
-## name
-
-- overfitting
-
-## category
-
-- beds are more expensive than chairs : some categories are more expensive than others (show plot)
-- but, price range varies heavily in category (show plot)
-
-## other_colors
-
-- products of every price range have both options : low importance
-- mean price is higher if other_colors is true (show plot covariance price+other_colors)
-- interquartile-range is smaller if other_colors is false
-
-## sellable_online
-
-sellable true: price range too high
-sellable ntrue: very rare
-
-## Conclusion & Ausblick
+## Conclusion & Outlook
 
 general results might contain bias or variance errors, further investigating
 
