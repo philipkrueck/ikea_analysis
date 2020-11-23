@@ -88,7 +88,6 @@ tidy_ikea %>%
     geom_smooth(show.legend = FALSE, color = "orange", fill = "orange", alpha = 0.25) +
     scale_color_manual(values = mycolors) +
     theme_minimal() +
-    xlim(0, 9) + 
     labs(x = "size in m^3", y = "price in €", title = "Price by Volume")
 
 tidy_ikea %>% # focused version of above diagram to better inspect relationship

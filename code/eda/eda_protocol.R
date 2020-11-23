@@ -125,7 +125,7 @@ tidy_ikea %>%
   ggplot(aes(x = num, y = price_eur)) + theme_bw() +
   geom_point(shape = 1, alpha = 0.8, position = "jitter") +
   geom_smooth(se = FALSE, colour = "blue", method = "loess", formula = 'y ~ x') +
-  facet_wrap(~ variable, scales = "free_x") + ylab("Dependent variable") + xlab("")
+  facet_wrap(~ variable, scales = "free_x") + ylab("Price in") + xlab("")
 
 ### --> see eda_covariance.R for detailed plots
 

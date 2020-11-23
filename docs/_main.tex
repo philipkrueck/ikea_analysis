@@ -198,13 +198,14 @@ This project report is an examination at the Hamburg School of Business Administ
 \hypertarget{theoretical-background-research-question}{%
 \chapter{Theoretical Background \& Research Question}\label{theoretical-background-research-question}}
 
+\hypertarget{data-set}{%
+\section{Data Set}\label{data-set}}
+
+\textcolor{gray}{by P. Krück}
+The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means of webscraping techniques from the Saudi Arabian Ikea website in the furniture category on the 20th of April 2020. Noteworthy features include the name, category, price in Saudi Riyals, the designer and dimensions (width, height and depth). The data set has 13 variables and 2962 distinct observations after removing duplicates.
+
 \hypertarget{theoretical_background}{%
 \section{Theoretical Background}\label{theoretical_background}}
-
-\hypertarget{data-set}{%
-\subsection{Data Set}\label{data-set}}
-
-The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means of webscraping techniques from the Saudi Arabian Ikea website in the furniture category on the 20th of April 2020. Noteworthy features include the name, category, price in Saudi Riyals, the designer and dimensions (width, height and depth). The data set has 13 variables and 2962 distinct observations after removing duplicates.
 
 \hypertarget{random-forest-basics}{%
 \subsection{Random Forest Basics}\label{random-forest-basics}}
@@ -227,6 +228,7 @@ In order to analyze the feature importance in relation to the price variable, a 
 \hypertarget{research_question}{%
 \section{Research Question}\label{research_question}}
 
+\textcolor{gray}{by P. Krück}
 This paper explores the influence for different variables on the price in the given data set. The motivating forces for this research question are the possible implications for price determination of new items.
 
 \hypertarget{methods}{%
@@ -235,6 +237,7 @@ This paper explores the influence for different variables on the price in the gi
 \hypertarget{datacleaning}{%
 \section{Data Cleaning and Transformatoin}\label{datacleaning}}
 
+\textcolor{gray}{by P. Krück}
 To examine the given data set properly, the authors first had to restructure and reformat it. This initial data cleaning step included type conversion, value mutation, addition of newly calculated fields and the removal of irrelevant columns.
 Concretely, name, category and designer were converted to categorical variables. In the designer column, blank strings and values prefixed by ``IKEA of Sweden'' were converted to missing values (\texttt{NA}). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author @ref(\#theoretical\_background).
 
@@ -300,11 +303,13 @@ INGOLF & Bar furniture & 84.65 & NA & TRUE & FALSE & Carina Bengs & 0.16\\
 \hypertarget{tbd}{%
 \section{Exploratory Data Analysis}\label{tbd}}
 
+\textcolor{gray}{by P. Krück}
 The following sections explore our data based on the eight step data exploration protocol proposed by Zuur et al.\footnote{Zuur, ``A protocol for data exploration to avoid common statistical problems.''}
 
 \hypertarget{step-1-outliers-in-price-and-independent-variables}{%
 \subsection{Step 1: Outliers in Price and Independent Variables}\label{step-1-outliers-in-price-and-independent-variables}}
 
+\textcolor{gray}{by P. Krück}
 Outliers of the chosen variables (from tidying see @ref(\#datacleaning) can be observed for each variable (see plot \ldots{}).
 The authors assume that outliers do not occur randomly in the form of an observer error. Web scraping code is written in a generic form which makes it generalizable to all applied pages. Thus takes human observation errors out of the equation. Additionally, the authors looked at individual outlier (stichprobenartig) examples and used the provided link column to manually double check observations against machine errors.
 By the stated assumption, all outliers are meaningful for further analysis.
@@ -312,6 +317,7 @@ By the stated assumption, all outliers are meaningful for further analysis.
 \hypertarget{step-2-homogeneity-of-price}{%
 \subsection{Step 2: Homogeneity of Price}\label{step-2-homogeneity-of-price}}
 
+\textcolor{gray}{by P. Krück}
 The homogeneity (homoscedasticity) of variance for price is explored by the means of conditional boxplotting.
 Within each name, and within each category the variance is heterogenous (see fig. \ref{fig:homogeneity}). However, looking at both name and category in conjunction, it is possible to explore homoscedasticity of variance for price.
 
@@ -321,9 +327,10 @@ In the context of this paper, the authors weren't able to inspect all variable c
 \includegraphics[width=1\linewidth]{_main_files/figure-latex/homogeneity-1} \caption{Homogeneity of category for selected combinations of name and category}\label{fig:homogeneity}
 \end{figure}
 
-\hypertarget{step-3-missing-value-trouble}{%
-\subsection{Step 3: Missing Value Trouble}\label{step-3-missing-value-trouble}}
+\hypertarget{step-3-normality}{%
+\subsection{Step 3: Normality}\label{step-3-normality}}
 
+\textcolor{gray}{by P. Krück}
 All numerical variables (\texttt{price}, \texttt{old\_price} and \texttt{size\_m3}) aren't arranged along a normal distribution (see fig. \ref{fig:normality}), but rather follow an exponential decay (\(e^{-x}\)).
 
 \begin{figure}
@@ -333,7 +340,8 @@ All numerical variables (\texttt{price}, \texttt{old\_price} and \texttt{size\_m
 \hypertarget{step-4-missing-values}{%
 \subsection{Step 4: Missing Values}\label{step-4-missing-values}}
 
-All variables were examined for missing values. Only \texttt{designer}, \texttt{size\_m3} and \texttt{old\_price\_eur}have missing values of 3.44\%, 45.9\% and 81\% respectively (see fig. \ref{fig:missing-values})).
+\textcolor{gray}{by P. Krück}
+All variables were examined for missing values. Only \texttt{designer}, \texttt{size\_m3} and \texttt{old\_price\_eur} have missing values of 3.44\%, 45.9\% and 81\% respectively (see fig. \ref{fig:missing-values})).
 The missing values for designer were deliberately set to \texttt{NA} by the authors in the case where the values contained digits, which is clearly a scraping error.
 The \texttt{NA} values for the size can be explained due to the computation of this column vector. \texttt{size\_m3} is the product of \texttt{depth}, \texttt{width} and \texttt{height}. If one of those three values is missing, the end result is also a missing value.
 The abscence of the old price variables is due to the fact that most items aren't on sale and thus don't have a missing value.
@@ -345,6 +353,7 @@ The abscence of the old price variables is due to the fact that most items aren'
 \hypertarget{step-5-collinearity-between-independent-variables}{%
 \subsection{Step 5: Collinearity between Independent Variables}\label{step-5-collinearity-between-independent-variables}}
 
+\textcolor{gray}{by P. Krück}
 The old price has a rather high VIF which corresponds to high multicollinearity (see table \ldots{}). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table \ldots{}).
 
 TODO: use values from step 5 of eda protocol
@@ -369,18 +378,25 @@ x\\
 \hypertarget{relationship}{%
 \subsection{Step 6: Relationship between Independent Variables and Price}\label{relationship}}
 
-\begin{itemize}
-\tightlist
-\item
-  from eda\_covariance.Rc (in Anhang + verweisen)
-\item
-  strong relationship b/w price + old price \& b/w price + size (see )
-\item
-  other relationships aren't strong
-\end{itemize}
+Inspecting the relationship between the independent variables and price strong relationships between \texttt{old\_price\_eur} and \texttt{size\_m3} can be observed, while no relationship can be observed for the other variables (see \ref{fig:relationship-x-y}).
+\texttt{old\_price\_eur} has a linear relationship (see fig. \ref{fig:relationship-old-price}) whereas \texttt{size\_m3} fits a second order polynomial (see fig. \ref{fig:relationship-size-m3}) to price.
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-old-price-1} \caption{caption}\label{fig:relationship-old-price}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-size-m3-1} \caption{caption}\label{fig:relationship-size-m3}
+\end{figure}
 
 \hypertarget{step-7-interactions}{%
 \subsection{Step 7: Interactions}\label{step-7-interactions}}
+
+The interactions between different variables is explored by the means of coplotting.
+Using this form plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables.
+In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, \texttt{old\_price\_eur} has such a strong relationship with price (see \ldots{}) that a more detailed breakdown by the categorical variables wouldn't reveal new information. This leaves the exploration of \texttt{size\_m3} and \texttt{price\_eur} broken down by designer, name and category resulting in (3 out of 2 = 3) combinations of coplots.
+Unfortunately, the authors of this papers weren't able to fully explore all combinations due to programming difficulties.
+Plotting designer and name works \ldots{}.
 
 \begin{itemize}
 \item
@@ -520,6 +536,11 @@ Furthermore, based on this analysis a predictive model could be developed which 
 \section{Price Distribution Sellable Online}\label{price-distribution-sellable-online}}
 
 \includegraphics{_main_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{relationship-between-independent-variables-and-price}{%
+\section{Relationship between Independent Variables and Price}\label{relationship-between-independent-variables-and-price}}
+
+\includegraphics{_main_files/figure-latex/relationship-x-y-1.pdf}
 
 \hypertarget{bibliography}{%
 \chapter{Bibliography}\label{bibliography}}

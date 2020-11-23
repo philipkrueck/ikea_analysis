@@ -99,7 +99,7 @@ tidy_ikea %>%
 
 ### Step 4: Missing Values
 \textcolor{gray}{by P. Krück}
-All variables were examined for missing values. Only ```designer```, ```size_m3``` and ```old_price_eur```have missing values of 3.44%, 45.9% and 81% respectively (see fig. \@ref(fig:missing-values))). 
+All variables were examined for missing values. Only ```designer```, ```size_m3``` and ```old_price_eur``` have missing values of 3.44%, 45.9% and 81% respectively (see fig. \@ref(fig:missing-values))). 
 The missing values for designer were deliberately set to ```NA``` by the authors in the case where the values contained digits, which is clearly a scraping error. 
 The ```NA``` values for the size can be explained due to the computation of this column vector. ```size_m3``` is the product of ```depth```, ```width``` and ```height```. If one of those three values is missing, the end result is also a missing value. 
 The abscence of the old price variables is due to the fact that most items aren't on sale and thus don't have a missing value.
@@ -147,12 +147,37 @@ knitr::kable(vif, caption = "Initial Data Set formatting.")
 
 
 ### Step 6: Relationship between Independent Variables and Price {#relationship}
-- from eda_covariance.Rc (in Anhang + verweisen)
-- strong relationship b/w price + old price & b/w price + size (see )
-- other relationships aren't strong
+Inspecting the relationship between the independent variables and price strong relationships between ```old_price_eur``` and ```size_m3``` can be observed, while no relationship can be observed for the other variables (see \@ref(fig:relationship-x-y)).
+```old_price_eur``` has a linear relationship (see fig. \@ref(fig:relationship-old-price)) whereas ```size_m3``` fits a second order polynomial (see fig. \@ref(fig:relationship-size-m3)) to price.
 
+```{r relationship-old-price, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="caption", out.width="100%"}
+tidy_ikea %>%
+  filter(!is.na(old_price_eur)) %>%
+  ggplot(aes(x = old_price_eur, y = price_eur)) +
+    geom_point(color = mycolors[1], alpha = 0.5) +
+    geom_smooth(color = mycolors[5], se = FALSE) +
+    theme_minimal() +
+    labs(x = "old price in €", y = "price in €", title = "Price vs. Old Price")
+```
+
+```{r relationship-size-m3, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="caption", out.width="100%"}
+tidy_ikea %>%
+  filter(!is.na(size_m3)) %>%
+  ggplot(aes(x = size_m3, y = price_eur, colour = "red")) +
+    geom_point(alpha = 0.3, show.legend = FALSE) +
+    geom_smooth(show.legend = FALSE, color = "orange", fill = "orange", alpha = 0.25) +
+    scale_color_manual(values = mycolors) +
+    theme_minimal() +
+    labs(x = "size in m^3", y = "price in €", title = "Price by Volume")
+```
 
 ### Step 7: Interactions
+The interactions between different variables is explored by the means of coplotting.
+Using this form plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables. 
+In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, ```old_price_eur``` has such a strong relationship with price (see ...) that a more detailed breakdown by the categorical variables wouldn't reveal new information. This leaves the exploration of ```size_m3``` and ```price_eur``` broken down by designer, name and category resulting in (3 out of 2 = 3) combinations of coplots.
+Unfortunately, the authors of this papers weren't able to fully explore all combinations due to programming difficulties.
+Plotting designer and name works ....
+
 - Coplotting designer and name works, while the two combination would not plot
 - The linear model predicted infinite values and thus coplot the values properly for the other two options
 - However, dropping all NA values and thus reducing the total data size to 354 observations would case for the combination coplot name and category while name + designer combination would not work

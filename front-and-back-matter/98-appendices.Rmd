@@ -52,4 +52,20 @@ tidy_ikea %>%
     labs(x = "price in €", y = "sellable_online", fill = "", title = "Price Distribution Sellable Online")
 ```
 
+## Relationship between Independent Variables and Price
+
+```{r relationship-x-y, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+tidy_ikea %>%
+  mutate(across(where(is.character), as.factor)) %>% mutate(across(where(is.factor), as.numeric)) %>%
+  # select() %>% # De-select variables here if necessary
+  pivot_longer(-price_eur, names_to = "variable", values_to = "num") %>% group_by(variable) %>%
+  arrange(num) %>%
+  mutate(observation = 1:n()) %>%
+  ungroup() %>%
+  ggplot(aes(x = num, y = price_eur)) + theme_bw() +
+  geom_point(shape = 1, alpha = 0.8, position = "jitter") +
+  geom_smooth(se = FALSE, colour = "blue", method = "loess", formula = 'y ~ x') +
+  facet_wrap(~ variable, scales = "free_x") + ylab("Price in €") + xlab("")
+```
+
 # Bibliography
