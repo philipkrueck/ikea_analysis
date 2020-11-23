@@ -12,10 +12,5 @@ bibliography: references.bib
 ---
 
 # Introduction {#intro}
-``` {r echo=FALSE, fig.cap="Sample plot", out.width="100%", message=FALSE}
-ggplot(data = tidy_ikea) +
-  geom_bar(mapping = aes(x = other_colors, fill = other_colors), show.legend = FALSE) +
-  scale_fill_manual(values = mycolors) +
-  theme_minimal() +
-  labs(x = "other colors", y = "# of items", title = "Number of Items with Other Colors") 
-```
+
+This project report is an examination at the Hamburg School of Business Administration in the module 'Data Business' as a part of a Bachelor of Science degree program. The students were given a data set and the task was to first explore the data and then choose a research question which was to be answered scientifically with the help of the statistical programming language R. The authors of this report were given a data set which contains Ikea products and different features, such as price, dimensional measures, name, category and designers of the product.

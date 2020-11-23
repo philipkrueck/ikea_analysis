@@ -10,7 +10,6 @@ bibliography: references.bib
   
 # Discussion {#discussion}
 \hfill\textcolor{gray}{by J. Pein}
-\n
 
 In this chapter, the results are discussed in connection with the research question. The question that the results were supposed to answer is the following:
 
@@ -31,18 +30,13 @@ The feature importance of `other_colors` is the second lowest, but still conside
 
 The very low feature importance of the `sellable_online` variable is mainly because the low number of occurences of a product being sellable online. Only around 0.6% of the products are sellable online.
 
-## Conclusion & Outlook
+## Conclusion
 
-general results might contain bias or variance errors, further investigating
+Generally, the proposed random forest model was not validated with a test or validation data set. In further research, the results presented on the feature importance of different variables on the price variable should be validated by other techniques than used in this analysis to get unbiased results. 
 
-- Further research:
-    - analyze designer overfitting, recommend using overfitting techniques (e.g. ...)
-    - analyze same research question with other techniques (lm, name more) and compare
-    - data scraping from other country-pages
-    
-    
-show practical usefulness ! ! !! ! 
+Also, the data was scraped from the arabian Ikea website online , thus this analysis mainly focusses on Ikea products in the Saudi Arabian market. To analyze the geographically independent feature importances, more data should be scraped from more international Ikea websites. The research question of this paper, *How important are the different features of Ikea products in regard to their price?*, could thus not be answered for the global Ikea product market, but for the Saudi Arabian market only.
 
+Furthermore, based on this analysis a predictive model could be developed which predicts the price of Ikea products in the Saudi Arabian Market based on the feature analyzed. This could be used by Ikea internally to analyze if the price of their new product aligns with the prices of the currently available product. 
 
 
 

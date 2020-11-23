@@ -103,7 +103,7 @@ ggplot(mean_imp, aes(y=reorder(varnames, PercentIncMSE), x=PercentIncMSE)) +
 
 Thus, as can be seen in the figure above, the most important feature is `size_m3`  with an increase of the MSE of 182%. The second, third and fourth most important features are `designer` with an increase of 120%, `name` with an increase of 114% and `category` with an increase of 105%. The fifth most important feature is `other_colors` with an increase of the MSE of 78% and the least important feature is `sellable_online` with a 9% increase.
 
-These results are further discussed in the following section.
+These results are further discussed in the following chapter.
 
 
 

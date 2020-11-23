@@ -129,7 +129,7 @@ missing_values %>%
 The old price has a rather high VIF which corresponds to high multicollinearity (see table ...). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table ...).
 
 TODO: use values from step 5 of eda protocol
-```{r initial-ikea, echo=FALSE}
+```{r initial-ikea2, echo=FALSE}
 library('kableExtra')
 
 vif <- c(1, 3, 4)
@@ -173,18 +173,14 @@ knitr::kable(vif, caption = "Initial Data Set formatting.")
 TODO: Students  should decide  on  an  appropriate  statistical  procedure  to answer  their chosen research questionand should state any prerequisites /assumptions of this methodaccordingly.
 
 
-This analysis was conducted using the R randomForest package, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To learn more about how random forests work or the randomForest package, see @Liaw2002 or #chapter2 #TODO. To reproduce the analysis conducted in this paper, the prepatory steps are described now. The following steps are based on an already cleaned ikea data frame which is described in \@ref(datacleaning). This data frame is then transformed further to be used with the randomForest package.
+This analysis was conducted using the R randomForest package, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To learn more about how random forests work or the randomForest package, see @Liaw2002 or #chapter2 #TODO. To reproduce the analysis conducted in this paper, the prepatory steps are described here. The following steps are based on an already cleaned ikea data frame which is described in \@ref(datacleaning). This data frame is then transformed further to be used with the randomForest package.
+
 First, the variable `old_price_eur` is removed from the data frame, due to a very high correlation and relationship to the price variable analyzed in \@ref(collinearity) and \@ref(relationship) Then, the designers and names, which are not part of the 50 `designers` and 49 `names` with the highest number of occurences, are grouped in the `other` value. This is because the `randomForest` method does not allow categorical variables with more than 53 predictors. The last step is dealing with the missing values in the data. As described in \@ref(zeros), there are missing values in the `size_m3` and `designer` variables. To use the `randomForest` method of the randomForest package on the data, those missing values are dealt with using three different approaches. In the first approach the rows with missing values are deleted, reducing the total number of rows by aproximately 50%. In the second approach the missing values are dummy coded with a value of -1000. The third approach uses the `na.roughfix = na.omit` argument, which is the built in way of the randomForest package to deal with missing values.
 After preparing the data, the `randomForest` method of the randomForest package is applied to the data with number of trees set to 2000 and importance set to `TRUE`.
 
 `randomForest(price_eur ~ ., rf_ikea, ntree=2000, keep.forest=FALSE, importance=TRUE)`
 
 Then the `importance` method of the randomForest package is used to save the feature importances, which are computed by permuting feature importance, which is described in #chapter2 #TODO. The three different approaches of dealing with the missing values in the data set lead to different results, so the authors chose to calculate the mean result of the three approaches. The result of this analysis is presented in the following chapter.
-    
-
-  
-- TODO: is normal distribution relevant for random forest (step 3) -> see article or cite something
-  
 
 
 
