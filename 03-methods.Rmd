@@ -12,6 +12,7 @@ bibliography: references.bib
 
 
 ## Data Cleaning and Transformatoin {#datacleaning}
+\textcolor{gray}{by P. Krück}
 To examine the given data set properly, the authors first had to restructure and reformat it. This initial data cleaning step included type conversion, value mutation, addition of newly calculated fields and the removal of irrelevant columns.
 Concretely, name, category and designer were converted to categorical variables. In the designer column, blank strings and values prefixed by “IKEA of Sweden” were converted to missing values (```NA```). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author \@ref(#theoretical_background).
 
@@ -43,10 +44,12 @@ knitr::kable(head(tidy_ikea), caption = "Data Set after cleaning process.")
 
 
 ## Exploratory Data Analysis {#tbd}
+\textcolor{gray}{by P. Krück}
 The following sections explore our data based on the eight step data exploration protocol proposed by Zuur et al [@Zuur2010]. 
 
 
 ### Step 1: Outliers in Price and Independent Variables
+\textcolor{gray}{by P. Krück}
 Outliers of the chosen variables (from tidying see \@ref(#datacleaning) can be observed for each variable (see plot ...). 
 The authors assume that outliers do not occur randomly in the form of an observer error. Web scraping code is written in a generic form which makes it generalizable to all applied pages. Thus takes human observation errors out of the equation. Additionally, the authors looked at individual outlier (stichprobenartig) examples and used the provided link column to manually double check observations against machine errors.
 By the stated assumption, all outliers are meaningful for further analysis.
@@ -54,6 +57,7 @@ By the stated assumption, all outliers are meaningful for further analysis.
 
 
 ### Step 2: Homogeneity of Price
+\textcolor{gray}{by P. Krück}
 The homogeneity (homoscedasticity) of variance for price is explored by the means of conditional boxplotting. 
 Within each name, and within each category the variance is heterogenous (see fig. \@ref(fig:homogeneity)). However, looking at both name and category in conjunction, it is possible to explore homoscedasticity of variance for price.
 
@@ -75,7 +79,8 @@ tidy_ikea %>%
 
 
 
-### Step 3: Missing Value Trouble
+### Step 3: Normality 
+\textcolor{gray}{by P. Krück}
 All numerical variables (```price```, ```old_price``` and ```size_m3```) aren't arranged along a normal distribution (see fig. \@ref(fig:normality)), but rather follow an exponential decay ($e^{-x}$).
 
 
@@ -93,6 +98,7 @@ tidy_ikea %>%
 
 
 ### Step 4: Missing Values
+\textcolor{gray}{by P. Krück}
 All variables were examined for missing values. Only ```designer```, ```size_m3``` and ```old_price_eur```have missing values of 3.44%, 45.9% and 81% respectively (see fig. \@ref(fig:missing-values))). 
 The missing values for designer were deliberately set to ```NA``` by the authors in the case where the values contained digits, which is clearly a scraping error. 
 The ```NA``` values for the size can be explained due to the computation of this column vector. ```size_m3``` is the product of ```depth```, ```width``` and ```height```. If one of those three values is missing, the end result is also a missing value. 
@@ -126,6 +132,7 @@ missing_values %>%
 
 
 ### Step 5: Collinearity between Independent Variables
+\textcolor{gray}{by P. Krück}
 The old price has a rather high VIF which corresponds to high multicollinearity (see table ...). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table ...).
 
 TODO: use values from step 5 of eda protocol

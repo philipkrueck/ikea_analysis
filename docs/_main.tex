@@ -91,8 +91,7 @@
 
 %%%%% THESIS / TITLE PAGE INFORMATION
 % Everybody needs to complete the following:
-\title{Determining the Influence of Different Variables on the Price of Ikea Products\\
--- a Regression Analysis}
+\title{Analyzing the Feature Importance of Different Variables on the Price of Ikea Products}
 \author{Philip Krück, Johannes Pein}
 \college{}
 
@@ -105,7 +104,7 @@
 % Uncomment the following line if your degree also includes exams (eg most masters):
 %\renewcommand{\submittedtext}{Submitted in partial completion of the}
 % Your full degree name.  (But remember that DPhils aren't "in" anything.  They're just DPhils.)
-\degree{B.Sc. Business Informatics (A Track)}
+\degree{B.Sc. Business Informatics (18A-BI)}
 % Term and year of submission, or date if your board requires (eg most masters)
 \degreedate{04.12.2020}
 
@@ -115,7 +114,7 @@
 \modulename{Digital Toolbox: Data Business}
 \lecturer{Lecturer: Ulf Köther}
 \groupnumber{Group Number: 7}
-\matriculationnumbers{Matriculation Numbers: 3938 (P.Krück), **** (J.Pein)}
+\matriculationnumbers{Matriculation Numbers: 3938 (P.Krück), 4001 (J.Pein)}
 
 
 % To make text superscripts shortcuts
@@ -194,9 +193,7 @@
 \hypertarget{intro}{%
 \chapter{Introduction}\label{intro}}
 
-\begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/unnamed-chunk-3-1} \caption{Sample plot}\label{fig:unnamed-chunk-3}
-\end{figure}
+This project report is an examination at the Hamburg School of Business Administration in the module `Data Business' as a part of a Bachelor of Science degree program. The students were given a data set and the task was to first explore the data and then choose a research question which was to be answered scientifically with the help of the statistical programming language R. The authors of this report were given a data set which contains Ikea products and different features, such as price, dimensional measures, name, category and designers of the product.
 
 \hypertarget{theoretical-background-research-question}{%
 \chapter{Theoretical Background \& Research Question}\label{theoretical-background-research-question}}
@@ -207,22 +204,25 @@
 \hypertarget{data-set}{%
 \subsection{Data Set}\label{data-set}}
 
-The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means of webscraping techniques from the Saudi Arabian Ikea website in the furniture category on the 20th of April 2020. Noteworthy features include the name, category, price in Saudi Riyals, the designer and dimensions (width, height and depth). The data set has 13 variables and 2962 observations.
+The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means of webscraping techniques from the Saudi Arabian Ikea website in the furniture category on the 20th of April 2020. Noteworthy features include the name, category, price in Saudi Riyals, the designer and dimensions (width, height and depth). The data set has 13 variables and 2962 distinct observations after removing duplicates.
 
-\hypertarget{overfitting}{%
-\subsection{Overfitting}\label{overfitting}}
+\hypertarget{random-forest-basics}{%
+\subsection{Random Forest Basics}\label{random-forest-basics}}
 
--\textgreater{}Johannes
+\textcolor{gray}{by J. Pein}
 
-\hypertarget{rf-basics}{%
-\subsection{RF Basics}\label{rf-basics}}
-
--\textgreater{}Johannes
+In order to analyze the feature importance in relation to the price variable, a random forest regression model was chosen. A random forest consists of many decision trees, which make a prediction based on a majority decision process. In standard decision trees, each nodes is split to achieve the best performing model. In random forests however, the nodes are randomly split. Compared to linear regression models, the random forests model not only takes into account the mean and covariance structure of response, but also deeper deeper aspects of data\footnote{Grömping, ``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.''} resulting in a more advanced and robust model.
 
 \hypertarget{feature-importance}{%
 \subsection{Feature Importance}\label{feature-importance}}
 
--\textgreater{}Johannes
+\textcolor{gray}{by J. Pein}
+
+\begin{itemize}
+\tightlist
+\item
+  feature and predictor variable can be used interchangibly
+\end{itemize}
 
 \hypertarget{research_question}{%
 \section{Research Question}\label{research_question}}
@@ -300,7 +300,7 @@ INGOLF & Bar furniture & 84.65 & NA & TRUE & FALSE & Carina Bengs & 0.16\\
 \hypertarget{tbd}{%
 \section{Exploratory Data Analysis}\label{tbd}}
 
-The following sections explore our data based on the eight step data exploration protocol proposed by Zuur et al \autocite{Zuur2010}.
+The following sections explore our data based on the eight step data exploration protocol proposed by Zuur et al.\footnote{Zuur, ``A protocol for data exploration to avoid common statistical problems.''}
 
 \hypertarget{step-1-outliers-in-price-and-independent-variables}{%
 \subsection{Step 1: Outliers in Price and Independent Variables}\label{step-1-outliers-in-price-and-independent-variables}}
@@ -313,7 +313,8 @@ By the stated assumption, all outliers are meaningful for further analysis.
 \subsection{Step 2: Homogeneity of Price}\label{step-2-homogeneity-of-price}}
 
 The homogeneity (homoscedasticity) of variance for price is explored by the means of conditional boxplotting.
-Within each name, and within each category the variance is heterogenous (\ref{fig:homogeneity}). However, looking at both name and category in conjunction, it is possible to explore homoscedasticity of variance for price.
+Within each name, and within each category the variance is heterogenous (see fig. \ref{fig:homogeneity}). However, looking at both name and category in conjunction, it is possible to explore homoscedasticity of variance for price.
+
 In the context of this paper, the authors weren't able to inspect all variable combinations for the five categorical variables (\(2^3=8\)).
 
 \begin{figure}
@@ -323,40 +324,50 @@ In the context of this paper, the authors weren't able to inspect all variable c
 \hypertarget{step-3-missing-value-trouble}{%
 \subsection{Step 3: Missing Value Trouble}\label{step-3-missing-value-trouble}}
 
-All numerical variables (\texttt{price}, \texttt{old\_price} and \texttt{size\_m3}) aren't arranged along a normal distribution (see \ref{fig:normality}), but rather follow an exponential decay (\(e^{-x}\)).
+All numerical variables (\texttt{price}, \texttt{old\_price} and \texttt{size\_m3}) aren't arranged along a normal distribution (see fig. \ref{fig:normality}), but rather follow an exponential decay (\(e^{-x}\)).
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{_main_files/figure-latex/normality-1} \caption{Homogeneity of category for selected combinations of name and category}\label{fig:normality}
 \end{figure}
 
-\hypertarget{step-4-zeros}{%
-\subsection{Step 4: Zeros}\label{step-4-zeros}}
+\hypertarget{step-4-missing-values}{%
+\subsection{Step 4: Missing Values}\label{step-4-missing-values}}
 
-\begin{itemize}
-\tightlist
-\item
-  many missing values from old price -\textgreater{} assume those were not on sale
-\item
-  size\_m3 missing values because of calculation formula
-\item
-  designer -\textgreater{} removed values containing digits (were clearly falsely scraped)
-\end{itemize}
+All variables were examined for missing values. Only \texttt{designer}, \texttt{size\_m3} and \texttt{old\_price\_eur}have missing values of 3.44\%, 45.9\% and 81\% respectively (see fig. \ref{fig:missing-values})).
+The missing values for designer were deliberately set to \texttt{NA} by the authors in the case where the values contained digits, which is clearly a scraping error.
+The \texttt{NA} values for the size can be explained due to the computation of this column vector. \texttt{size\_m3} is the product of \texttt{depth}, \texttt{width} and \texttt{height}. If one of those three values is missing, the end result is also a missing value.
+The abscence of the old price variables is due to the fact that most items aren't on sale and thus don't have a missing value.
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/missing-values-1} \caption{Homogeneity of category for selected combinations of name and category}\label{fig:missing-values}
+\end{figure}
 
 \hypertarget{step-5-collinearity-between-independent-variables}{%
 \subsection{Step 5: Collinearity between Independent Variables}\label{step-5-collinearity-between-independent-variables}}
 
-\begin{itemize}
-\tightlist
-\item
-  high collinearity between old price and price
-\item
-  relatively high collinearity between price and size
-\item
-  as can be seen in table
-\end{itemize}
+The old price has a rather high VIF which corresponds to high multicollinearity (see table \ldots{}). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table \ldots{}).
 
-\hypertarget{step-6-relationship-between-independent-variables-and-price}{%
-\subsection{Step 6: Relationship between Independent Variables and Price}\label{step-6-relationship-between-independent-variables-and-price}}
+TODO: use values from step 5 of eda protocol
+
+\begin{table}
+
+\caption{\label{tab:initial-ikea2}Initial Data Set formatting.}
+\centering
+\begin{tabular}[t]{r}
+\hline
+x\\
+\hline
+1\\
+\hline
+3\\
+\hline
+4\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{relationship}{%
+\subsection{Step 6: Relationship between Independent Variables and Price}\label{relationship}}
 
 \begin{itemize}
 \tightlist
@@ -395,7 +406,7 @@ All numerical variables (\texttt{price}, \texttt{old\_price} and \texttt{size\_m
 \item
 \end{itemize}
 
-(footnote): the authors would highly appreciate any solutions on this matter
+(footnote): the authors would highly appreciate any solutions on this matter\footnote{This is a footnote.}
 
 \hypertarget{step-8-independence-of-price}{%
 \subsection{Step 8: Independence of Price}\label{step-8-independence-of-price}}
@@ -406,154 +417,75 @@ All numerical variables (\texttt{price}, \texttt{old\_price} and \texttt{size\_m
   Durch das tidying in (cross reference) duplicate removal -\textgreater{} Zuur paper Step 8 1. citation: meaning that information from any one observation should not provide information on another after the effects of other variables have been accounted for. This concept is best explained with examples.
 \end{itemize}
 
-\hypertarget{random_forest_model}{%
-\section{Random Forest Regression Model}\label{random_forest_model}}
+\hypertarget{rf}{%
+\section{Random Forest Regression Model}\label{rf}}
 
-\begin{itemize}
-\tightlist
-\item
-  We chose rf
-\item
-  random forest erklären -\textgreater{} article (for in depth reference see article)
-\item
-  why random forest (not lm)? -\textgreater{} article to explain why random forest is great to explain feature importance
+\textcolor{gray}{by J. Pein}
 
-  \begin{itemize}
-  \tightlist
-  \item
-    see article
-  \item
-    TODO: is normal distribution relevant for random forest (step 3) -\textgreater{} see article or site something
-  \end{itemize}
-\item
-  To reproduce our results\ldots{} (\textcite{Johannes})
+TODO: Students should decide on an appropriate statistical procedure to answer their chosen research questionand should state any prerequisites /assumptions of this methodaccordingly.
 
-  \begin{itemize}
-  \tightlist
-  \item
-    We chose randomForest R package for our analysis -\textgreater{} as in \ldots{} (cite article)
-  \item
-    data base is tidy ikea (step \ldots{})
-  \item
-    then transform this data set to apply rf (johannes)
+This analysis was conducted using the R randomForest package, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To learn more about how random forests work or the randomForest package, see Liaw and Wiener\footnote{``Classification and Regression by randomForest.''} or \#chapter2 \#TODO. To reproduce the analysis conducted in this paper, the prepatory steps are described here. The following steps are based on an already cleaned ikea data frame which is described in \ref{datacleaning}. This data frame is then transformed further to be used with the randomForest package.
 
-    \begin{itemize}
-    \tightlist
-    \item
-      remove old price because of high correlation factor (step 5 + 6) which would fuck up our overall result
-    \item
-      fct\_lump erklären
-    \item
-      rf has problems with na values -\textgreater{} 3 different methods to solve problem -\textgreater{} calculated 3 feature importances -\textgreater{} mean(a, b, c)
-    \end{itemize}
-  \end{itemize}
-\end{itemize}
+First, the variable \texttt{old\_price\_eur} is removed from the data frame, due to a very high correlation and relationship to the price variable analyzed in \ref{collinearity} and \ref{relationship} Then, the designers and names, which are not part of the 50 \texttt{designers} and 49 \texttt{names} with the highest number of occurences, are grouped in the \texttt{other} value. This is because the \texttt{randomForest} method does not allow categorical variables with more than 53 predictors. The last step is dealing with the missing values in the data. As described in \ref{zeros}, there are missing values in the \texttt{size\_m3} and \texttt{designer} variables. To use the \texttt{randomForest} method of the randomForest package on the data, those missing values are dealt with using three different approaches. In the first approach the rows with missing values are deleted, reducing the total number of rows by aproximately 50\%. In the second approach the missing values are dummy coded with a value of -1000. The third approach uses the \texttt{na.roughfix\ =\ na.omit} argument, which is the built in way of the randomForest package to deal with missing values.
+After preparing the data, the \texttt{randomForest} method of the randomForest package is applied to the data with number of trees set to 2000 and importance set to \texttt{TRUE}.
+
+\texttt{randomForest(price\_eur\ \textasciitilde{}\ .,\ rf\_ikea,\ ntree=2000,\ keep.forest=FALSE,\ importance=TRUE)}
+
+Then the \texttt{importance} method of the randomForest package is used to save the feature importances, which are computed by permuting feature importance, which is described in \#chapter2 \#TODO. The three different approaches of dealing with the missing values in the data set lead to different results, so the authors chose to calculate the mean result of the three approaches. The result of this analysis is presented in the following chapter.
 
 \hypertarget{results}{%
 \chapter{Results}\label{results}}
 
-\begin{itemize}
-\tightlist
-\item
-  x-reference theoretical background: rf / variable importance
-\item
-  describe plot comprehensively -- w/ numbers from table
-\end{itemize}
+\hfill\textcolor{gray}{by J. Pein}
+
+TODO: set n\_trees to 2000 before handing in
+TODO: The results sectionshould comprise all necessary calculations, including checking of assumptions (if applicable), which are thendiscussedinconnection with the research questionin the following section.
+
+In this chapter, the results of the analysis of the feature importance of different predictor variables (features) on the response variable price of Ikea products are presented.
+
+As described in \ref{rf}, the feature importance was calculated using permuting feature importance of the randomForest R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model with the response variable \texttt{price\_eur}. When the percentage increase of the MSE is higher, the feature is more important, accordingly, when the percentage increase of the MSE is lower, the feature is less important.
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{_main_files/figure-latex/unnamed-chunk-4-1} \caption{A nice image.}\label{fig:unnamed-chunk-4}
+\end{figure}
+
+Thus, as can be seen in the figure above, the most important feature is \texttt{size\_m3} with an increase of the MSE of 182\%. The second, third and fourth most important features are \texttt{designer} with an increase of 120\%, \texttt{name} with an increase of 114\% and \texttt{category} with an increase of 105\%. The fifth most important feature is \texttt{other\_colors} with an increase of the MSE of 78\% and the least important feature is \texttt{sellable\_online} with a 9\% increase.
+
+These results are further discussed in the following chapter.
 
 \hypertarget{discussion}{%
 \chapter{Discussion}\label{discussion}}
 
-\hypertarget{size_m3}{%
-\section{size\_m3}\label{size_m3}}
+\hfill\textcolor{gray}{by J. Pein}
 
-\begin{itemize}
-\tightlist
-\item
-  material cost
-\item
-  big items more expensive than small ones
-\item
-  high correlation to price
-\end{itemize}
+In this chapter, the results are discussed in connection with the research question. The question that the results were supposed to answer is the following:
 
-\hypertarget{designer}{%
-\section{designer}\label{designer}}
+\emph{How important are the different features of Ikea products in regard to their price?}
 
-\begin{itemize}
-\item
-  designers with high number of products produce products in wide price range : plot reference -\textgreater{} appendix
-\item
-  many different combinations of designer (49-53)
-\item
-  many designer-combinations with low number of products:
+\hypertarget{feature-importance-1}{%
+\section{Feature Importance}\label{feature-importance-1}}
 
-  \begin{itemize}
-  \tightlist
-  \item
-    n combinations with occurrences\textless{}5
-  \end{itemize}
-\end{itemize}
+The \texttt{size\_m3} variable is the most important feature. Probably the main reason for this is that the size of a product is closely linked to its material cost. Big items are generally more costly to produce, thus leading to a higher selling price and vice versa. Due to the high correlation to the price variable described in \ref{collinearity} and \ref{relationship}, it is worth discussing where or not to include this variable in a possible predictive analysis model.
 
--\textgreater{} overfitting: cite scholarly article
--\textgreater{} low generalization : model might perfom bad on other data
+The \texttt{designer} variable is the second most important feature. It might seem, that this is due to \emph{overfitting}, since the random forest regression model takes into account around 50 different combinations of designers, partly with a low number of occurences. But according to Grömping\footnote{``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.''} random forest models are relatively robust against overfitting. Further research should be conducted to analyze whether overfitting is present or not.
+When looking at the price distribution per designer, in can be clearly seen that the interquartile range (IQR) of price varies for each designer. In addition, the IQR often is smaller than 300€, thus showing a tendency towards a certain price range, which might be the reason for the relatively high feature importance of the designer variable. The plot @ref(price\_distribution\_designer) is available in the appendix.
+The random forest regression model includes around 50 different product names with partly small numbers of occurences. Thus, the relatively high feature importance of the \texttt{name} variable might also be caused by overfitting. As discussed above, further research should be conducted to analyze whether this is the case.
 
-\hypertarget{name}{%
-\section{name}\label{name}}
+\texttt{Category} is another feature with a relatively high importance. This is because the different category's price distributions show a clear tendency towards certain price segments @ref(price\_distribution\_category), i.e.~Wardrobes and beds are generally more expensive than chairs.
+To the authors it seems counterintuitive that \texttt{designer} and \texttt{name} have higher feature importances than the \texttt{category} feature, because the IQR in the price distribution per category is often a lot smaller than the IQR of the designer and name price distributions. This also hints towards overfitting of the name and designer variables. However, in the categories with the most occurrences, namely \texttt{Wardrobes}, \texttt{Sofas\ \&\ armchairs} and \texttt{Beds}, the IQR is relatively large and there are many overlapping prices ranges for different categories, which explains a lower feature importance.
 
-\begin{itemize}
-\tightlist
-\item
-  overfitting
-\end{itemize}
+The feature importance of \texttt{other\_colors} is the second lowest, but still considerable. This still relatively high feature importance might be due to the difference of the mean price and the relatively small IQR @ref(price\_distribution\_other\_colors). On the other hand, there is a large overlapping area within the IQR in the two expressions of \texttt{other\_colors} possibly reducing the feature importance.
 
-\hypertarget{category}{%
-\section{category}\label{category}}
+The very low feature importance of the \texttt{sellable\_online} variable is mainly because the low number of occurences of a product being sellable online. Only around 0.6\% of the products are sellable online.
 
-\begin{itemize}
-\tightlist
-\item
-  beds are more expensive than chairs : some categories are more expensive than others (show plot)
-\item
-  but, price range varies heavily in category (show plot)
-\end{itemize}
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
 
-\hypertarget{other_colors}{%
-\section{other\_colors}\label{other_colors}}
+Generally, the proposed random forest model was not validated with a test or validation data set. In further research, the results presented on the feature importance of different variables on the price variable should be validated by other techniques than used in this analysis to get unbiased results.
 
-\begin{itemize}
-\tightlist
-\item
-  products of every price range have both options : low importance
-\item
-  mean price is higher if other\_colors is true (show plot covariance price+other\_colors)
-\item
-  interquartile-range is smaller if other\_colors is false
-\end{itemize}
+Also, the data was scraped from the arabian Ikea website online , thus this analysis mainly focusses on Ikea products in the Saudi Arabian market. To analyze the geographically independent feature importances, more data should be scraped from more international Ikea websites. The research question of this paper, \emph{How important are the different features of Ikea products in regard to their price?}, could thus not be answered for the global Ikea product market, but for the Saudi Arabian market only.
 
-\hypertarget{sellable_online}{%
-\section{sellable\_online}\label{sellable_online}}
-
-sellable true: price range too high
-sellable ntrue: very rare
-
-\hypertarget{conclusion-ausblick}{%
-\section{Conclusion \& Ausblick}\label{conclusion-ausblick}}
-
-\begin{itemize}
-\tightlist
-\item
-  Further research:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    analyze designer overfitting, recommend using overfitting techniques (e.g. \ldots{})
-  \item
-    analyze same research question with other techniques (lm, name more) and compare
-  \item
-    data scraping from other country-pages
-  \end{itemize}
-\end{itemize}
+Furthermore, based on this analysis a predictive model could be developed which predicts the price of Ikea products in the Saudi Arabian Market based on the feature analyzed. This could be used by Ikea internally to analyze if the price of their new product aligns with the prices of the currently available product.
 
 \hypertarget{individual-statements}{%
 \chapter{Individual Statements}\label{individual-statements}}
@@ -566,17 +498,41 @@ sellable ntrue: very rare
 
 \startappendices
 
-\hypertarget{plots}{%
-\chapter{Plots}\label{plots}}
+\hypertarget{appendix}{%
+\chapter{Appendix}\label{appendix}}
 
-\hypertarget{plot-xyz}{%
-\section{Plot xyz}\label{plot-xyz}}
+\hypertarget{price_distribution_designer}{%
+\section{Price Distribution per Designer}\label{price_distribution_designer}}
 
-\hypertarget{plot-abc}{%
-\section{Plot abc}\label{plot-abc}}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-5-1.pdf}
 
-\hypertarget{another-appendix}{%
-\chapter{Another Appendix}\label{another-appendix}}
+\hypertarget{price_distribution_category}{%
+\section{Price Distribution per Category}\label{price_distribution_category}}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\hypertarget{price_distribution_other_colors}{%
+\section{Price Distribution Other Colors}\label{price_distribution_other_colors}}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\hypertarget{price-distribution-sellable-online}{%
+\section{Price Distribution Sellable Online}\label{price-distribution-sellable-online}}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{bibliography}{%
+\chapter{Bibliography}\label{bibliography}}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-Groemping2009}{}%
+Grömping, Ulrike. ``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.'' \emph{The American Statistician}, nos. Vol. 63, No. 4 (2009): 308--19. \url{https://prof.beuth-hochschule.de/fileadmin/prof/groemp/downloads/tast_2E2009_2E08199.pdf}.
+
+\leavevmode\hypertarget{ref-Liaw2002}{}%
+Liaw, Andy, and Matthew Wiener. ``Classification and Regression by randomForest.'' \emph{R News}, nos. Vol. 2/3, December 2002 (2001). \url{https://www.researchgate.net/publication/228451484_Classification_and_Regression_by_RandomForest}.
+
+\leavevmode\hypertarget{ref-Zuur2010}{}%
+Zuur, E.N. Ieno lain. ``A protocol for data exploration to avoid common statistical problems.'' \emph{British Ecological Society}, 2010. doi:\href{https://doi.org/10.1145/1738826.1738829}{10.1145/1738826.1738829}.
 
 
 %%%%% REFERENCES
