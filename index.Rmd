@@ -2,16 +2,14 @@
 #####################
 ## thesis metadata ##
 #####################
-title: |
-  Determining the Influence of Different Variables on the Price of Ikea Products \
-  – a Regression Analysis
+title: Analyzing the Feature Importance of Different Variables on the Price of Ikea Products
 author: Philip Krück, Johannes Pein
-degree: B.Sc. Business Informatics (A Track)
+degree: B.Sc. Business Informatics (18A-BI)
 degreedate: 04.12.2020
 lecturer: "Lecturer: Ulf Köther"
 groupnumber: "Group Number: 7"
 modulename: "Digital Toolbox: Data Business"
-matriculationnumbers: "Matriculation Numbers: 3938 (P.Krück), **** (J.Pein)"
+matriculationnumbers: "Matriculation Numbers: 3938 (P.Krück), 4001 (J.Pein)"
 abbreviations: "front-and-back-matter/abbreviations" # path to .tex file with abbreviations
 
 #######################
@@ -46,8 +44,8 @@ output:
   bookdown::pdf_book:
     template: templates/template.tex
     keep_tex: true
-    citation_package: biblatex  
-    pandoc_args: ["--lua-filter=scripts_and_filters/correction_filter.lua"] #remove filter to stop applying blue background to inline corrections
+    citation_package: default  
+    pandoc_args: ["--lua-filter=scripts_and_filters/correction_filter.lua","--csl", "chicago_footnote.csl"] #remove filter to stop applying blue background to inline corrections
   bookdown::gitbook:
     css: templates/style.css
     config:

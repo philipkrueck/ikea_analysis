@@ -24,10 +24,10 @@ tidy_ikea %>%
     labs(x = "name", y = "price in €", fill = "", title = "Price by Name")
 
 # price + category
-top_four_categories <- fct_lump(tidy_ikea$category, 4)
+top_n_categories <- fct_lump(tidy_ikea$category, 15)
 
 tidy_ikea %>%
-  ggplot(aes(x = price_eur, fill = top_four_categories)) +
+  ggplot(aes(x = price_eur, fill = top_n_categories)) +
     geom_density(position = "fill", alpha = 0.8) +
     scale_fill_manual(values = mycolors) +
     theme_minimal() +
@@ -35,7 +35,7 @@ tidy_ikea %>%
     scale_y_continuous(labels = scales::percent)
 
 tidy_ikea %>%
-  ggplot(aes(x = reorder(top_four_categories, price_eur), y = price_eur, colour = top_four_categories)) +
+  ggplot(aes(x = reorder(top_n_categories, price_eur), y = price_eur, colour = top_n_categories)) +
     geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
     scale_color_manual(values = mycolors) +
     theme_minimal() +
@@ -71,10 +71,10 @@ tidy_ikea %>%
   labs(x = "price in €", y = "other colors", fill = "", title = "Price Distribution Other Colors")
 
 # price + designer
-top_ten_designers <- fct_lump(tidy_ikea$designer, 10)
+top_n_designers <- fct_lump(tidy_ikea$designer, 25)
 
 tidy_ikea %>%
-  ggplot(mapping = aes(x = fct_reorder(top_ten_designers, price_eur), y = price_eur, colour = top_ten_designers)) +
+  ggplot(mapping = aes(x = fct_reorder(top_n_designers, price_eur), y = price_eur, colour = top_n_designers)) +
     geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
     theme_minimal() +
     labs(x = "", y = "price in €", fill = "", title = "Price Distribution per Designer") +

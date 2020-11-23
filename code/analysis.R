@@ -38,9 +38,9 @@ rf_ikea <- rf_ikea %>%
 rf_ikea$designer <- fct_lump_n(rf_ikea$designer, 50)
 rf_ikea$name <- fct_lump_n(rf_ikea$name, 49)
 
-ikea.rf <- randomForest(price_eur ~ ., rf_ikea, ntree=2000,
+result_rf <- randomForest(price_eur ~ ., rf_ikea, ntree=2000,
                         keep.forest=FALSE, importance=TRUE)
-imp_size_minus_1000 <- importance(ikea.rf)
+imp_size_minus_1000 <- importance(result_rf)
 
 
 # importance - na roughfix
@@ -54,9 +54,8 @@ rf_ikea$other_colors <- factor(rf_ikea$other_colors)
 rf_ikea$designer <- fct_lump_n(rf_ikea$designer, 50)
 rf_ikea$name <- fct_lump_n(rf_ikea$name, 49)
 
-ikea.rf <- randomForest(price_eur ~ ., rf_ikea, ntree=2000,
-                        keep.forest=FALSE, importance=TRUE, na.action = na.roughfix)
-imp_na_roughfix <- importance(ikea.rf)
+result_rf <- randomForest(price_eur ~ ., rf_ikea, ntree=2000, importance=TRUE, na.action = na.roughfix)
+imp_na_roughfix <- importance(result_rf)
 
 
 # mean importance
@@ -68,7 +67,8 @@ rownames(mean_imp) <- NULL
 mean_imp <- mean_imp %>%
   rename('PercentIncMSE' = '%IncMSE')
 
-ggplot(mean_imp, aes(y=reorder(varnames, PercentIncMSE), x=PercentIncMSE)) + 
+imp_plot <- ggplot(mean_imp, aes(y=reorder(varnames, PercentIncMSE), x=PercentIncMSE)) + 
   geom_point() +
+  scale_color_manual(values = mycolors) +
+  theme_minimal() +
   labs(x = "% Increase MSE", y = "Feature", title = "Mean Feature Importance")
-

@@ -8,7 +8,102 @@ documentclass: book
 bibliography: references.bib
 ---
 
-# Results {#results}
+```{r echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+library(randomForest)
+library(ggplot2)
 
-- x-reference theoretical background: rf / variable importance
-- describe plot comprehensively  -- w/ numbers from table
+tidy_ikea # make sure that tidy.R is executed and tidy_ikea is loaded into memory
+
+###############
+## ANALYSIS ###
+###############
+
+n_trees <- 10
+
+#TODO: set to 2000 before handing in
+
+# correlation price + old_price
+
+cor.test(tidy_ikea$price_eur, tidy_ikea$old_price_eur, 
+         method = "pearson")
+
+# importance - drop_na
+
+rf_ikea <- tidy_ikea %>%
+  select(-old_price_eur) %>%
+  drop_na()
+
+rf_ikea$designer <- fct_lump_n(rf_ikea$designer, 50)
+rf_ikea$name <- fct_lump_n(rf_ikea$name, 49)
+
+result_rf <- randomForest(price_eur ~ ., rf_ikea, ntree=n_trees,
+                          keep.forest=FALSE, importance=TRUE)
+imp_drop_na <- importance(result_rf)
+
+# importance - dummy value instead of na
+
+rf_ikea <- tidy_ikea 
+
+rf_ikea$size_m3[is.na(rf_ikea$size_m3)] <- -1000
+
+rf_ikea <- rf_ikea %>%
+  select(-old_price_eur) %>%
+  drop_na()
+
+rf_ikea$designer <- fct_lump_n(rf_ikea$designer, 50)
+rf_ikea$name <- fct_lump_n(rf_ikea$name, 49)
+
+result_rf <- randomForest(price_eur ~ ., rf_ikea, ntree=n_trees,
+                        keep.forest=FALSE, importance=TRUE)
+imp_size_minus_1000 <- importance(result_rf)
+
+
+# importance - na roughfix
+
+rf_ikea <- tidy_ikea %>%
+  select(-old_price_eur)
+
+rf_ikea$sellable_online <- factor(rf_ikea$sellable_online)
+rf_ikea$other_colors <- factor(rf_ikea$other_colors)
+
+rf_ikea$designer <- fct_lump_n(rf_ikea$designer, 50)
+rf_ikea$name <- fct_lump_n(rf_ikea$name, 49)
+
+result_rf <- randomForest(price_eur ~ ., rf_ikea, ntree=n_trees, importance=TRUE, na.action = na.roughfix)
+imp_na_roughfix <- importance(result_rf)
+
+
+# mean importance
+
+mean_imp <- as.data.frame((imp_na_roughfix+imp_size_minus_1000+imp_drop_na)/3)
+
+mean_imp$varnames <- rownames(mean_imp)
+rownames(mean_imp) <- NULL
+mean_imp <- mean_imp %>%
+  rename('PercentIncMSE' = '%IncMSE')
+```
+
+# Results {#results}
+\hfill\textcolor{gray}{by J. Pein}
+
+TODO: set n_trees to 2000 before handing in
+TODO: The results  sectionshould  comprise  all  necessary  calculations,  including checking  of  assumptions  (if applicable), which are thendiscussedinconnection with the research questionin the following section. 
+
+In this chapter, the results of the analysis of the feature importance of different predictor variables (features) on the response variable price of Ikea products are presented.
+
+As described in \@ref(rf), the feature importance was calculated using permuting feature importance of the randomForest R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model with the response variable `price_eur`. When the percentage increase of the MSE is higher, the feature is more important, accordingly, when the percentage increase of the MSE is lower, the feature is less important.
+
+```{r echo=FALSE, out.width="90%", fig.cap="A nice image."}
+ggplot(mean_imp, aes(y=reorder(varnames, PercentIncMSE), x=PercentIncMSE)) + 
+  geom_point() +
+  scale_color_manual(values = mycolors) +
+  theme_minimal() +
+  labs(x = "% Increase MSE", y = "Feature", title = "Mean Feature Importance")
+```
+
+Thus, as can be seen in the figure above, the most important feature is `size_m3`  with an increase of the MSE of 182%. The second, third and fourth most important features are `designer` with an increase of 120%, `name` with an increase of 114% and `category` with an increase of 105%. The fifth most important feature is `other_colors` with an increase of the MSE of 78% and the least important feature is `sellable_online` with a 9% increase.
+
+These results are further discussed in the following section.
+
+
+
