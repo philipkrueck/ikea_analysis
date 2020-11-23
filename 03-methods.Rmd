@@ -147,6 +147,7 @@ knitr::kable(vif, caption = "Initial Data Set formatting.")
 
 
 ### Step 6: Relationship between Independent Variables and Price {#relationship}
+\textcolor{gray}{by P. Krück}
 Inspecting the relationship between the independent variables and price strong relationships between ```old_price_eur``` and ```size_m3``` can be observed, while no relationship can be observed for the other variables (see \@ref(fig:relationship-x-y)).
 ```old_price_eur``` has a linear relationship (see fig. \@ref(fig:relationship-old-price)) whereas ```size_m3``` fits a second order polynomial (see fig. \@ref(fig:relationship-size-m3)) to price.
 
@@ -172,31 +173,44 @@ tidy_ikea %>%
 ```
 
 ### Step 7: Interactions
+\textcolor{gray}{by P. Krück}
 The interactions between different variables is explored by the means of coplotting.
 Using this form plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables. 
 In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, ```old_price_eur``` has such a strong relationship with price (see ...) that a more detailed breakdown by the categorical variables wouldn't reveal new information. This leaves the exploration of ```size_m3``` and ```price_eur``` broken down by designer, name and category resulting in (3 out of 2 = 3) combinations of coplots.
-Unfortunately, the authors of this papers weren't able to fully explore all combinations due to programming difficulties.
-Plotting designer and name works ....
 
-- Coplotting designer and name works, while the two combination would not plot
-- The linear model predicted infinite values and thus coplot the values properly for the other two options
-- However, dropping all NA values and thus reducing the total data size to 354 observations would case for the combination coplot name and category while name + designer combination would not work
-- The authors hypothesized that infinite values were caused by a division of zeros of the linear model since there occured 0 values in size
-- This however proved to be wrong after applying respective filters
-
+#### Interaction of size and price coplotted by designer and name
+\textcolor{gray}{by P. Krück}
 - The following interaction could be analyzed
 - - There is probably no significant interaction between size, price, name & designer as can be seen in coplot -> lines are nearly parallel
 - Based on the coplot of category and name with the 354 observations, inparallelity could be observed and thus could conclude a interaction. However, this could also be due to the small sample size 
--  
-
-
-(footnote): the authors would highly appreciate any solutions on this matter
-^[This is a footnote.]
 
 
 
-### Step 8: Independence of Price
-- Durch das tidying in (cross reference) duplicate removal -> Zuur paper Step 8 1. citation: meaning that information from any one observation should not provide information on another after the effects of other variables have been accounted for. This concept is best explained with examples.
+#### Problems with Coplot Development
+\textcolor{gray}{by P. Krück}
+This section describes a programming error the authors ran into regarding coplotting.
+
+Unfortunately, the authors of this papers weren't able to fully explore all combinations.
+Plotting designer and name works (results described in above section) while the other two options would not plot properly. 
+The authors could not fully debug the problem with these plots.
+The linear model predicted infinite values for some of the coplotted combinations for both combinations that wouldn't render correctly. 
+Dropping all ```NA``` values left 354 observations and the coplot would correctly render for the combination of ```name``` and ```category``` while for ```name``` and ```designer``` it would not. The number of observations for ```name``` and ```category``` is rather low which lead the authors to discard it as an insignificant research finding.
+Still there seemed to be infinite values outputted by the linear method. The authors hypothesized that those values were caused by a division by 0 of the internal algorithm mechanics. This however proved to be wrong after applying the respective filters.
+The code for the 3 plots can be viewed in Appendix section xxxxx. 
+The inclined reader is encouraged to play with the code. Sending any hints or even a solution to fix the code and fully render the plots would be highly appreciated by the authors.
+  
+^[Any questions, hints or solutions may kindly be sent to philip.krueck\@myhsba.de.]
+
+
+
+### Step 8: Independence Observations of Response Variable Price
+\textcolor{gray}{by P. Krück}
+The independence of observerations of the response variables assumes that "[...] information from any one observation should not provide information on another after the effects of other variables have been accounted for" @Zuur.
+The data cleaning step (see data cleaning) left the observed data set in a tidy format ^["There are three interrelated rules which make a dataset tidy:
+
+Each variable must have its own column.
+Each observation must have its own row.
+Each value must have its own cell." \@ref(@rfordatascience, p.149, ll. 4-7)] which implies that the observations are independent of eachother.
 
 
 ## Random Forest Regression Model {#rf}
