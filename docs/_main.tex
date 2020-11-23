@@ -204,7 +204,25 @@
 \hypertarget{theoretical_background}{%
 \section{Theoretical Background}\label{theoretical_background}}
 
+\hypertarget{data-set}{%
+\subsection{Data Set}\label{data-set}}
+
 The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means of webscraping techniques from the Saudi Arabian Ikea website in the furniture category on the 20th of April 2020. Noteworthy features include the name, category, price in Saudi Riyals, the designer and dimensions (width, height and depth). The data set has 13 variables and 2962 observations.
+
+\hypertarget{overfitting}{%
+\subsection{Overfitting}\label{overfitting}}
+
+-\textgreater{}Johannes
+
+\hypertarget{rf-basics}{%
+\subsection{RF Basics}\label{rf-basics}}
+
+-\textgreater{}Johannes
+
+\hypertarget{feature-importance}{%
+\subsection{Feature Importance}\label{feature-importance}}
+
+-\textgreater{}Johannes
 
 \hypertarget{research_question}{%
 \section{Research Question}\label{research_question}}
@@ -217,9 +235,19 @@ This paper explores the influence for different variables on the price in the gi
 \hypertarget{datacleaning}{%
 \section{Data Cleaning and Transformatoin}\label{datacleaning}}
 
-To examine our data set properly, we first had to restructure and reformat it. This initial data cleaning step included type conversions, value mutation, addition of new calculated fields and the dropping of irrelevant columns.
-Concretely, we converted name, category and designer to categorical variables. In the designer column, we converted blank strings and values prefixed by ``IKEA of Sweden'' to missing values (\texttt{NA}). Furthermore, we converted both the price and old price to double values and changed the currency from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author @ref(\#theoretical\_background). To better facilitate the comparison of the different sizes of furniture items, we calcuted the size in cubic meters based on the depth, width and height values.
-Finally, we selected only columns that could have a potential impact in our analysis (see Table \ref{tab:initial-ikea} and \ref{tab:tidy-ikea}).
+To examine the given data set properly, the authors first had to restructure and reformat it. This initial data cleaning step included type conversion, value mutation, addition of newly calculated fields and the removal of irrelevant columns.
+Concretely, name, category and designer were converted to categorical variables. In the designer column, blank strings and values prefixed by ``IKEA of Sweden'' were converted to missing values (\texttt{NA}). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author @ref(\#theoretical\_background).
+
+Interestingly, the data set had a peculiarity where some rows were exact duplicates except for the category value. The authors considered multiple approaches to handle these data duplications without losing information about the category of an item.
+
+One considered option was to merge the two category values into one column value via comma separation (e.g. \texttt{"a"} and \texttt{"b"} converts to \texttt{"a,\ b"}). However, this approach leads to the creation of many combinatorial categories with a low count of items per category which also reduces the item count per category where the category isn't comma separated. Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting @ref(\#overfitting).
+
+The second option was to create separate columns for the different values of \texttt{category}. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model @\ref(\#random\_forest\_model).
+
+The authors chose the option of selecting the observations out of the duplicates where the category count occurred most frequently when considering duplicates. The most important categories could be retained without including more column vectors into the data set as in option two.
+
+To better facilitate the comparison of the different sizes of furniture items, the size in cubic meters was computed based on the depth, width and height values, and added as a column vector for further analysis.
+Finally, the authors only selected columns that could have a potential impact on the analysis @ref(\#research\_question) for further investigation. A detailed comparison of the initial vs.~transformed data structure can be seen in tables \ref{tab:initial-ikea} and \ref{tab:tidy-ikea}.
 
 TODO: Format these tables
 
@@ -270,51 +298,262 @@ INGOLF & Bar furniture & 84.65 & NA & TRUE & FALSE & Carina Bengs & 0.16\\
 \end{table}
 
 \hypertarget{tbd}{%
-\section{8 Step EDA (nice heading)}\label{tbd}}
+\section{Exploratory Data Analysis}\label{tbd}}
 
-Here we describe our EDA after the ZUUR paper method \autocite[pp.~33-35]{von_goethe_wilhelm_1829}.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+The following sections explore our data based on the eight step data exploration protocol proposed by Zuur et al \autocite{Zuur2010}.
 
-\hypertarget{step-1}{%
-\subsection{Step 1}\label{step-1}}
+\hypertarget{step-1-outliers-in-price-and-independent-variables}{%
+\subsection{Step 1: Outliers in Price and Independent Variables}\label{step-1-outliers-in-price-and-independent-variables}}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Outliers of the chosen variables (from tidying see @ref(\#datacleaning) can be observed for each variable (see plot \ldots{}).
+The authors assume that outliers do not occur randomly in the form of an observer error. Web scraping code is written in a generic form which makes it generalizable to all applied pages. Thus takes human observation errors out of the equation. Additionally, the authors looked at individual outlier (stichprobenartig) examples and used the provided link column to manually double check observations against machine errors.
+By the stated assumption, all outliers are meaningful for further analysis.
 
-\hypertarget{step-2}{%
-\subsection{Step 2}\label{step-2}}
+\hypertarget{step-2-homogeneity-of-price}{%
+\subsection{Step 2: Homogeneity of Price}\label{step-2-homogeneity-of-price}}
 
-\hypertarget{step-3}{%
-\subsection{Step 3}\label{step-3}}
+The homogeneity (homoscedasticity) of variance for price is explored by the means of conditional boxplotting.
+Within each name, and within each category the variance is heterogenous (\ref{fig:homogeneity}). However, looking at both name and category in conjunction, it is possible to explore homoscedasticity of variance for price.
+In the context of this paper, the authors weren't able to inspect all variable combinations for the five categorical variables (\(2^3=8\)).
 
-\hypertarget{step-4}{%
-\subsection{Step 4}\label{step-4}}
+\begin{figure}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/homogeneity-1} \caption{Homogeneity of category for selected combinations of name and category}\label{fig:homogeneity}
+\end{figure}
 
-\hypertarget{step-5}{%
-\subsection{Step 5}\label{step-5}}
+\hypertarget{step-3-missing-value-trouble}{%
+\subsection{Step 3: Missing Value Trouble}\label{step-3-missing-value-trouble}}
 
-\hypertarget{step-6}{%
-\subsection{Step 6}\label{step-6}}
+All numerical variables (\texttt{price}, \texttt{old\_price} and \texttt{size\_m3}) aren't arranged along a normal distribution (see \ref{fig:normality}), but rather follow an exponential decay (\(e^{-x}\)).
 
-\hypertarget{step-7}{%
-\subsection{Step 7}\label{step-7}}
+\begin{figure}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/normality-1} \caption{Homogeneity of category for selected combinations of name and category}\label{fig:normality}
+\end{figure}
 
-\hypertarget{step-8}{%
-\subsection{Step 8}\label{step-8}}
+\hypertarget{step-4-zeros}{%
+\subsection{Step 4: Zeros}\label{step-4-zeros}}
 
-\hypertarget{tbd2}{%
-\section{Random Forest Regression Model}\label{tbd2}}
+\begin{itemize}
+\tightlist
+\item
+  many missing values from old price -\textgreater{} assume those were not on sale
+\item
+  size\_m3 missing values because of calculation formula
+\item
+  designer -\textgreater{} removed values containing digits (were clearly falsely scraped)
+\end{itemize}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+\hypertarget{step-5-collinearity-between-independent-variables}{%
+\subsection{Step 5: Collinearity between Independent Variables}\label{step-5-collinearity-between-independent-variables}}
+
+\begin{itemize}
+\tightlist
+\item
+  high collinearity between old price and price
+\item
+  relatively high collinearity between price and size
+\item
+  as can be seen in table
+\end{itemize}
+
+\hypertarget{step-6-relationship-between-independent-variables-and-price}{%
+\subsection{Step 6: Relationship between Independent Variables and Price}\label{step-6-relationship-between-independent-variables-and-price}}
+
+\begin{itemize}
+\tightlist
+\item
+  from eda\_covariance.Rc (in Anhang + verweisen)
+\item
+  strong relationship b/w price + old price \& b/w price + size (see )
+\item
+  other relationships aren't strong
+\end{itemize}
+
+\hypertarget{step-7-interactions}{%
+\subsection{Step 7: Interactions}\label{step-7-interactions}}
+
+\begin{itemize}
+\item
+  Coplotting designer and name works, while the two combination would not plot
+\item
+  The linear model predicted infinite values and thus coplot the values properly for the other two options
+\item
+  However, dropping all NA values and thus reducing the total data size to 354 observations would case for the combination coplot name and category while name + designer combination would not work
+\item
+  The authors hypothesized that infinite values were caused by a division of zeros of the linear model since there occured 0 values in size
+\item
+  This however proved to be wrong after applying respective filters
+\item
+  The following interaction could be analyzed
+\item
+  \begin{itemize}
+  \tightlist
+  \item
+    There is probably no significant interaction between size, price, name \& designer as can be seen in coplot -\textgreater{} lines are nearly parallel
+  \end{itemize}
+\item
+  Based on the coplot of category and name with the 354 observations, inparallelity could be observed and thus could conclude a interaction. However, this could also be due to the small sample size
+\item
+\end{itemize}
+
+(footnote): the authors would highly appreciate any solutions on this matter
+
+\hypertarget{step-8-independence-of-price}{%
+\subsection{Step 8: Independence of Price}\label{step-8-independence-of-price}}
+
+\begin{itemize}
+\tightlist
+\item
+  Durch das tidying in (cross reference) duplicate removal -\textgreater{} Zuur paper Step 8 1. citation: meaning that information from any one observation should not provide information on another after the effects of other variables have been accounted for. This concept is best explained with examples.
+\end{itemize}
+
+\hypertarget{random_forest_model}{%
+\section{Random Forest Regression Model}\label{random_forest_model}}
+
+\begin{itemize}
+\tightlist
+\item
+  We chose rf
+\item
+  random forest erklären -\textgreater{} article (for in depth reference see article)
+\item
+  why random forest (not lm)? -\textgreater{} article to explain why random forest is great to explain feature importance
+
+  \begin{itemize}
+  \tightlist
+  \item
+    see article
+  \item
+    TODO: is normal distribution relevant for random forest (step 3) -\textgreater{} see article or site something
+  \end{itemize}
+\item
+  To reproduce our results\ldots{} (\textcite{Johannes})
+
+  \begin{itemize}
+  \tightlist
+  \item
+    We chose randomForest R package for our analysis -\textgreater{} as in \ldots{} (cite article)
+  \item
+    data base is tidy ikea (step \ldots{})
+  \item
+    then transform this data set to apply rf (johannes)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      remove old price because of high correlation factor (step 5 + 6) which would fuck up our overall result
+    \item
+      fct\_lump erklären
+    \item
+      rf has problems with na values -\textgreater{} 3 different methods to solve problem -\textgreater{} calculated 3 feature importances -\textgreater{} mean(a, b, c)
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
 
 \hypertarget{results}{%
 \chapter{Results}\label{results}}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+\begin{itemize}
+\tightlist
+\item
+  x-reference theoretical background: rf / variable importance
+\item
+  describe plot comprehensively -- w/ numbers from table
+\end{itemize}
 
 \hypertarget{discussion}{%
 \chapter{Discussion}\label{discussion}}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+\hypertarget{size_m3}{%
+\section{size\_m3}\label{size_m3}}
+
+\begin{itemize}
+\tightlist
+\item
+  material cost
+\item
+  big items more expensive than small ones
+\item
+  high correlation to price
+\end{itemize}
+
+\hypertarget{designer}{%
+\section{designer}\label{designer}}
+
+\begin{itemize}
+\item
+  designers with high number of products produce products in wide price range : plot reference -\textgreater{} appendix
+\item
+  many different combinations of designer (49-53)
+\item
+  many designer-combinations with low number of products:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    n combinations with occurrences\textless{}5
+  \end{itemize}
+\end{itemize}
+
+-\textgreater{} overfitting: cite scholarly article
+-\textgreater{} low generalization : model might perfom bad on other data
+
+\hypertarget{name}{%
+\section{name}\label{name}}
+
+\begin{itemize}
+\tightlist
+\item
+  overfitting
+\end{itemize}
+
+\hypertarget{category}{%
+\section{category}\label{category}}
+
+\begin{itemize}
+\tightlist
+\item
+  beds are more expensive than chairs : some categories are more expensive than others (show plot)
+\item
+  but, price range varies heavily in category (show plot)
+\end{itemize}
+
+\hypertarget{other_colors}{%
+\section{other\_colors}\label{other_colors}}
+
+\begin{itemize}
+\tightlist
+\item
+  products of every price range have both options : low importance
+\item
+  mean price is higher if other\_colors is true (show plot covariance price+other\_colors)
+\item
+  interquartile-range is smaller if other\_colors is false
+\end{itemize}
+
+\hypertarget{sellable_online}{%
+\section{sellable\_online}\label{sellable_online}}
+
+sellable true: price range too high
+sellable ntrue: very rare
+
+\hypertarget{conclusion-ausblick}{%
+\section{Conclusion \& Ausblick}\label{conclusion-ausblick}}
+
+\begin{itemize}
+\tightlist
+\item
+  Further research:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    analyze designer overfitting, recommend using overfitting techniques (e.g. \ldots{})
+  \item
+    analyze same research question with other techniques (lm, name more) and compare
+  \item
+    data scraping from other country-pages
+  \end{itemize}
+\end{itemize}
 
 \hypertarget{individual-statements}{%
 \chapter{Individual Statements}\label{individual-statements}}

@@ -81,7 +81,7 @@ ggplot(tidy_ikea, aes(x = price_eur)) + geom_density() +
 
 ## code taken from: https://jenslaufer.com/data/analysis/visualize_missing_values_with_ggplot.html
 
-missing.values <- tidy_ikea %>%
+missing_values <- tidy_ikea %>%
   gather(key = "key", value = "val") %>%
   mutate(isna = is.na(val)) %>%
   group_by(key) %>%
@@ -91,9 +91,9 @@ missing.values <- tidy_ikea %>%
   mutate(pct = num.isna / total * 100)
 ## `summarise()` regrouping output by 'key', 'total' (override with `.groups` argument)
 levels <-
-  (missing.values  %>% filter(isna == T) %>% arrange(desc(pct)))$key
+  (missing_values  %>% filter(isna == T) %>% arrange(desc(pct)))$key
 
-percentage.plot <- missing.values %>%
+missing_values %>%
   ggplot() +
   geom_bar(aes(x = reorder(key, desc(pct)), 
                y = pct, fill=isna), 
@@ -104,8 +104,6 @@ percentage.plot <- missing.values %>%
   coord_flip() +
   labs(title = "Percentage of missing values", x =
          'Variable', y = "% of missing values")
-
-percentage.plot
 
 # 5. Collinearity X
 
