@@ -30,12 +30,8 @@ The authors chose the option of selecting the observations where the category co
 
 To better facilitate the comparison of the different sizes of furniture items, the size in cubic meters was computed based on the depth, width and height values, and added as a column vector for further analysis. 
 
-Finally, the authors only selected columns that could have a potential impact on the analysis \@ref(#research-question) for further investigation. A detailed comparison of the initial vs. transformed data structure can be seen in tables \@ref(tab:initial-ikea) and \@ref(tab:tidy-ikea).
+Finally, the authors only selected columns that could have a potential impact on the analysis \@ref(research-question) for further investigation. A detailed comparison of the initial vs. transformed data structure can be seen in tables \@ref(tab:initial-ikea) and \@ref(tab:tidy-ikea).
 
-
-
-
-TODO: Format these tables
 ```{r initial-ikea, echo=FALSE}
 library('kableExtra')
 
