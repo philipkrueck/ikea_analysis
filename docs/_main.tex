@@ -202,39 +202,43 @@ This project report is an examination at the Hamburg School of Business Administ
 \section{Data Set}\label{data-set}}
 
 \textcolor{gray}{by P. Krück}
-The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means of webscraping techniques from the Saudi Arabian Ikea website in the furniture category on the 20th of April 2020. Noteworthy features include the name, category, price in Saudi Riyals, the designer and dimensions (width, height and depth). The data set has 13 variables and 2962 distinct observations after removing duplicates.
 
-\hypertarget{theoretical_background}{%
-\section{Theoretical Background}\label{theoretical_background}}
+The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means of webscraping techniques from the Saudi Arabian Ikea website in the furniture category on the 20th of April 2020. Noteworthy features include the name, category, price in Saudi Riyals, the designer and dimensions (width, height and depth).
+The data set has 13 variables and 2962 distinct observations after removing duplicates.
+
+\hypertarget{theoretical-background}{%
+\section{Theoretical Background}\label{theoretical-background}}
 
 \hypertarget{random-forest-basics}{%
 \subsection{Random Forest Basics}\label{random-forest-basics}}
 
 \textcolor{gray}{by J. Pein}
 
-In order to analyze the feature importance in relation to the price variable, a random forest regression model was chosen. A random forest consists of many decision trees, which make a prediction based on a majority decision process. In standard decision trees, each nodes is split to achieve the best performing model. In random forests however, the nodes are randomly split. Compared to linear regression models, the random forests model not only takes into account the mean and covariance structure of response, but also deeper deeper aspects of data\footnote{Grömping, ``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.''} resulting in a more advanced and robust model.
+In order to analyze the feature importance in relation to the price variable, a random forest regression model was chosen. A random forest consists of many decision trees, which make a prediction based on a majority decision process. In standard decision trees, each nodes is split to achieve the best performing model. In random forests however, the nodes are randomly split. Compared to linear regression models, the random forests model not only takes into account the mean and covariance structure of response, but also deeper deeper aspects of data\footnote{Grömping, ``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.''} resulting in a more advanced and robust model. To learn more about random forests, please see Breiman.\footnote{``Random Forests.''}
+
+\hypertarget{overfitting}{%
+\subsection{Overfitting}\label{overfitting}}
+
+\textcolor{gray}{by P. Krück}
+Explain Overfitting\ldots{}
 
 \hypertarget{feature-importance}{%
 \subsection{Feature Importance}\label{feature-importance}}
 
 \textcolor{gray}{by J. Pein}
 
-\begin{itemize}
-\tightlist
-\item
-  feature and predictor variable can be used interchangibly
-\end{itemize}
+There are different ways to measure feature importance. In this analysis permuting feature importance by a random forest algorithm is used. The algorithm leaves one feature out while leaving all others unchanged, calculating the mean squared error (MSE) of the predictions. This is done for every feature and tree, calculating the overall MSE of the whole model..\footnote{Ibid.}
 
-\hypertarget{research_question}{%
-\section{Research Question}\label{research_question}}
+\hypertarget{research-question}{%
+\section{Research Question}\label{research-question}}
 
 \textcolor{gray}{by P. Krück}
-This paper explores the influence for different variables on the price in the given data set. The motivating forces for this research question are the possible implications for price determination of new items.
+
+This paper explores the following research question: \emph{How important are the different features of Ikea products in regard to their price?}
+The motivating forces for this research question are the possible implications for price determination of new items.
 
 \hypertarget{methods}{%
 \chapter{Methods}\label{methods}}
-
-\textcolor{gray}{by P. Krück}
 
 \hypertarget{datacleaning}{%
 \section{Data Cleaning and Transformatoin}\label{datacleaning}}
@@ -243,15 +247,17 @@ This paper explores the influence for different variables on the price in the gi
 
 To examine the given data set properly, the authors first had to restructure and reformat it. This initial data cleaning step included type conversion, value mutation, addition of newly calculated fields and the removal of irrelevant columns.
 
-Concretely, name, category and designer were converted to categorical variables. In the designer column, blank strings and values prefixed by ``IKEA of Sweden'' were converted to missing values (\texttt{NA}). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author \ref(\#theoretical\_background ).
+Concretely, \texttt{name}, \texttt{category} and \texttt{designer} were converted to categorical variables. In the designer column, blank strings and values prefixed by ``IKEA of Sweden'' were converted to missing values (\texttt{NA}). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author \ref{theoretical-background}.
 
 Interestingly, the data set had a peculiarity where some rows were exact duplicates except for the category value. The authors considered multiple approaches to handle these data duplications without losing information about the category of an item.
 
-One considered option was to merge the two category values into one column value via comma separation (e.g. \texttt{"a"} and \texttt{"b"} converts to \texttt{"a,\ b"}). However, this approach leads to the creation of many combinatorial categories with a low count of items per category which also reduces the item count per category where the category isn't comma separated. Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting \ref(\#overfitting).
+One considered option was to merge the two category values into one column value via comma separation (e.g. \texttt{"a"} and \texttt{"b"} converts to \texttt{"a,\ b"}). However, this approach leads to the creation of many combinatorial categories with a low count of items per category.
+Additionally, it reduces the item count per category where the category isn't comma separated.
+Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting (See section (See section \ref{overfitting}).
 
-The second option was to create separate columns for the different values of \texttt{category}. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model \ref(\#random\_forest\_model).
+The second option was to create separate columns for the different values of \texttt{category}. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model \ref{rf}.
 
-The authors chose the option of selecting the observations out of the duplicates where the category count occurred most frequently when considering duplicates. The most important categories could be retained without including more column vectors into the data set as in option two.
+The authors chose the option of selecting the observations where the category count occurred most frequently when considering duplicates. The most important categories could be retained without including more column vectors into the data set as in option two.
 
 To better facilitate the comparison of the different sizes of furniture items, the size in cubic meters was computed based on the depth, width and height values, and added as a column vector for further analysis.
 Finally, the authors only selected columns that could have a potential impact on the analysis @ref(\#research\_question) for further investigation. A detailed comparison of the initial vs.~transformed data structure can be seen in tables \ref{tab:initial-ikea} and \ref{tab:tidy-ikea}.
@@ -262,44 +268,46 @@ TODO: Format these tables
 
 \caption{\label{tab:initial-ikea}Initial Data Set formatting.}
 \centering
-\begin{tabular}[t]{r|r|l|l|r|l|l|l|l|l|l|r|r|r}
+\fontsize{8}{10}\selectfont
+\begin{tabular}[t]{l|l|l|l|l|l|l|l}
 \hline
-X1 & item\_id & name & category & price & old\_price & sellable\_online & link & other\_colors & short\_description & designer & depth & height & width\\
+name & category & price & old\_price & sellable\_online & other\_colors & designer & ...\\
 \hline
-0 & 90420332 & FREKVENS & Bar furniture & 2650 & No old price & TRUE & https://www.ikea.com/sa/en/p/frekvens-bar-table-in-outdoor-black-90420332/ & No & Bar table, in/outdoor,          51x51 cm & Nicholai Wiig Hansen & NA & 99 & 51\\
+PAX... & Wardrobes & 20450 & No old price & TRUE & No & IKEA ... & ...\\
 \hline
-1 & 368814 & NORDVIKEN & Bar furniture & 9950 & No old price & FALSE & https://www.ikea.com/sa/en/p/nordviken-bar-table-black-00368814/ & No & Bar table,          140x80 cm & Francis Cayouette & NA & 105 & 80\\
+ELV... & Wardrobes & 7500 & SR 820 & TRUE & No & Ehlén... & ...\\
 \hline
-2 & 9333523 & NORDVIKEN / NORDVIKEN & Bar furniture & 20950 & No old price & FALSE & https://www.ikea.com/sa/en/p/nordviken-nordviken-bar-table-and-4-bar-stools-black-black-s09333523/ & No & Bar table and 4 bar stools & Francis Cayouette & NA & NA & NA\\
+ELV... & Wardrobes & 15720 & SR 1,755 & TRUE & No & Ehlén... & ...\\
 \hline
-3 & 80155205 & STIG & Bar furniture & 690 & No old price & TRUE & https://www.ikea.com/sa/en/p/stig-bar-stool-with-backrest-black-silver-colour-80155205/ & Yes & Bar stool with backrest,          74 cm & Henrik Preutz & 50 & 100 & 60\\
+ELV... & Wardrobes & 9240 & SR 1,050 & TRUE & No & Ehlén... & ...\\
 \hline
-4 & 30180504 & NORBERG & Bar furniture & 2250 & No old price & TRUE & https://www.ikea.com/sa/en/p/norberg-wall-mounted-drop-leaf-table-white-30180504/ & No & Wall-mounted drop-leaf table,          74x60 cm & Marcus Arvonen & 60 & 43 & 74\\
+ELV... & Wardrobes & 27450 & SR 3,130 & TRUE & No & Ehlén... & ...\\
 \hline
-5 & 10122647 & INGOLF & Bar furniture & 3450 & No old price & TRUE & https://www.ikea.com/sa/en/p/ingolf-bar-stool-with-backrest-white-10122647/ & No & Bar stool with backrest,          63 cm & Carina Bengs & 45 & 91 & 40\\
+ELV... & Wardrobes & 12310 & SR 1,535 & TRUE & No & Ehlén... & ...\\
 \hline
 \end{tabular}
 \end{table}
 
 \begin{table}
 
-\caption{\label{tab:tidy-ikea}Data Set after cleaning process.}
+\caption{\label{tab:tidy-ikea}Transformed Data Set formatting.}
 \centering
-\begin{tabular}[t]{l|l|r|r|l|l|l|r}
+\fontsize{8}{10}\selectfont
+\begin{tabular}[t]{l|l|l|l|l|l|l|l}
 \hline
 name & category & price\_eur & old\_price\_eur & sellable\_online & other\_colors & designer & size\_m3\\
 \hline
-FREKVENS & Bar furniture & 65.02 & NA & TRUE & FALSE & Nicholai Wiig Hansen & NA\\
+PAX... & Wardrobes & 501.78 & NA & TRUE & FALSE & Ehlén... & 3.12\\
 \hline
-NORDVIKEN & Bar furniture & 244.14 & NA & FALSE & FALSE & Francis Cayouette & NA\\
+ELV... & Wardrobes & 184.03 & 201.2 & TRUE & FALSE & Ehlén... & NA\\
 \hline
-NORDVIKEN / NORDVIKEN & Bar furniture & 514.05 & NA & FALSE & FALSE & Francis Cayouette & NA\\
+ELV... & Wardrobes & 385.72 & 430.62 & TRUE & FALSE & Ehlén... & NA\\
 \hline
-STIG & Bar furniture & 16.93 & NA & TRUE & TRUE & Henrik Preutz & 0.30\\
+ELV... & Wardrobes & 226.72 & 257.64 & TRUE & FALSE & Ehlén... & NA\\
 \hline
-NORBERG & Bar furniture & 55.21 & NA & TRUE & FALSE & Marcus Arvonen & 0.19\\
+ELV... & Wardrobes & 673.54 & 768.01 & TRUE & FALSE & Ehlén... & NA\\
 \hline
-INGOLF & Bar furniture & 84.65 & NA & TRUE & FALSE & Carina Bengs & 0.16\\
+ELV... & Wardrobes & 302.05 & 376.64 & TRUE & FALSE & Ehlén... & NA\\
 \hline
 \end{tabular}
 \end{table}
@@ -462,8 +470,6 @@ Each value must have its own cell." @ref(\footnote{{\textbf{???}}}, p.149, ll. 4
 
 \textcolor{gray}{by J. Pein}
 
-TODO: Students should decide on an appropriate statistical procedure to answer their chosen research questionand should state any prerequisites /assumptions of this methodaccordingly.
-
 This analysis was conducted using the R randomForest package, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To learn more about how random forests work or the randomForest package, see Liaw and Wiener\footnote{``Classification and Regression by randomForest.''} or \#chapter2 \#TODO. To reproduce the analysis conducted in this paper, the prepatory steps are described here. The following steps are based on an already cleaned ikea data frame which is described in \ref{datacleaning}. This data frame is then transformed further to be used with the randomForest package.
 
 First, the variable \texttt{old\_price\_eur} is removed from the data frame, due to a very high correlation and relationship to the price variable analyzed in \ref{collinearity} and \ref{relationship} Then, the designers and names, which are not part of the 50 \texttt{designers} and 49 \texttt{names} with the highest number of occurences, are grouped in the \texttt{other} value. This is because the \texttt{randomForest} method does not allow categorical variables with more than 53 predictors. The last step is dealing with the missing values in the data. As described in \ref{zeros}, there are missing values in the \texttt{size\_m3} and \texttt{designer} variables. To use the \texttt{randomForest} method of the randomForest package on the data, those missing values are dealt with using three different approaches. In the first approach the rows with missing values are deleted, reducing the total number of rows by aproximately 50\%. In the second approach the missing values are dummy coded with a value of -1000. The third approach uses the \texttt{na.roughfix\ =\ na.omit} argument, which is the built in way of the randomForest package to deal with missing values.
@@ -486,10 +492,10 @@ In this chapter, the results of the analysis of the feature importance of differ
 As described in \ref{rf}, the feature importance was calculated using permuting feature importance of the randomForest R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model with the response variable \texttt{price\_eur}. When the percentage increase of the MSE is higher, the feature is more important, accordingly, when the percentage increase of the MSE is lower, the feature is less important.
 
 \begin{figure}
-\includegraphics[width=0.9\linewidth]{_main_files/figure-latex/unnamed-chunk-4-1} \caption{A nice image.}\label{fig:unnamed-chunk-4}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/mean-feature-importance-1} \caption{Mean Feature Importance}\label{fig:mean-feature-importance}
 \end{figure}
 
-Thus, as can be seen in the figure above, the most important feature is \texttt{size\_m3} with an increase of the MSE of 182\%. The second, third and fourth most important features are \texttt{designer} with an increase of 120\%, \texttt{name} with an increase of 114\% and \texttt{category} with an increase of 105\%. The fifth most important feature is \texttt{other\_colors} with an increase of the MSE of 78\% and the least important feature is \texttt{sellable\_online} with a 9\% increase.
+Thus, as can be seen in figure \ref{fig:mean-feature-importance}, the most important feature is \texttt{size\_m3} with an increase of the MSE of 182\%. The second, third and fourth most important features are \texttt{designer} with an increase of 120\%, \texttt{name} with an increase of 114\% and \texttt{category} with an increase of 105\%. The fifth most important feature is \texttt{other\_colors} with an increase of the MSE of 78\% and the least important feature is \texttt{sellable\_online} with a 9\% increase.
 
 These results are further discussed in the following chapter.
 
@@ -507,16 +513,16 @@ In this chapter, the results are discussed in connection with the research quest
 
 The \texttt{size\_m3} variable is the most important feature. Probably the main reason for this is that the size of a product is closely linked to its material cost. Big items are generally more costly to produce, thus leading to a higher selling price and vice versa. Due to the high correlation to the price variable described in \ref{collinearity} and \ref{relationship}, it is worth discussing where or not to include this variable in a possible predictive analysis model.
 
-The \texttt{designer} variable is the second most important feature. It might seem, that this is due to \emph{overfitting}, since the random forest regression model takes into account around 50 different combinations of designers, partly with a low number of occurences. But according to Grömping\footnote{``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.''} random forest models are relatively robust against overfitting. Further research should be conducted to analyze whether overfitting is present or not.
+The \texttt{designer} variable is the second most important feature. It might seem, that this is due to \emph{overfitting}, since the random forest regression model takes into account around 50 different combinations of designers, partly with a low number of occurences. But according to Breiman\footnote{``Random Forests.''} random forest models are robust against overfitting. Further research should be conducted to analyze whether overfitting is present or not.
 When looking at the price distribution per designer, in can be clearly seen that the interquartile range (IQR) of price varies for each designer. In addition, the IQR often is smaller than 300€, thus showing a tendency towards a certain price range, which might be the reason for the relatively high feature importance of the designer variable. The plot @ref(price\_distribution\_designer) is available in the appendix.
 The random forest regression model includes around 50 different product names with partly small numbers of occurences. Thus, the relatively high feature importance of the \texttt{name} variable might also be caused by overfitting. As discussed above, further research should be conducted to analyze whether this is the case.
 
-\texttt{Category} is another feature with a relatively high importance. This is because the different category's price distributions show a clear tendency towards certain price segments @ref(price\_distribution\_category), i.e.~Wardrobes and beds are generally more expensive than chairs.
+\texttt{Category} is another feature with a relatively high importance. This is because the different category's price distributions show a clear tendency towards certain price segments (see figure \ref{fig:price-dist-per-category}), i.e.~Wardrobes and beds are generally more expensive than chairs.
 To the authors it seems counterintuitive that \texttt{designer} and \texttt{name} have higher feature importances than the \texttt{category} feature, because the IQR in the price distribution per category is often a lot smaller than the IQR of the designer and name price distributions. This also hints towards overfitting of the name and designer variables. However, in the categories with the most occurrences, namely \texttt{Wardrobes}, \texttt{Sofas\ \&\ armchairs} and \texttt{Beds}, the IQR is relatively large and there are many overlapping prices ranges for different categories, which explains a lower feature importance.
 
-The feature importance of \texttt{other\_colors} is the second lowest, but still considerable. This still relatively high feature importance might be due to the difference of the mean price and the relatively small IQR @ref(price\_distribution\_other\_colors). On the other hand, there is a large overlapping area within the IQR in the two expressions of \texttt{other\_colors} possibly reducing the feature importance.
+The feature importance of \texttt{other\_colors} is the second lowest, but still considerable. This still relatively high feature importance might be due to the difference of the mean price and the relatively small IQR (see: figure \ref{fig:price-dist-other-colors}). On the other hand, there is a large overlapping area within the IQR in the two expressions of \texttt{other\_colors} possibly reducing the feature importance.
 
-The very low feature importance of the \texttt{sellable\_online} variable is mainly because the low number of occurences of a product being sellable online. Only around 0.6\% of the products are sellable online.
+The very low feature importance of the \texttt{sellable\_online} variable is probably because the low number of occurences of a product being sellable online. Only around 0.6\% of the products are sellable online.
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
@@ -541,35 +547,33 @@ Furthermore, based on this analysis a predictive model could be developed which 
 \hypertarget{appendix}{%
 \chapter{Appendix}\label{appendix}}
 
-\hypertarget{price_distribution_designer}{%
-\section{Price Distribution per Designer}\label{price_distribution_designer}}
+\begin{figure}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-per-designer-1} \caption{Price Distribution per Designer}\label{fig:price-dist-per-designer}
+\end{figure}
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-5-1.pdf}
+\begin{figure}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-per-category-1} \caption{Price Distribution per Category}\label{fig:price-dist-per-category}
+\end{figure}
 
-\hypertarget{price_distribution_category}{%
-\section{Price Distribution per Category}\label{price_distribution_category}}
+\begin{figure}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-other-colors-1} \caption{Price Distribution Other Colors}\label{fig:price-dist-other-colors}
+\end{figure}
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-6-1.pdf}
+\begin{figure}[!h]
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-sellable-online-1} \caption{Price Distribution Sellable Online}\label{fig:price-dist-sellable-online}
+\end{figure}
 
-\hypertarget{price_distribution_other_colors}{%
-\section{Price Distribution Other Colors}\label{price_distribution_other_colors}}
-
-\includegraphics{_main_files/figure-latex/unnamed-chunk-7-1.pdf}
-
-\hypertarget{price-distribution-sellable-online}{%
-\section{Price Distribution Sellable Online}\label{price-distribution-sellable-online}}
-
-\includegraphics{_main_files/figure-latex/unnamed-chunk-8-1.pdf}
-
-\hypertarget{relationship-between-independent-variables-and-price}{%
-\section{Relationship between Independent Variables and Price}\label{relationship-between-independent-variables-and-price}}
-
-\includegraphics{_main_files/figure-latex/relationship-x-y-1.pdf}
+\begin{figure}[!h]
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-x-y-1} \caption{Relationship between Independent Variables and Price}\label{fig:relationship-x-y}
+\end{figure}
 
 \hypertarget{bibliography}{%
 \chapter{Bibliography}\label{bibliography}}
 
 \hypertarget{refs}{}
+\leavevmode\hypertarget{ref-Breiman2001}{}%
+Breiman, Leo. ``Random Forests.'' \emph{Machine Learning}, no. 45 (2001). \url{https://link.springer.com/content/pdf/10.1023/A:1010933404324.pdf}.
+
 \leavevmode\hypertarget{ref-Groemping2009}{}%
 Grömping, Ulrike. ``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.'' \emph{The American Statistician}, nos. Vol. 63, No. 4 (2009): 308--19. \url{https://prof.beuth-hochschule.de/fileadmin/prof/groemp/downloads/tast_2E2009_2E08199.pdf}.
 

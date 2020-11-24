@@ -9,25 +9,28 @@ bibliography: references.bib
 ---
 
 # Methods {#methods}
-\textcolor{gray}{by P. Krück}
+
 
 ## Data Cleaning and Transformatoin {#datacleaning}
 \textcolor{gray}{by P. Krück}
 
 To examine the given data set properly, the authors first had to restructure and reformat it. This initial data cleaning step included type conversion, value mutation, addition of newly calculated fields and the removal of irrelevant columns.
 
-Concretely, name, category and designer were converted to categorical variables. In the designer column, blank strings and values prefixed by “IKEA of Sweden” were converted to missing values (```NA```). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author \ref(#theoretical_background ).
+Concretely, ```name```, ```category``` and ```designer``` were converted to categorical variables. In the designer column, blank strings and values prefixed by “IKEA of Sweden” were converted to missing values (```NA```). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author (See section \@ref(theoretical-background)).
 
 Interestingly, the data set had a peculiarity where some rows were exact duplicates except for the category value. The authors considered multiple approaches to handle these data duplications without losing information about the category of an item. 
 
-One considered option was to merge the two category values into one column value via comma separation (e.g. ```"a"``` and ```"b"``` converts to ```"a, b"```). However, this approach leads to the creation of many combinatorial categories with a low count of items per category which also reduces the item count per category where the category isn't comma separated. Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting \ref(#overfitting).
+One considered option was to merge the two category values into one column value via comma separation (e.g. ```"a"``` and ```"b"``` converts to ```"a, b"```). However, this approach leads to the creation of many combinatorial categories with a low count of items per category.
+Additionally, it reduces the item count per category where the category isn't comma separated.
+Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting (See section \@ref(overfitting)).
 
-The second option was to create separate columns for the different values of ```category```. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model \ref(#random_forest_model).
+The second option was to create separate columns for the different values of ```category```. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model See section \@ref(rf)).
 
-The authors chose the option of selecting the observations out of the duplicates where the category count occurred most frequently when considering duplicates. The most important categories could be retained without including more column vectors into the data set as in option two.
+The authors chose the option of selecting the observations where the category count occurred most frequently when considering duplicates. The most important categories could be retained without including more column vectors into the data set as in option two.
 
 To better facilitate the comparison of the different sizes of furniture items, the size in cubic meters was computed based on the depth, width and height values, and added as a column vector for further analysis. 
-Finally, the authors only selected columns that could have a potential impact on the analysis \@ref(#research_question) for further investigation. A detailed comparison of the initial vs. transformed data structure can be seen in tables \@ref(tab:initial-ikea) and \@ref(tab:tidy-ikea).
+
+Finally, the authors only selected columns that could have a potential impact on the analysis \@ref(#research-question) for further investigation. A detailed comparison of the initial vs. transformed data structure can be seen in tables \@ref(tab:initial-ikea) and \@ref(tab:tidy-ikea).
 
 
 
@@ -36,11 +39,20 @@ TODO: Format these tables
 ```{r initial-ikea, echo=FALSE}
 library('kableExtra')
 
-knitr::kable(head(ikea), caption = "Initial Data Set formatting.")
+output_table <- data.frame(lapply(tail(ikea), as.character), stringsAsFactors = FALSE) %>%
+  select(name, category, price, old_price, sellable_online, other_colors, designer) %>%
+  mutate(name = str_trunc(name, 6), designer = str_trunc(designer, 8), `...` = c("...", "...", "...", "...", "...", "..."))
+
+knitr::kable(output_table, caption = "Initial Data Set formatting.") %>%
+  kable_styling(font_size = 8, position = "center")
 ```
 
 ```{r tidy-ikea, echo=FALSE}
-knitr::kable(head(tidy_ikea), caption = "Data Set after cleaning process.")
+output_table_two <- data.frame(lapply(tail(tidy_ikea), as.character), stringsAsFactors = FALSE) %>%
+  mutate(name = str_trunc(name, 6), designer = str_trunc(designer, 8))
+
+knitr::kable(output_table_two, caption = "Transformed Data Set formatting.") %>%
+  kable_styling(font_size = 8, position = "center")
 ```
 
 
