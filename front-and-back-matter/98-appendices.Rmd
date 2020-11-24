@@ -7,9 +7,7 @@
 
 # Appendix
 
-## Price Distribution per Designer {#price_distribution_designer}
-
-```{r echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+```{r price-dist-per-designer,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="Price Distribution per Designer", out.width="100%"}
 tidy_ikea %>%
   ggplot(mapping = aes(x = fct_reorder(fct_lump(tidy_ikea$designer, 25), price_eur), y = price_eur, colour = fct_lump(tidy_ikea$designer, 25))) +
     geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
@@ -18,9 +16,7 @@ tidy_ikea %>%
     coord_flip()
 ```
 
-## Price Distribution per Category {#price_distribution_category}
-
-```{r echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+```{r price-dist-per-category,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="Price Distribution per Category", out.width="100%"}
 tidy_ikea %>%
   ggplot(aes(x = reorder(fct_lump(tidy_ikea$category, 15), price_eur), y = price_eur, colour = fct_lump(tidy_ikea$category, 15))) +
     geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
@@ -30,9 +26,9 @@ tidy_ikea %>%
     coord_flip()
 ```
 
-## Price Distribution Other Colors {#price_distribution_other_colors}
+```{r price-dist-other-colors,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="Price Distribution Other Colors", out.width="100%"}
+knitr::opts_chunk$set(fig.pos = '!h')
 
-```{r echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
 tidy_ikea %>%
   ggplot(aes(x = price_eur, y = other_colors, color = other_colors)) +
   geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
@@ -41,9 +37,8 @@ tidy_ikea %>%
   labs(x = "price in €", y = "other_colors", fill = "", title = "Price Distribution Other Colors")
 ```
 
-## Price Distribution Sellable Online
 
-```{r echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+```{r price-dist-sellable-online,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="Price Distribution Sellable Online", out.width="100%"}
 tidy_ikea %>%
   ggplot(aes(x = price_eur, y = sellable_online, color = sellable_online)) +
     geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
@@ -52,9 +47,7 @@ tidy_ikea %>%
     labs(x = "price in €", y = "sellable_online", fill = "", title = "Price Distribution Sellable Online")
 ```
 
-## Relationship between Independent Variables and Price
-
-```{r relationship-x-y, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+```{r relationship-x-y, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="Relationship between Independent Variables and Price", out.width="100%"}
 tidy_ikea %>%
   mutate(across(where(is.character), as.factor)) %>% mutate(across(where(is.factor), as.numeric)) %>%
   # select() %>% # De-select variables here if necessary

@@ -93,7 +93,7 @@ In this chapter, the results of the analysis of the feature importance of differ
 
 As described in \@ref(rf), the feature importance was calculated using permuting feature importance of the randomForest R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model with the response variable `price_eur`. When the percentage increase of the MSE is higher, the feature is more important, accordingly, when the percentage increase of the MSE is lower, the feature is less important.
 
-```{r echo=FALSE, out.width="90%", fig.cap="A nice image."}
+```{r mean-feature-importance, echo=FALSE, out.width="100%", fig.cap="Mean Feature Importance"}
 ggplot(mean_imp, aes(y=reorder(varnames, PercentIncMSE), x=PercentIncMSE)) + 
   geom_point() +
   scale_color_manual(values = mycolors) +
@@ -101,7 +101,8 @@ ggplot(mean_imp, aes(y=reorder(varnames, PercentIncMSE), x=PercentIncMSE)) +
   labs(x = "% Increase MSE", y = "Feature", title = "Mean Feature Importance")
 ```
 
-Thus, as can be seen in the figure above, the most important feature is `size_m3`  with an increase of the MSE of 182%. The second, third and fourth most important features are `designer` with an increase of 120%, `name` with an increase of 114% and `category` with an increase of 105%. The fifth most important feature is `other_colors` with an increase of the MSE of 78% and the least important feature is `sellable_online` with a 9% increase.
+
+Thus, as can be seen in figure \@ref(fig:mean-feature-importance), the most important feature is `size_m3`  with an increase of the MSE of 182%. The second, third and fourth most important features are `designer` with an increase of 120%, `name` with an increase of 114% and `category` with an increase of 105%. The fifth most important feature is `other_colors` with an increase of the MSE of 78% and the least important feature is `sellable_online` with a 9% increase.
 
 These results are further discussed in the following chapter.
 
