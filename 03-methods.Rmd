@@ -9,18 +9,20 @@ bibliography: references.bib
 ---
 
 # Methods {#methods}
-
+\textcolor{gray}{by P. Krück}
 
 ## Data Cleaning and Transformatoin {#datacleaning}
 \textcolor{gray}{by P. Krück}
+
 To examine the given data set properly, the authors first had to restructure and reformat it. This initial data cleaning step included type conversion, value mutation, addition of newly calculated fields and the removal of irrelevant columns.
-Concretely, name, category and designer were converted to categorical variables. In the designer column, blank strings and values prefixed by “IKEA of Sweden” were converted to missing values (```NA```). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author \@ref(#theoretical_background).
+
+Concretely, name, category and designer were converted to categorical variables. In the designer column, blank strings and values prefixed by “IKEA of Sweden” were converted to missing values (```NA```). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author \ref(#theoretical_background ).
 
 Interestingly, the data set had a peculiarity where some rows were exact duplicates except for the category value. The authors considered multiple approaches to handle these data duplications without losing information about the category of an item. 
 
-One considered option was to merge the two category values into one column value via comma separation (e.g. ```"a"``` and ```"b"``` converts to ```"a, b"```). However, this approach leads to the creation of many combinatorial categories with a low count of items per category which also reduces the item count per category where the category isn't comma separated. Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting \@ref(#overfitting).
+One considered option was to merge the two category values into one column value via comma separation (e.g. ```"a"``` and ```"b"``` converts to ```"a, b"```). However, this approach leads to the creation of many combinatorial categories with a low count of items per category which also reduces the item count per category where the category isn't comma separated. Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting \ref(#overfitting).
 
-The second option was to create separate columns for the different values of ```category```. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model @\ref(#random_forest_model).
+The second option was to create separate columns for the different values of ```category```. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model \ref(#random_forest_model).
 
 The authors chose the option of selecting the observations out of the duplicates where the category count occurred most frequently when considering duplicates. The most important categories could be retained without including more column vectors into the data set as in option two.
 
@@ -45,6 +47,7 @@ knitr::kable(head(tidy_ikea), caption = "Data Set after cleaning process.")
 
 ## Exploratory Data Analysis {#tbd}
 \textcolor{gray}{by P. Krück}
+
 The following sections explore our data based on the eight step data exploration protocol proposed by Zuur et al [@Zuur2010]. 
 
 
@@ -58,6 +61,7 @@ By the stated assumption, all outliers are meaningful for further analysis.
 
 ### Step 2: Homogeneity of Price
 \textcolor{gray}{by P. Krück}
+
 The homogeneity (homoscedasticity) of variance for price is explored by the means of conditional boxplotting. 
 Within each name, and within each category the variance is heterogenous (see fig. \@ref(fig:homogeneity)). However, looking at both name and category in conjunction, it is possible to explore homoscedasticity of variance for price.
 
@@ -81,6 +85,7 @@ tidy_ikea %>%
 
 ### Step 3: Normality 
 \textcolor{gray}{by P. Krück}
+
 All numerical variables (```price```, ```old_price``` and ```size_m3```) aren't arranged along a normal distribution (see fig. \@ref(fig:normality)), but rather follow an exponential decay ($e^{-x}$).
 
 
@@ -99,6 +104,7 @@ tidy_ikea %>%
 
 ### Step 4: Missing Values
 \textcolor{gray}{by P. Krück}
+
 All variables were examined for missing values. Only ```designer```, ```size_m3``` and ```old_price_eur``` have missing values of 3.44%, 45.9% and 81% respectively (see fig. \@ref(fig:missing-values))). 
 The missing values for designer were deliberately set to ```NA``` by the authors in the case where the values contained digits, which is clearly a scraping error. 
 The ```NA``` values for the size can be explained due to the computation of this column vector. ```size_m3``` is the product of ```depth```, ```width``` and ```height```. If one of those three values is missing, the end result is also a missing value. 
@@ -133,6 +139,7 @@ missing_values %>%
 
 ### Step 5: Collinearity between Independent Variables
 \textcolor{gray}{by P. Krück}
+
 The old price has a rather high VIF which corresponds to high multicollinearity (see table ...). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table ...).
 
 TODO: use values from step 5 of eda protocol
@@ -148,6 +155,7 @@ knitr::kable(vif, caption = "Initial Data Set formatting.")
 
 ### Step 6: Relationship between Independent Variables and Price {#relationship}
 \textcolor{gray}{by P. Krück}
+
 Inspecting the relationship between the independent variables and price strong relationships between ```old_price_eur``` and ```size_m3``` can be observed, while no relationship can be observed for the other variables (see \@ref(fig:relationship-x-y)).
 ```old_price_eur``` has a linear relationship (see fig. \@ref(fig:relationship-old-price)) whereas ```size_m3``` fits a second order polynomial (see fig. \@ref(fig:relationship-size-m3)) to price.
 
@@ -174,12 +182,14 @@ tidy_ikea %>%
 
 ### Step 7: Interactions
 \textcolor{gray}{by P. Krück}
+
 The interactions between different variables is explored by the means of coplotting.
 Using this form plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables. 
 In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, ```old_price_eur``` has such a strong relationship with price (see ...) that a more detailed breakdown by the categorical variables wouldn't reveal new information. This leaves the exploration of ```size_m3``` and ```price_eur``` broken down by designer, name and category resulting in (3 out of 2 = 3) combinations of coplots.
 
 #### Interaction of size and price coplotted by designer and name
 \textcolor{gray}{by P. Krück}
+
 - The following interaction could be analyzed
 - - There is probably no significant interaction between size, price, name & designer as can be seen in coplot -> lines are nearly parallel
 - Based on the coplot of category and name with the 354 observations, inparallelity could be observed and thus could conclude a interaction. However, this could also be due to the small sample size 
@@ -188,6 +198,7 @@ In the given data set there are three numerical and three categorical variables 
 
 #### Problems with Coplot Development
 \textcolor{gray}{by P. Krück}
+
 This section describes a programming error the authors ran into regarding coplotting.
 
 Unfortunately, the authors of this papers weren't able to fully explore all combinations.
@@ -205,6 +216,7 @@ The inclined reader is encouraged to play with the code. Sending any hints or ev
 
 ### Step 8: Independence Observations of Response Variable Price
 \textcolor{gray}{by P. Krück}
+
 The independence of observerations of the response variables assumes that "[...] information from any one observation should not provide information on another after the effects of other variables have been accounted for" @Zuur.
 The data cleaning step (see data cleaning) left the observed data set in a tidy format ^["There are three interrelated rules which make a dataset tidy:
 
