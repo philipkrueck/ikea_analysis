@@ -46,6 +46,7 @@ output:
     keep_tex: true
     citation_package: default  
     pandoc_args: ["--lua-filter=scripts_and_filters/correction_filter.lua","--csl", "chicago_footnote.csl"] #remove filter to stop applying blue background to inline corrections
+    extra_dependencies: ["float"]
   bookdown::gitbook:
     css: templates/style.css
     config:
@@ -57,9 +58,7 @@ output:
     toc: true   
 link-citations: true
 documentclass: book
-
 ---
-
 
 ```{r create_chunk_options, include=FALSE, eval=knitr::is_latex_output()}
 source('scripts_and_filters/create_chunk_options.R')

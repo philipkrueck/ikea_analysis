@@ -216,8 +216,6 @@ Each value must have its own cell." \@ref(@rfordatascience, p.149, ll. 4-7)] whi
 ## Random Forest Regression Model {#rf}
 \textcolor{gray}{by J. Pein}
 
-TODO: Students  should decide  on  an  appropriate  statistical  procedure  to answer  their chosen research questionand should state any prerequisites /assumptions of this methodaccordingly.
-
 
 This analysis was conducted using the R randomForest package, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To learn more about how random forests work or the randomForest package, see @Liaw2002 or #chapter2 #TODO. To reproduce the analysis conducted in this paper, the prepatory steps are described here. The following steps are based on an already cleaned ikea data frame which is described in \@ref(datacleaning). This data frame is then transformed further to be used with the randomForest package.
 
