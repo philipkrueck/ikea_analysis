@@ -16,24 +16,28 @@ bibliography: references.bib
 
 To examine the given data set properly, the authors first had to restructure and reformat it. This initial data cleaning step included type conversion, value mutation, addition of newly calculated fields and the removal of irrelevant columns.
 
-Concretely, ```name```, ```category``` and ```designer``` were converted to categorical variables. In the designer column, blank strings and values prefixed by “IKEA of Sweden” were converted to missing values (```NA```). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author (See section \@ref(theoretical-background)).
+Concretely, ```name```, ```category``` and ```designer``` were converted to categorical variables. In the ```designer``` column, blank strings and values prefixed by “IKEA of Sweden” were converted to missing values (```NA```). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author (See section \@ref(theoretical-background)).
 
-Interestingly, the data set had a peculiarity where some rows were exact duplicates except for the category value. The authors considered multiple approaches to handle these data duplications without losing information about the category of an item. 
+Interestingly, the data set had a peculiarity where some rows were exact duplicates except for values in the ```category``` vector. The authors considered multiple approaches to handle these data duplications without losing information about the category of an item. 
 
 One considered option was to merge the two category values into one column value via comma separation (e.g. ```"a"``` and ```"b"``` converts to ```"a, b"```). However, this approach leads to the creation of many combinatorial categories with a low count of items per category.
 Additionally, it reduces the item count per category where the category isn't comma separated.
 Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting (See section \@ref(overfitting)).
 
-The second option was to create separate columns for the different values of ```category```. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model See section \@ref(rf)).
+The second option was to create separate columns for the different values of ```category```. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model (See section \@ref(rf)).
 
 The authors chose the option of selecting the observations where the category count occurred most frequently when considering duplicates. The most important categories could be retained without including more column vectors into the data set as in option two.
 
 To better facilitate the comparison of the different sizes of furniture items, the size in cubic meters was computed based on the depth, width and height values, and added as a column vector for further analysis. 
 
-Finally, the authors only selected columns that could have a potential impact on the analysis \@ref(research-question) for further investigation. A detailed comparison of the initial vs. transformed data structure can be seen in tables \@ref(tab:initial-ikea) and \@ref(tab:tidy-ikea).
+Finally, the authors only selected columns that could have a potential impact on outcome of the analysis (See section \@ref(research-question)) for further investigation. A detailed comparison of the initial vs. transformed data structure can be seen in tables \@ref(tab:initial-ikea) and \@ref(tab:tidy-ikea).
 
 ```{r initial-ikea, echo=FALSE}
 library('kableExtra')
+library(modelr) 
+library(broom) 
+library(GGally) 
+library(gridExtra)
 
 output_table <- data.frame(lapply(tail(ikea), as.character), stringsAsFactors = FALSE) %>%
   select(name, category, price, old_price, sellable_online, other_colors, designer) %>%
@@ -61,11 +65,22 @@ The following sections explore our data based on the eight step data exploration
 
 ### Step 1: Outliers in Price and Independent Variables
 \textcolor{gray}{by P. Krück}
-Outliers of the chosen variables (from tidying see \@ref(#datacleaning) can be observed for each variable (see plot ...). 
-The authors assume that outliers do not occur randomly in the form of an observer error. Web scraping code is written in a generic form which makes it generalizable to all applied pages. Thus takes human observation errors out of the equation. Additionally, the authors looked at individual outlier (stichprobenartig) examples and used the provided link column to manually double check observations against machine errors.
-By the stated assumption, all outliers are meaningful for further analysis.
+
+Outliers of the chosen variables can be observed for each variable (see figure \@ref(fig:outliers)). 
+Web scraping code is written in a generic form which makes it generalizable to all applied pages. This removes the occurance human observation errors in the Ikea data set. Additionally, it is also unlikely that the outliers are due to falsely scraped items.
+To verify this hypothesis, the authors randomly tested outlier observations and manually checked them against the ikea website information. With a high level of statistical confidence, the authors proceeded with further analysis without removing outliers as observation errors.
 
 
+```{r, outliers, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Boxplots for Price in € based on Independent Variables", out.width="100%"}
+## Boxplots for all factor variables against the DV (hwy):
+p1 <- ggplot(tidy_ikea, aes(x = fct_lump(name, 8), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("name")
+p2 <- ggplot(tidy_ikea, aes(x = fct_lump(category, 8), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("category")
+p3 <- ggplot(tidy_ikea, aes(x = sellable_online, y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("sellable online")
+p4 <- ggplot(tidy_ikea, aes(x = other_colors, y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("other colors")
+p5 <- ggplot(tidy_ikea, aes(x = fct_lump(designer, 8), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("designer")
+## Plot all ggplot objects together (gridExtra):
+grid.arrange(p1, p2, p3, p4, p5, nrow = 3)
+```
 
 ### Step 2: Homogeneity of Price
 \textcolor{gray}{by P. Krück}
@@ -113,7 +128,7 @@ tidy_ikea %>%
 ### Step 4: Missing Values
 \textcolor{gray}{by P. Krück}
 
-All variables were examined for missing values. Only ```designer```, ```size_m3``` and ```old_price_eur``` have missing values of 3.44%, 45.9% and 81% respectively (see fig. \@ref(fig:missing-values))). 
+All variables were examined for missing values. Only ```designer```, ```size_m3``` and ```old_price_eur``` have missing values with percentages of 3.44%, 45.9% and 81% respectively (see fig. \@ref(fig:missing-values)). 
 The missing values for designer were deliberately set to ```NA``` by the authors in the case where the values contained digits, which is clearly a scraping error. 
 The ```NA``` values for the size can be explained due to the computation of this column vector. ```size_m3``` is the product of ```depth```, ```width``` and ```height```. If one of those three values is missing, the end result is also a missing value. 
 The abscence of the old price variables is due to the fact that most items aren't on sale and thus don't have a missing value.
