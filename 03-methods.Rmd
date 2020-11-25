@@ -133,7 +133,7 @@ The missing values for designer were deliberately set to ```NA``` by the authors
 The ```NA``` values for the size can be explained due to the computation of this column vector. ```size_m3``` is the product of ```depth```, ```width``` and ```height```. If one of those three values is missing, the end result is also a missing value. 
 The abscence of the old price variables is due to the fact that most items aren't on sale and thus don't have a missing value.
 
-```{r, missing-values, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Homogeneity of category for selected combinations of name and category", out.width="100%"}
+```{r, missing-values, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Percentage of missing values", out.width="100%"}
 missing_values <- tidy_ikea %>%
   gather(key = "key", value = "val") %>%
   mutate(isna = is.na(val)) %>%
@@ -155,7 +155,7 @@ missing_values %>%
   scale_fill_manual(name = "", 
                     values = c('steelblue', 'tomato3'), labels = c("Present", "Missing")) +
   coord_flip() +
-  labs(title = "Percentage of missing values", x =
+  labs(x =
          'Variable', y = "% of missing values")
 ```
 
@@ -163,13 +163,17 @@ missing_values %>%
 ### Step 5: Collinearity between Independent Variables {#collinearity}
 \textcolor{gray}{by P. Krück}
 
-The old price has a rather high VIF which corresponds to high multicollinearity (see table ...). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table ...).
+The old price has a rather high VIF which corresponds to high multicollinearity (see table \@ref(tab:vif)). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table \@ref(tab:vif)).
 
 TODO: use values from step 5 of eda protocol
-```{r initial-ikea2, echo=FALSE}
+```{r vif, echo=FALSE}
 library('kableExtra')
 
-vif <- c(1, 3, 4)
+vif <- data.frame(
+  `price_eur` = 77.97,
+  `old_price_eur` = 78.54,
+  `size_m3` = 2.36
+)
 
 knitr::kable(vif, caption = "Initial Data Set formatting.")
 ```
@@ -179,8 +183,8 @@ knitr::kable(vif, caption = "Initial Data Set formatting.")
 ### Step 6: Relationship between Independent Variables and Price {#relationship}
 \textcolor{gray}{by P. Krück}
 
-Inspecting the relationship between the independent variables and price strong relationships between ```old_price_eur``` and ```size_m3``` can be observed, while no relationship can be observed for the other variables (see \@ref(fig:relationship-x-y)).
-```old_price_eur``` has a linear relationship (see fig. \@ref(fig:relationship-old-price)) whereas ```size_m3``` fits a second order polynomial (see fig. \@ref(fig:relationship-size-m3)) to price.
+Inspecting the relationship between the independent variables and price, strong correlation between ```old_price_eur``` and ```size_m3``` can be observed, while none can be detected for the other variables (see \@ref(fig:relationship-x-y)).
+```old_price_eur``` has a linear relationship (see fig. \@ref(fig:relationship-old-price)) whereas ```size_m3``` fits a second order polynomial to price (see fig. \@ref(fig:relationship-size-m3)).
 
 ```{r relationship-old-price, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="caption", out.width="100%"}
 tidy_ikea %>%
@@ -208,15 +212,12 @@ tidy_ikea %>%
 
 The interactions between different variables is explored by the means of coplotting.
 Using this form plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables. 
-In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, ```old_price_eur``` has such a strong relationship with price (see ...) that a more detailed breakdown by the categorical variables wouldn't reveal new information. This leaves the exploration of ```size_m3``` and ```price_eur``` broken down by designer, name and category resulting in (3 out of 2 = 3) combinations of coplots.
+In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, ```old_price_eur``` has such a strong relationship with price (see fig \@ref(relationship-old-price)). A more detailed breakdown by the categorical variables wouldn't reveal new information. This leaves the exploration of ```size_m3``` and ```price_eur``` subdivided by designer, name and category resulting in (3 out of 2 = 3) combinations of coplots.
 
-#### Interaction of size and price coplotted by designer and name
+#### Interaction of size and price coplotted by designer and name {#size-price-interaction}
 \textcolor{gray}{by P. Krück}
 
-- The following interaction could be analyzed
-- - There is probably no significant interaction between size, price, name & designer as can be seen in coplot -> lines are nearly parallel
-- Based on the coplot of category and name with the 354 observations, inparallelity could be observed and thus could conclude a interaction. However, this could also be due to the small sample size 
-
+It is unlikely that there is an interaction between size and price split by name and designer as is indicated by the non-parallelism of the fitted lines in the coplot (see figure ...)
 
 
 #### Problems with Coplot Development
@@ -225,13 +226,13 @@ In the given data set there are three numerical and three categorical variables 
 This section describes a programming error the authors ran into regarding coplotting.
 
 Unfortunately, the authors of this papers weren't able to fully explore all combinations.
-Plotting designer and name works (results described in above section) while the other two options would not plot properly. 
+Plotting designer and name works (see section \@ref(size-price-interaction)) while the other two options would not plot properly. 
 The authors could not fully debug the problem with these plots.
-The linear model predicted infinite values for some of the coplotted combinations for both combinations that wouldn't render correctly. 
-Dropping all ```NA``` values left 354 observations and the coplot would correctly render for the combination of ```name``` and ```category``` while for ```name``` and ```designer``` it would not. The number of observations for ```name``` and ```category``` is rather low which lead the authors to discard it as an insignificant research finding.
+The linear model predicted infinite values for some of the coplotted combinations for both amalgamations that wouldn't render correctly. 
+Dropping all ```NA``` values left 354 observations and the coplot would correctly render for the combination of ```name``` and ```category``` while for ```name``` and ```designer``` it would not. The number of observations for ```name``` and ```category``` is rather low considering the additional categorical subdivision which lead the authors to discard it as an insignificant research finding.
 Still there seemed to be infinite values outputted by the linear method. The authors hypothesized that those values were caused by a division by 0 of the internal algorithm mechanics. This however proved to be wrong after applying the respective filters.
-The code for the 3 plots can be viewed in Appendix section xxxxx. 
-The inclined reader is encouraged to play with the code. Sending any hints or even a solution to fix the code and fully render the plots would be highly appreciated by the authors.
+The code for the 3 plots can be viewed in Appendix section \@ref(coplot-code).
+The inclined reader is encouraged to dabble with the code. Sending any hints or even a solution to fix the code and fully render the plots would be highly appreciated by the authors.
   
 ^[Any questions, hints or solutions may kindly be sent to philip.krueck\@myhsba.de.]
 
