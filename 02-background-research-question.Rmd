@@ -11,13 +11,13 @@ documentclass: book
 bibliography: references.bib
 ---
 
-# Theoretical Background & Research Question 
+# Theoretical Background & Research Question  {#chapter-2}
 
 ## Data Set
 \textcolor{gray}{by P. Krück}
 
 The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means of webscraping techniques from the Saudi Arabian Ikea website in the furniture category on the 20th of April 2020. Noteworthy features include the name, category, price in Saudi Riyals, the designer and dimensions (width, height and depth). 
-The data set has 13 variables and 2962 distinct observations after removing duplicates.
+The data set has 13 variables and 2962 distinct observations after the removal of duplicates.
 
 ## Theoretical Background {#theoretical-background}
 
@@ -31,15 +31,18 @@ In order to analyze the feature importance in relation to the price variable, a 
 Explain Overfitting...
 
 
-### Feature Importance
+### Feature Importance {#feature-importance}
 \textcolor{gray}{by J. Pein}
 
-There are different ways to measure feature importance. In this analysis permuting feature importance by a random forest algorithm is used. The algorithm leaves one feature out while leaving all others unchanged, calculating the mean squared error (MSE) of the predictions. This is done for every feature and tree, calculating the overall MSE of the whole model. [@Breiman2001].
+There are different ways to measure feature importance. In this analysis permuting feature importance by a random forest algorithm is used. The algorithm leaves one feature out while leaving all others unchanged, calculating the mean squared error (MSE) of the predictions. This is done for every feature and tree, calculating the overall MSE of the whole model [@Breiman2001].
 
 
 ## Research Question {#research-question}
 \textcolor{gray}{by P. Krück}
 
-This paper explores the following research question: *How important are the different features of Ikea products in regard to their price?*
+This paper explores the following research question:
+
+*How important are the different features of Ikea products in regard to their price?*
+
 The motivating forces for this research question are the possible implications for price determination of new items.
 
