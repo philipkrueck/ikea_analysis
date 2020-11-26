@@ -86,13 +86,13 @@ mean_imp <- mean_imp %>%
 # Results {#results}
 \hfill\textcolor{gray}{by J. Pein}
 
-TODO: set n_trees to 2000 before handing in
+## TODO: set n_trees to 2000 before handing in
 
-In this chapter, the results of the analysis of the feature importance of different predictor variables (features) on the response variable price of Ikea products are presented.
+In this chapter, the result of the analysis of the feature importance of different features on the response variable price of Ikea products are presented.
 
-As described in \@ref(rf), the feature importance was calculated using permuting feature importance of the randomForest R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model with the response variable `price_eur`. When the percentage increase of the MSE is higher, the feature is more important, accordingly, when the percentage increase of the MSE is lower, the feature is less important.
+As described in section \@ref(rf), the feature importance was calculated using permuting feature importance of the _randomForest_ R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model in regard to the response variable `price_eur`. When the percentage increase of the MSE is higher, the feature is more important. Accordingly, when the percentage increase of the MSE is lower, the feature is less important.
 
-```{r mean-feature-importance, echo=FALSE, out.width="100%", fig.cap="Mean Feature Importance"}
+```{r mean-feature-importance, echo=FALSE, out.width="100%", fig.cap="A plot showing the mean feature importance of the predictor variables on the response variable"}
 ggplot(mean_imp, aes(y=reorder(varnames, PercentIncMSE), x=PercentIncMSE)) + 
   geom_point() +
   scale_color_manual(values = mycolors) +
