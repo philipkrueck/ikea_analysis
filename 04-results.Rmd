@@ -90,7 +90,7 @@ mean_imp <- mean_imp %>%
 
 In this chapter, the result of the analysis of the feature importance of different features on the response variable price of Ikea products are presented.
 
-As described in section \@ref(rf), the feature importance was calculated using permuting feature importance of the _randomForest_ R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model in regard to the response variable `price_eur`. When the percentage increase of the MSE is higher, the feature is more important. Accordingly, when the percentage increase of the MSE is lower, the feature is less important.
+As described in section \@ref(rf), the feature importance was calculated using permuting feature importance of the _randomForest_ R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model in regard to the response variable `price_eur`. A larger percentage increase of the MSE implies greater feature importance. Conversely, a lower percentage increase of the MSE translates to less significant feature importance.
 
 ```{r mean-feature-importance, echo=FALSE, out.width="100%", fig.cap="A plot showing the mean feature importance of the predictor variables on the response variable"}
 ggplot(mean_imp, aes(y=reorder(varnames, PercentIncMSE), x=PercentIncMSE)) + 

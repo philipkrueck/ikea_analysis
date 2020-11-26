@@ -24,11 +24,13 @@ The data set has 13 variables and 2962 distinct observations after the removal o
 ### Random Forest Basics
 \textcolor{gray}{by J. Pein}
 
-In order to analyze the feature importance in relation to the price variable, a random forest regression model was chosen. A random forest consists of many decision trees, which predict the response variable based on a majority decision process. In standard decision trees, each nodes is split to achieve the best performing model. In random forests however, the nodes are randomly split. Compared to linear regression models, the random forests model not only takes into account the mean and covariance structure of response, but also deeper deeper aspects of data [@Groemping2009] resulting in a more advanced and robust model. To learn more about random forests, please see @Breiman2001. 
+In order to analyze the feature importance in relation to the price variable, a random forest regression model was chosen. A random forest consists of many decision trees, which predicts the response variable based on a majority decision process. In standard decision trees, each node is split to achieve the best performing model. In random forests however, the nodes are randomly split. 
+Compared to linear regression, random forests not only take the mean and covariance structure into account, but also include deeper aspects of the data [@Groemping2009] resulting in more advanced and robust model. To learn more about random forests, please see @Breiman2001. 
 
 ### Overfitting {#overfitting}
 \textcolor{gray}{by P. Krück}
-Explain Overfitting...
+
+In statistical modelling, overfitting refers to the phenomenon where an analysis model corresponds to closely to a given data set and thus fails to generalize to new data or future observations.
 
 
 ### Feature Importance {#feature-importance}

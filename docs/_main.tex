@@ -35,6 +35,55 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
  
 % UL 1 Dec 2018, fix to include code in shaded environments
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+%UL 2 Dec 2018 add a bit of white space before and after code blocks
+\renewenvironment{Shaded}
+{
+  \vspace{4pt}%
+  \begin{snugshade}%
+}{%
+  \end{snugshade}%
+  \vspace{4pt}%
+}
 
 %UL 2 Dec 2018 reduce whitespace around verbatim environments
 \usepackage{etoolbox}
@@ -193,10 +242,10 @@
 \hypertarget{intro}{%
 \chapter{Introduction}\label{intro}}
 
-This project report is an examination at the Hamburg School of Business Administration in the module `Data Business' as a part of a Bachelor of Science degree program. The students were given a data set and the task was to first explore the data and then choose a research question which was to be answered scientifically with the help of the statistical programming language R. The authors of this report were given a data set which contains Ikea products and different features, such as price, dimensional measures, name, category and designers of the product.
+This project report is an examination at the Hamburg School of Business Administration in the module `Data Business' as a part of a Bachelor of Science degree program. The students were given a data set and the task was to first explore the data and then choose a research question which was to be answered scientifically with the help of the statistical programming language R. The authors of this report were given a data set which contains Ikea products with different features, such as price, dimensional measures, name, category and designers of the product.
 
-\hypertarget{theoretical-background-research-question}{%
-\chapter{Theoretical Background \& Research Question}\label{theoretical-background-research-question}}
+\hypertarget{chapter-2}{%
+\chapter{Theoretical Background \& Research Question}\label{chapter-2}}
 
 \hypertarget{data-set}{%
 \section{Data Set}\label{data-set}}
@@ -204,7 +253,7 @@ This project report is an examination at the Hamburg School of Business Administ
 \textcolor{gray}{by P. Krück}
 
 The data set was obtained by a kaggle.com user (Reem Abdulrahman) by the means of webscraping techniques from the Saudi Arabian Ikea website in the furniture category on the 20th of April 2020. Noteworthy features include the name, category, price in Saudi Riyals, the designer and dimensions (width, height and depth).
-The data set has 13 variables and 2962 distinct observations after removing duplicates.
+The data set has 13 variables and 2962 distinct observations after the removal of duplicates.
 
 \hypertarget{theoretical-background}{%
 \section{Theoretical Background}\label{theoretical-background}}
@@ -214,27 +263,31 @@ The data set has 13 variables and 2962 distinct observations after removing dupl
 
 \textcolor{gray}{by J. Pein}
 
-In order to analyze the feature importance in relation to the price variable, a random forest regression model was chosen. A random forest consists of many decision trees, which make a prediction based on a majority decision process. In standard decision trees, each nodes is split to achieve the best performing model. In random forests however, the nodes are randomly split. Compared to linear regression models, the random forests model not only takes into account the mean and covariance structure of response, but also deeper deeper aspects of data\footnote{Grömping, ``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.''} resulting in a more advanced and robust model. To learn more about random forests, please see Breiman.\footnote{``Random Forests.''}
+In order to analyze the feature importance in relation to the price variable, a random forest regression model was chosen. A random forest consists of many decision trees, which predict the response variable based on a majority decision process. In standard decision trees, each nodes is split to achieve the best performing model. In random forests however, the nodes are randomly split. Compared to linear regression models, the random forests model not only takes into account the mean and covariance structure of response, but also deeper deeper aspects of data\footnote{Grömping, ``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.''} resulting in a more advanced and robust model. To learn more about random forests, please see Breiman.\footnote{``Random Forests.''}
 
 \hypertarget{overfitting}{%
 \subsection{Overfitting}\label{overfitting}}
 
 \textcolor{gray}{by P. Krück}
-Explain Overfitting\ldots{}
+
+In statistical modelling, overfitting refers to the phenomenon where an analysis model corresponds to closely to a given data set and thus fails to generalize to new data or future observations.
 
 \hypertarget{feature-importance}{%
 \subsection{Feature Importance}\label{feature-importance}}
 
 \textcolor{gray}{by J. Pein}
 
-There are different ways to measure feature importance. In this analysis permuting feature importance by a random forest algorithm is used. The algorithm leaves one feature out while leaving all others unchanged, calculating the mean squared error (MSE) of the predictions. This is done for every feature and tree, calculating the overall MSE of the whole model..\footnote{Ibid.}
+There are different ways to measure feature importance. In this analysis permuting feature importance by a random forest algorithm is used. This algorithm leaves each feature out once while leaving all others unchanged, at each step calculating the mean squared error (MSE) of the predictions. This is done for tree, calculating the overall MSE of each feature for the whole model.\footnote{Ibid.}
 
 \hypertarget{research-question}{%
 \section{Research Question}\label{research-question}}
 
 \textcolor{gray}{by P. Krück}
 
-This paper explores the following research question: \emph{How important are the different features of Ikea products in regard to their price?}
+This paper explores the following research question:
+
+\emph{How important are the different features of Ikea products in regard to their price?}
+
 The motivating forces for this research question are the possible implications for price determination of new items.
 
 \hypertarget{methods}{%
@@ -247,22 +300,21 @@ The motivating forces for this research question are the possible implications f
 
 To examine the given data set properly, the authors first had to restructure and reformat it. This initial data cleaning step included type conversion, value mutation, addition of newly calculated fields and the removal of irrelevant columns.
 
-Concretely, \texttt{name}, \texttt{category} and \texttt{designer} were converted to categorical variables. In the designer column, blank strings and values prefixed by ``IKEA of Sweden'' were converted to missing values (\texttt{NA}). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author \ref{theoretical-background}.
+Concretely, \texttt{name}, \texttt{category} and \texttt{designer} were converted to categorical variables. In the \texttt{designer} column, blank strings and values prefixed by ``IKEA of Sweden'' were converted to missing values (\texttt{NA}). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author (See section \ref{theoretical-background}).
 
-Interestingly, the data set had a peculiarity where some rows were exact duplicates except for the category value. The authors considered multiple approaches to handle these data duplications without losing information about the category of an item.
+Interestingly, the data set had a peculiarity where some rows were exact duplicates except for values in the \texttt{category} vector. The authors considered multiple approaches to handle these data duplications without losing information about the category of an item.
 
 One considered option was to merge the two category values into one column value via comma separation (e.g. \texttt{"a"} and \texttt{"b"} converts to \texttt{"a,\ b"}). However, this approach leads to the creation of many combinatorial categories with a low count of items per category.
 Additionally, it reduces the item count per category where the category isn't comma separated.
-Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting (See section (See section \ref{overfitting}).
+Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting (See section \ref{overfitting}).
 
-The second option was to create separate columns for the different values of \texttt{category}. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model \ref{rf}.
+The second option was to create separate columns for the different values of \texttt{category}. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model (See section \ref{rf}).
 
 The authors chose the option of selecting the observations where the category count occurred most frequently when considering duplicates. The most important categories could be retained without including more column vectors into the data set as in option two.
 
 To better facilitate the comparison of the different sizes of furniture items, the size in cubic meters was computed based on the depth, width and height values, and added as a column vector for further analysis.
-Finally, the authors only selected columns that could have a potential impact on the analysis @ref(\#research\_question) for further investigation. A detailed comparison of the initial vs.~transformed data structure can be seen in tables \ref{tab:initial-ikea} and \ref{tab:tidy-ikea}.
 
-TODO: Format these tables
+Finally, the authors only selected columns that could have a potential impact on outcome of the analysis (See section \ref{research-question}) for further investigation. A detailed comparison of the initial vs.~transformed data structure can be seen in tables \ref{tab:initial-ikea} and \ref{tab:tidy-ikea}.
 
 \begin{table}
 
@@ -323,9 +375,14 @@ The following sections explore our data based on the eight step data exploration
 \subsection{Step 1: Outliers in Price and Independent Variables}\label{step-1-outliers-in-price-and-independent-variables}}
 
 \textcolor{gray}{by P. Krück}
-Outliers of the chosen variables (from tidying see @ref(\#datacleaning) can be observed for each variable (see plot \ldots{}).
-The authors assume that outliers do not occur randomly in the form of an observer error. Web scraping code is written in a generic form which makes it generalizable to all applied pages. Thus takes human observation errors out of the equation. Additionally, the authors looked at individual outlier (stichprobenartig) examples and used the provided link column to manually double check observations against machine errors.
-By the stated assumption, all outliers are meaningful for further analysis.
+
+Outliers of the chosen variables can be observed for each variable (see figure \ref{fig:outliers}).
+Web scraping code is written in a generic form which makes it generalizable to all applied pages. This removes the occurance of human observation errors in the Ikea data set. Additionally, it is also unlikely that the outliers are due to falsely scraped items.
+To verify this hypothesis, the authors randomly tested outlier observations and manually checked them against the ikea website information. With a high level of statistical confidence, the authors proceeded with further analysis without removing outliers as observation errors.
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/outliers-1} \caption{Boxplots for Price in € based on Independent Variables}\label{fig:outliers}
+\end{figure}
 
 \hypertarget{step-2-homogeneity-of-price}{%
 \subsection{Step 2: Homogeneity of Price}\label{step-2-homogeneity-of-price}}
@@ -335,7 +392,7 @@ By the stated assumption, all outliers are meaningful for further analysis.
 The homogeneity (homoscedasticity) of variance for price is explored by the means of conditional boxplotting.
 Within each name, and within each category the variance is heterogenous (see fig. \ref{fig:homogeneity}). However, looking at both name and category in conjunction, it is possible to explore homoscedasticity of variance for price.
 
-In the context of this paper, the authors weren't able to inspect all variable combinations for the five categorical variables (\(2^3=8\)).
+Due to the limited scope and length of this paper, the authors were not able to inspect all variable combinations for the five categorical variables (\(2^5=32\)).
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{_main_files/figure-latex/homogeneity-1} \caption{Homogeneity of category for selected combinations of name and category}\label{fig:homogeneity}
@@ -357,37 +414,31 @@ All numerical variables (\texttt{price}, \texttt{old\_price} and \texttt{size\_m
 
 \textcolor{gray}{by P. Krück}
 
-All variables were examined for missing values. Only \texttt{designer}, \texttt{size\_m3} and \texttt{old\_price\_eur} have missing values of 3.44\%, 45.9\% and 81\% respectively (see fig. \ref{fig:missing-values})).
+All variables were examined for missing values. Only \texttt{designer}, \texttt{size\_m3} and \texttt{old\_price\_eur} have missing values with percentages of 3.44\%, 45.9\% and 81\% respectively (see fig. \ref{fig:missing-values}).
 The missing values for designer were deliberately set to \texttt{NA} by the authors in the case where the values contained digits, which is clearly a scraping error.
 The \texttt{NA} values for the size can be explained due to the computation of this column vector. \texttt{size\_m3} is the product of \texttt{depth}, \texttt{width} and \texttt{height}. If one of those three values is missing, the end result is also a missing value.
 The abscence of the old price variables is due to the fact that most items aren't on sale and thus don't have a missing value.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/missing-values-1} \caption{Homogeneity of category for selected combinations of name and category}\label{fig:missing-values}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/missing-values-1} \caption{Percentage of missing values}\label{fig:missing-values}
 \end{figure}
 
-\hypertarget{step-5-collinearity-between-independent-variables}{%
-\subsection{Step 5: Collinearity between Independent Variables}\label{step-5-collinearity-between-independent-variables}}
+\hypertarget{collinearity}{%
+\subsection{Step 5: Collinearity between Independent Variables}\label{collinearity}}
 
 \textcolor{gray}{by P. Krück}
 
-The old price has a rather high VIF which corresponds to high multicollinearity (see table \ldots{}). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table \ldots{}).
-
-TODO: use values from step 5 of eda protocol
+The old price has a rather high VIF which corresponds to high multicollinearity (see table \ref{tab:vif}). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table \ref{tab:vif}).
 
 \begin{table}
 
-\caption{\label{tab:initial-ikea2}Initial Data Set formatting.}
+\caption{\label{tab:vif}Variance Inflation Factors for Numerical Variables}
 \centering
-\begin{tabular}[t]{r}
+\begin{tabular}[t]{r|r|r}
 \hline
-x\\
+price\_eur & old\_price\_eur & size\_m3\\
 \hline
-1\\
-\hline
-3\\
-\hline
-4\\
+77.97 & 78.54 & 2.36\\
 \hline
 \end{tabular}
 \end{table}
@@ -397,16 +448,16 @@ x\\
 
 \textcolor{gray}{by P. Krück}
 
-Inspecting the relationship between the independent variables and price strong relationships between \texttt{old\_price\_eur} and \texttt{size\_m3} can be observed, while no relationship can be observed for the other variables (see \ref{fig:relationship-x-y}).
-\texttt{old\_price\_eur} has a linear relationship (see fig. \ref{fig:relationship-old-price}) whereas \texttt{size\_m3} fits a second order polynomial (see fig. \ref{fig:relationship-size-m3}) to price.
+Inspecting the relationship between the independent variables and price, a strong correlation between \texttt{old\_price\_eur} and \texttt{size\_m3} can be observed, while none can be detected for the other variables (see \ref{fig:relationship-x-y}).
+\texttt{old\_price\_eur} has a linear relationship (see fig. \ref{fig:relationship-old-price}) whereas \texttt{size\_m3} fits a second order polynomial to price (see fig. \ref{fig:relationship-size-m3}).
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-old-price-1} \caption{caption}\label{fig:relationship-old-price}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-old-price-1} \caption{Relationshihp of Price and Old Price}\label{fig:relationship-old-price}
 \end{figure}
 
-\begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-size-m3-1} \caption{caption}\label{fig:relationship-size-m3}
-\end{figure}
+\textbackslash{}begin\{figure\}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-size-m3-1} \textbackslash{}caption\{Relationship of Price size\_m3\}\label{fig:relationship-size-m3}
+\textbackslash{}end\{figure\}
 
 \hypertarget{step-7-interactions}{%
 \subsection{Step 7: Interactions}\label{step-7-interactions}}
@@ -415,25 +466,14 @@ Inspecting the relationship between the independent variables and price strong r
 
 The interactions between different variables is explored by the means of coplotting.
 Using this form plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables.
-In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, \texttt{old\_price\_eur} has such a strong relationship with price (see \ldots{}) that a more detailed breakdown by the categorical variables wouldn't reveal new information. This leaves the exploration of \texttt{size\_m3} and \texttt{price\_eur} broken down by designer, name and category resulting in (3 out of 2 = 3) combinations of coplots.
+In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, \texttt{old\_price\_eur} has such a strong relationship with \texttt{price} (see fig \ref{fig:relationship-old-price}). A more detailed breakdown by the categorical variables wouldn't reveal new information. This leaves the exploration of \texttt{size\_m3} and \texttt{price\_eur} subdivided by designer, name and category resulting in (\({3 \choose 2} = 3\)) combinations of coplots.
 
-\hypertarget{interaction-of-size-and-price-coplotted-by-designer-and-name}{%
-\subsubsection{Interaction of size and price coplotted by designer and name}\label{interaction-of-size-and-price-coplotted-by-designer-and-name}}
+\hypertarget{size-price-interaction}{%
+\subsubsection{Interaction of size and price coplotted by designer and name}\label{size-price-interaction}}
 
 \textcolor{gray}{by P. Krück}
 
-\begin{itemize}
-\item
-  The following interaction could be analyzed
-\item
-  \begin{itemize}
-  \tightlist
-  \item
-    There is probably no significant interaction between size, price, name \& designer as can be seen in coplot -\textgreater{} lines are nearly parallel
-  \end{itemize}
-\item
-  Based on the coplot of category and name with the 354 observations, inparallelity could be observed and thus could conclude a interaction. However, this could also be due to the small sample size
-\end{itemize}
+It is unlikely that there is an interaction between size and price split by name and designer as is indicated by the non-parallelism of the fitted lines in the coplot (see figure @\ref(fig:coplot-code))
 
 \hypertarget{problems-with-coplot-development}{%
 \subsubsection{Problems with Coplot Development}\label{problems-with-coplot-development}}
@@ -443,56 +483,51 @@ In the given data set there are three numerical and three categorical variables 
 This section describes a programming error the authors ran into regarding coplotting.
 
 Unfortunately, the authors of this papers weren't able to fully explore all combinations.
-Plotting designer and name works (results described in above section) while the other two options would not plot properly.
+Plotting designer and name works (see section \ref{size-price-interaction}) while the other two options would not plot properly.
 The authors could not fully debug the problem with these plots.
-The linear model predicted infinite values for some of the coplotted combinations for both combinations that wouldn't render correctly.
-Dropping all \texttt{NA} values left 354 observations and the coplot would correctly render for the combination of \texttt{name} and \texttt{category} while for \texttt{name} and \texttt{designer} it would not. The number of observations for \texttt{name} and \texttt{category} is rather low which lead the authors to discard it as an insignificant research finding.
+The linear model predicted infinite values for some of the coplotted combinations for both amalgamations that wouldn't render correctly.
+Dropping all \texttt{NA} values left 354 observations and the coplot would correctly render for the combination of \texttt{name} and \texttt{category} while for \texttt{name} and \texttt{designer} it would not. The number of observations for \texttt{name} and \texttt{category} is rather low considering the additional categorical subdivision which lead the authors to discard it as an insignificant research finding.
 Still there seemed to be infinite values outputted by the linear method. The authors hypothesized that those values were caused by a division by 0 of the internal algorithm mechanics. This however proved to be wrong after applying the respective filters.
-The code for the 3 plots can be viewed in Appendix section xxxxx.
-The inclined reader is encouraged to play with the code. Sending any hints or even a solution to fix the code and fully render the plots would be highly appreciated by the authors.
+The code for the 3 plots can be viewed in Appendix section \ref{fig:coplot-code}.
 
-\footnote{Any questions, hints or solutions may kindly be sent to philip.krueck@myhsba.de.}
+The inclined reader is encouraged to dabble with the code. Sending any hints or even a solution to fix the code and fully render the plots would be highly appreciated by the authors.\footnote{Any questions, hints or solutions may kindly be sent to philip.krueck@myhsba.de.}
 
 \hypertarget{step-8-independence-observations-of-response-variable-price}{%
 \subsection{Step 8: Independence Observations of Response Variable Price}\label{step-8-independence-observations-of-response-variable-price}}
 
 \textcolor{gray}{by P. Krück}
 
-The independence of observerations of the response variables assumes that ``{[}\ldots{}{]} information from any one observation should not provide information on another after the effects of other variables have been accounted for.''\footnote{{\textbf{???}}}
-The data cleaning step (see data cleaning) left the observed data set in a tidy format \^{}{[}"There are three interrelated rules which make a dataset tidy:
-
-Each variable must have its own column.
-Each observation must have its own row.
-Each value must have its own cell." @ref(\footnote{{\textbf{???}}}, p.149, ll. 4-7){]} which implies that the observations are independent of eachother.
+The independence of observerations of the response variables assumes that ``{[}\ldots{}{]} information from any one observation should not provide information on another after the effects of other variables have been accounted for.''\footnote{Ibid., 11, ll.23--26.}
+The data cleaning step left the observed data set in a tidy format which implies that the observations are independent of eachother.\footnote{``There are three interrelated rules which make a dataset tidy: Each variable must have its own column. Each observation must have its own row. Each value must have its own cell.'' (, Wickham, \emph{R for Data Science}, 149, ll.4--7.)}
 
 \hypertarget{rf}{%
 \section{Random Forest Regression Model}\label{rf}}
 
 \textcolor{gray}{by J. Pein}
 
-This analysis was conducted using the R randomForest package, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To learn more about how random forests work or the randomForest package, see Liaw and Wiener\footnote{``Classification and Regression by randomForest.''} or \#chapter2 \#TODO. To reproduce the analysis conducted in this paper, the prepatory steps are described here. The following steps are based on an already cleaned ikea data frame which is described in \ref{datacleaning}. This data frame is then transformed further to be used with the randomForest package.
+This analysis was conducted using the R \emph{randomForest} package, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To learn more about how random forests work see chapter \ref{chapter-2}, to learn more about the \emph{randomForest} package see Liaw and Wiener.\footnote{``Classification and Regression by randomForest.''} To reproduce the analysis conducted in this paper, the prepatory steps are described here. These steps are based on the cleaned ikea data set which is described in section \ref{datacleaning}. This data set is then transformed further allowing it to be used with the \emph{randomForest} package.
 
-First, the variable \texttt{old\_price\_eur} is removed from the data frame, due to a very high correlation and relationship to the price variable analyzed in \ref{collinearity} and \ref{relationship} Then, the designers and names, which are not part of the 50 \texttt{designers} and 49 \texttt{names} with the highest number of occurences, are grouped in the \texttt{other} value. This is because the \texttt{randomForest} method does not allow categorical variables with more than 53 predictors. The last step is dealing with the missing values in the data. As described in \ref{zeros}, there are missing values in the \texttt{size\_m3} and \texttt{designer} variables. To use the \texttt{randomForest} method of the randomForest package on the data, those missing values are dealt with using three different approaches. In the first approach the rows with missing values are deleted, reducing the total number of rows by aproximately 50\%. In the second approach the missing values are dummy coded with a value of -1000. The third approach uses the \texttt{na.roughfix\ =\ na.omit} argument, which is the built in way of the randomForest package to deal with missing values.
-After preparing the data, the \texttt{randomForest} method of the randomForest package is applied to the data with number of trees set to 2000 and importance set to \texttt{TRUE}.
+First, the variable \texttt{old\_price\_eur} is removed from the cleaned ikea data set, due to a very high correlation and relationship to the response variable \texttt{price\_eur} analyzed in section \ref{collinearity} and section \ref{relationship}. Then, the \texttt{designers} and \texttt{names}, which are not part of the 50 \texttt{designers} and 49 \texttt{names} with the highest number of occurences, are grouped in the \texttt{other} value. This is because the \texttt{randomForest} method does not allow categorical variables with more than 53 predictors. The last step deals with the missing values in the data. As described in section \ref{zeros}, there are many missing values in the \texttt{size\_m3} and \texttt{designer} variables. To apply the \texttt{randomForest} method of the \emph{randomForest} package on the data, those missing values are treated using three different approaches. In the first approach the rows with missing values are deleted, reducing the total number of rows by aproximately 50\%. In the second approach the missing values are dummy coded with a value of -1000. The third approach uses the \texttt{na.roughfix\ =\ na.omit} argument, which is the built-in way of the \emph{randomForest} package to deal with missing values.
+After preparing the data, the \texttt{randomForest} method of the \emph{randomForest} package is applied to the data with number of trees set to 2000 and importance set to \texttt{TRUE}, training the random forest model with the cleaned ikea data set.
 
-\texttt{randomForest(price\_eur\ \textasciitilde{}\ .,\ rf\_ikea,\ ntree=2000,\ keep.forest=FALSE,\ importance=TRUE)}
+\texttt{randomForest(price\_eur\ \textasciitilde{}\ .,\ rf\_ikea,\ ntree=2000,\ importance=TRUE)}
 
-Then the \texttt{importance} method of the randomForest package is used to save the feature importances, which are computed by permuting feature importance, which is described in \#chapter2 \#TODO. The three different approaches of dealing with the missing values in the data set lead to different results, so the authors chose to calculate the mean result of the three approaches. The result of this analysis is presented in the following chapter.
+Then the \texttt{importance} method of the \emph{randomForest} package is used to calculate the feature importances, which are computed by permuting feature importance, which was introduced in section \ref{feature-importance}. The three different approaches of dealing with the missing values in the data set lead to different results, so the authors chose to calculate the mean result of the three approaches. The result of this analysis is presented in the following chapter.
 
 \hypertarget{results}{%
 \chapter{Results}\label{results}}
 
 \hfill\textcolor{gray}{by J. Pein}
 
-TODO: set n\_trees to 2000 before handing in
-TODO: The results sectionshould comprise all necessary calculations, including checking of assumptions (if applicable), which are thendiscussedinconnection with the research questionin the following section.
+\hypertarget{todo-set-n_trees-to-2000-before-handing-in}{%
+\section{TODO: set n\_trees to 2000 before handing in}\label{todo-set-n_trees-to-2000-before-handing-in}}
 
-In this chapter, the results of the analysis of the feature importance of different predictor variables (features) on the response variable price of Ikea products are presented.
+In this chapter, the result of the analysis of the feature importance of different features on the response variable price of Ikea products are presented.
 
-As described in \ref{rf}, the feature importance was calculated using permuting feature importance of the randomForest R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model with the response variable \texttt{price\_eur}. When the percentage increase of the MSE is higher, the feature is more important, accordingly, when the percentage increase of the MSE is lower, the feature is less important.
+As described in section \ref{rf}, the feature importance was calculated using permuting feature importance of the \emph{randomForest} R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model in regard to the response variable \texttt{price\_eur}. When the percentage increase of the MSE is higher, the feature is more important. Accordingly, when the percentage increase of the MSE is lower, the feature is less important.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/mean-feature-importance-1} \caption{Mean Feature Importance}\label{fig:mean-feature-importance}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/mean-feature-importance-1} \caption{A plot showing the mean feature importance of the predictor variables on the response variable}\label{fig:mean-feature-importance}
 \end{figure}
 
 Thus, as can be seen in figure \ref{fig:mean-feature-importance}, the most important feature is \texttt{size\_m3} with an increase of the MSE of 182\%. The second, third and fourth most important features are \texttt{designer} with an increase of 120\%, \texttt{name} with an increase of 114\% and \texttt{category} with an increase of 105\%. The fifth most important feature is \texttt{other\_colors} with an increase of the MSE of 78\% and the least important feature is \texttt{sellable\_online} with a 9\% increase.
@@ -511,11 +546,12 @@ In this chapter, the results are discussed in connection with the research quest
 \hypertarget{feature-importance-1}{%
 \section{Feature Importance}\label{feature-importance-1}}
 
-The \texttt{size\_m3} variable is the most important feature. Probably the main reason for this is that the size of a product is closely linked to its material cost. Big items are generally more costly to produce, thus leading to a higher selling price and vice versa. Due to the high correlation to the price variable described in \ref{collinearity} and \ref{relationship}, it is worth discussing where or not to include this variable in a possible predictive analysis model.
+The \texttt{size\_m3} variable is the most important feature. Probably the main reason for this is the size of a product being closely linked to its material cost. Big items are generally more costly to produce, thus leading to a higher selling price and vice versa. Due to the high correlation to the price variable described in section \ref{collinearity} and section \ref{relationship}, it is worth discussing whether or not to include this variable in a possible predictive analysis model in future research.
 
-The \texttt{designer} variable is the second most important feature. It might seem, that this is due to \emph{overfitting}, since the random forest regression model takes into account around 50 different combinations of designers, partly with a low number of occurences. But according to Breiman\footnote{``Random Forests.''} random forest models are robust against overfitting. Further research should be conducted to analyze whether overfitting is present or not.
-When looking at the price distribution per designer, in can be clearly seen that the interquartile range (IQR) of price varies for each designer. In addition, the IQR often is smaller than 300€, thus showing a tendency towards a certain price range, which might be the reason for the relatively high feature importance of the designer variable. The plot @ref(price\_distribution\_designer) is available in the appendix.
-The random forest regression model includes around 50 different product names with partly small numbers of occurences. Thus, the relatively high feature importance of the \texttt{name} variable might also be caused by overfitting. As discussed above, further research should be conducted to analyze whether this is the case.
+The \texttt{designer} variable is the second most important feature. It might seem, that this is due to \emph{overfitting}, since the random forest regression model takes into account around 50 different combinations of designers, partly with a low number of occurences. But according to Breiman\footnote{``Random Forests.''} and Liaw and Wiener\footnote{``Classification and Regression by randomForest.''} random forest models are robust against overfitting. Further research should be conducted to analyze whether overfitting is present or not.
+When looking at the price distribution per designer, in can be clearly seen that the interquartile range (IQR) of price varies for each designer. In addition, the IQR often is smaller than 300€, thus showing a tendency towards a certain price range, which might be the reason for the relatively high feature importance of the designer variable. For the plot, see figure \ref{fig:price-dist-per-designer}.
+
+The data set, which the random forest was trained on, includes around 50 different product names with partly small numbers of occurences. Thus, the relatively high feature importance of the \texttt{name} variable might also be caused by overfitting. As discussed above, further research should be conducted to analyze whether this is the case.
 
 \texttt{Category} is another feature with a relatively high importance. This is because the different category's price distributions show a clear tendency towards certain price segments (see figure \ref{fig:price-dist-per-category}), i.e.~Wardrobes and beds are generally more expensive than chairs.
 To the authors it seems counterintuitive that \texttt{designer} and \texttt{name} have higher feature importances than the \texttt{category} feature, because the IQR in the price distribution per category is often a lot smaller than the IQR of the designer and name price distributions. This also hints towards overfitting of the name and designer variables. However, in the categories with the most occurrences, namely \texttt{Wardrobes}, \texttt{Sofas\ \&\ armchairs} and \texttt{Beds}, the IQR is relatively large and there are many overlapping prices ranges for different categories, which explains a lower feature importance.
@@ -527,20 +563,11 @@ The very low feature importance of the \texttt{sellable\_online} variable is pro
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
-Generally, the proposed random forest model was not validated with a test or validation data set. In further research, the results presented on the feature importance of different variables on the price variable should be validated by other techniques than used in this analysis to get unbiased results.
+The authors were surprised of the high feature importances of the variables \texttt{designer} and \texttt{name} computed by the random forest model. The thesis of this being due to overfitting is objected by scientific research.\footnote{Breiman, ``Random Forests.''}\footnote{Liaw and Wiener, ``Classification and Regression by randomForest.''}. If the high feature importance of the variables truly is not due to overfitting, this example backs up Grömping\footnote{``Variable Importance Assessment in Regression: Linear Regression versus Random Forest.''} thesis that random forests are able to discover deeper patterns in the data. These patterns are beyond the boxplot discussion applied here, showing the power of random forests models.
 
-Also, the data was scraped from the arabian Ikea website online , thus this analysis mainly focusses on Ikea products in the Saudi Arabian market. To analyze the geographically independent feature importances, more data should be scraped from more international Ikea websites. The research question of this paper, \emph{How important are the different features of Ikea products in regard to their price?}, could thus not be answered for the global Ikea product market, but for the Saudi Arabian market only.
+Also, the data was scraped from the arabian Ikea website online, thus this analysis mainly focusses on Ikea products in the Saudi Arabian market. To analyze the geographically independent feature importances, more data should be scraped from other international Ikea websites. The research question of this paper, \emph{How important are the different features of Ikea products in regard to their price?}, could thus not be answered for the global Ikea product market, but for the Saudi Arabian market only. ALso, in further research, the results presented on the feature importance of the predictor variables on the response variable price should be validated by other techniques than the random forest method used in this analysis to get unbiased results.
 
-Furthermore, based on this analysis a predictive model could be developed which predicts the price of Ikea products in the Saudi Arabian Market based on the feature analyzed. This could be used by Ikea internally to analyze if the price of their new product aligns with the prices of the currently available product.
-
-\hypertarget{individual-statements}{%
-\chapter{Individual Statements}\label{individual-statements}}
-
-\hypertarget{philip-kruxfcck}{%
-\section{Philip Krück}\label{philip-kruxfcck}}
-
-\hypertarget{johannes-pein}{%
-\section{Johannes Pein}\label{johannes-pein}}
+Furthermore, based on this analysis a predictive model could be developed which predicts the price of Ikea products in the Saudi Arabian Market based on the features analyzed. This could be used by Ikea internally to analyze if the price of their new product aligns with the prices of the currently available product or by market researchers.
 
 \startappendices
 
@@ -567,8 +594,27 @@ Furthermore, based on this analysis a predictive model could be developed which 
 \includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-x-y-1} \caption{Relationship between Independent Variables and Price}\label{fig:relationship-x-y}
 \end{figure}
 
-\hypertarget{bibliography}{%
-\chapter{Bibliography}\label{bibliography}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{coplot}\NormalTok{(size_m3 }\OperatorTok{~}\StringTok{ }\NormalTok{price_eur }\OperatorTok{|}\StringTok{ }\KeywordTok{fct_lump_n}\NormalTok{(designer, }\DecValTok{5}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{fct_lump_n}\NormalTok{(name, }\DecValTok{5}\NormalTok{), }\DataTypeTok{data =}\NormalTok{ tidy_ikea, }\DataTypeTok{ylab =} \StringTok{"Size in m^3"}\NormalTok{,}
+       \DataTypeTok{xlab =} \StringTok{"Price in €"}\NormalTok{, }\DataTypeTok{panel =} \ControlFlowTok{function}\NormalTok{(x, y, ...) \{}
+\NormalTok{         tmp <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(y }\OperatorTok{~}\StringTok{ }\NormalTok{x, }\DataTypeTok{na.action =}\NormalTok{ na.omit)}
+         \KeywordTok{abline}\NormalTok{(tmp)}
+         \KeywordTok{points}\NormalTok{(x, y )\})}
+
+\KeywordTok{coplot}\NormalTok{(size_m3 }\OperatorTok{~}\StringTok{ }\NormalTok{price_eur }\OperatorTok{|}\StringTok{ }\KeywordTok{fct_lump_n}\NormalTok{(category, }\DecValTok{5}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{fct_lump_n}\NormalTok{(name, }\DecValTok{5}\NormalTok{), }\DataTypeTok{data =} \KeywordTok{drop_na}\NormalTok{(tidy_ikea), }\DataTypeTok{ylab =} \StringTok{"Size in m^3"}\NormalTok{,}
+       \DataTypeTok{xlab =} \StringTok{"Price in €"}\NormalTok{, }\DataTypeTok{panel =} \ControlFlowTok{function}\NormalTok{(x, y, ...) \{}
+\NormalTok{         tmp <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(y }\OperatorTok{~}\StringTok{ }\NormalTok{x, }\DataTypeTok{na.action =}\NormalTok{ na.omit)}
+         \KeywordTok{abline}\NormalTok{(tmp)}
+         \KeywordTok{points}\NormalTok{(x, y )\})}
+
+\KeywordTok{coplot}\NormalTok{(size_m3 }\OperatorTok{~}\StringTok{ }\NormalTok{price_eur }\OperatorTok{|}\StringTok{ }\KeywordTok{fct_lump_n}\NormalTok{(designer, }\DecValTok{5}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{fct_lump_n}\NormalTok{(category, }\DecValTok{5}\NormalTok{), }\DataTypeTok{data =} \KeywordTok{drop_na}\NormalTok{(tidy_ikea), }\DataTypeTok{ylab =} \StringTok{"Size in m^3"}\NormalTok{,}
+       \DataTypeTok{xlab =} \StringTok{"Price in €"}\NormalTok{, }\DataTypeTok{panel =} \ControlFlowTok{function}\NormalTok{(x, y, ...) \{}
+\NormalTok{         tmp <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(y }\OperatorTok{~}\StringTok{ }\NormalTok{x, }\DataTypeTok{na.action =}\NormalTok{ na.omit)}
+         \KeywordTok{abline}\NormalTok{(tmp)}
+         \KeywordTok{points}\NormalTok{(x, y )\})}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{refs}{}
 \leavevmode\hypertarget{ref-Breiman2001}{}%
@@ -580,8 +626,11 @@ Grömping, Ulrike. ``Variable Importance Assessment in Regression: Linear Regres
 \leavevmode\hypertarget{ref-Liaw2002}{}%
 Liaw, Andy, and Matthew Wiener. ``Classification and Regression by randomForest.'' \emph{R News}, nos. Vol. 2/3, December 2002 (2001). \url{https://www.researchgate.net/publication/228451484_Classification_and_Regression_by_RandomForest}.
 
+\leavevmode\hypertarget{ref-Hadley2017}{}%
+Wickham. \emph{R for Data Science}. O'Reilly Media, 2017.
+
 \leavevmode\hypertarget{ref-Zuur2010}{}%
-Zuur, E.N. Ieno lain. ``A protocol for data exploration to avoid common statistical problems.'' \emph{British Ecological Society}, 2010. doi:\href{https://doi.org/10.1145/1738826.1738829}{10.1145/1738826.1738829}.
+Zuur. ``A protocol for data exploration to avoid common statistical problems.'' \emph{British Ecological Society}, 2010. doi:\href{https://doi.org/10.1145/1738826.1738829}{10.1145/1738826.1738829}.
 
 
 %%%%% REFERENCES
