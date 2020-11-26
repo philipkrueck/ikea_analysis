@@ -25,11 +25,11 @@ tidy_ikea %>%
 
 
 ## Boxplots for all factor variables against the DV (hwy):
-p1 <- ggplot(tidy_ikea, aes(x = fct_lump(name, 10), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("")
-p2 <- ggplot(tidy_ikea, aes(x = category, y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("")
-p3 <- ggplot(tidy_ikea, aes(x = sellable_online,y = price_eur))+ geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("")
-p4 <- ggplot(tidy_ikea, aes(x = other_colors, y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("")
-p5 <- ggplot(tidy_ikea, aes(x = fct_lump(designer, 10), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("")
+p1 <- ggplot(tidy_ikea, aes(x = fct_lump(name, 8), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("name")
+p2 <- ggplot(tidy_ikea, aes(x = fct_lump(category, 8), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("category")
+p3 <- ggplot(tidy_ikea, aes(x = sellable_online,y = price_eur))+ geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("sellable online")
+p4 <- ggplot(tidy_ikea, aes(x = other_colors, y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("other colors")
+p5 <- ggplot(tidy_ikea, aes(x = fct_lump(designer, 8), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("designer")
 ## Plot all ggplot objects together (gridExtra):
 grid.arrange(p1, p2, p3, p4, p5, nrow = 3)
 
