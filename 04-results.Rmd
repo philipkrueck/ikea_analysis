@@ -92,7 +92,7 @@ In this chapter, the result of the analysis of the feature importance of differe
 
 As described in section \@ref(rf), the feature importance was calculated using permuting feature importance of the _randomForest_ R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model in regard to the response variable `price_eur`. A larger percentage increase of the MSE implies greater feature importance. Conversely, a lower percentage increase of the MSE translates to less significant feature importance.
 
-```{r mean-feature-importance, echo=FALSE, out.width="100%", fig.cap="A plot showing the mean feature importance of the predictor variables on the response variable"}
+```{r mean-feature-importance, echo=FALSE, out.width="100%", fig.cap="A Plot Showing the Mean Feature Importance of the Predictor Variables on the Response Variable"}
 ggplot(mean_imp, aes(y=reorder(varnames, PercentIncMSE), x=PercentIncMSE)) + 
   geom_point() +
   scale_color_manual(values = mycolors) +
