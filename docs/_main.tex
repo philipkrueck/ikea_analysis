@@ -595,8 +595,11 @@ Furthermore, based on this analysis a predictive model could be developed which 
 \includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-x-y-1} \caption{Relationship between Independent Variables and Price}\label{fig:relationship-x-y}
 \end{figure}
 
+\hypertarget{coplots}{%
+\chapter{Coplots}\label{coplots}}
+
 \begin{figure}[!h]
-\includegraphics[width=1\linewidth,height=0.8\textheight]{_main_files/figure-latex/coplot-code-designer-name-1} \caption{Coplot of Size and Price Split by Designer and Name}\label{fig:coplot-code-designer-name}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/coplot-code-designer-name-1} \caption{Coplot of Size and Price Split by Designer and Name}\label{fig:coplot-code-designer-name}
 \end{figure}
 
 \begin{verbatim}
@@ -620,7 +623,7 @@ Furthermore, based on this analysis a predictive model could be developed which 
 \KeywordTok{coplot}\NormalTok{(size_m3 }\OperatorTok{~}\StringTok{ }\NormalTok{price_eur }\OperatorTok{|}\StringTok{ }\KeywordTok{fct_lump_n}\NormalTok{(designer, }\DecValTok{5}\NormalTok{) }\OperatorTok{+}\StringTok{ }
 \StringTok{         }\KeywordTok{fct_lump_n}\NormalTok{(category, }\DecValTok{5}\NormalTok{), }\DataTypeTok{data =} \KeywordTok{drop_na}\NormalTok{(tidy_ikea), }
        \DataTypeTok{ylab =} \StringTok{"Size in m^3"}\NormalTok{,}
-       \DataTypeTok{xlab =} \StringTok{"Price in €"}\NormalTok{, }\DataTypeTok{panel =} \ControlFlowTok{function}\NormalTok{(x, y, ...) \{}
+       \DataTypeTok{xlab =} \StringTok{"Price in Euro"}\NormalTok{, }\DataTypeTok{panel =} \ControlFlowTok{function}\NormalTok{(x, y, ...) \{}
 \NormalTok{         tmp <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(y }\OperatorTok{~}\StringTok{ }\NormalTok{x, }\DataTypeTok{na.action =}\NormalTok{ na.omit)}
          \KeywordTok{abline}\NormalTok{(tmp)}
          \KeywordTok{points}\NormalTok{(x, y )\})}
