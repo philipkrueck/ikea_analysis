@@ -11,33 +11,34 @@ bibliography: references.bib
 # Methods {#methods}
 
 
-## Data Cleaning and Transformatoin {#datacleaning}
+## Data Cleaning and Transformation {#datacleaning}
 \textcolor{gray}{by P. Krück}
 
 To examine the given data set properly, the authors first had to restructure and reformat it. This initial data cleaning step included type conversion, value mutation, addition of newly calculated fields and the removal of irrelevant columns.
 
-Concretely, ```name```, ```category``` and ```designer``` were converted from character to categorical variables. In the ```designer``` column, blank strings, strings containing digits and strings prefixed by “IKEA of Sweden” were converted to missing values (```NA```). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author (See section \@ref(theoretical-background)).
+Concretely, ```name```, ```category``` and ```designer``` were converted to categorical variables. In the ```designer``` column, blank strings and values prefixed by “IKEA of Sweden” were converted to missing values (```NA```). Furthermore, both the price and old price were converted to double values and the currency was changed from Saudi Arabian Riyals to Euros based on the exchange rate from the time the data set was obtained by the author (See section \@ref(theoretical-background)).
 
-The data set had a peculiarity where some rows were exact duplicates except for values in the ```category``` vector. The authors considered multiple approaches to handle these data duplications without losing information about the category of an item. 
+Interestingly, the data set had a peculiarity where some rows were exact duplicates except for values in the ```category``` vector. The authors considered multiple approaches to handle these data duplications without losing information about the category of an item. 
 
 One considered option was to merge the two category values into one column value via comma separation (e.g. ```"a"``` and ```"b"``` converts to ```"a, b"```). However, this approach leads to the creation of many combinatorial categories with a low count of items per category.
-Additionally, it reduces the item count per category where the category is not comma separated.
-Overall this would lead to having more small categories which increases the difficulty in applying a regression model due to overfitting (For more information on overfitting, see section \@ref(overfitting)).
+Additionally, it reduces the item count per category where the category isn't comma separated.
+Overall this would lead to having many small categories which increases the difficulty in applying a regression model due to overfitting (See section \@ref(overfitting)).
 
 The second option was to create separate columns for the different values of ```category```. The data set would then have observations with category one, two and three. While no information is lost utilizing this approach, most observations in the second and third category column would contain missing values, thus increasing the difficulty of analysis using a predefined model (See section \@ref(rf)).
 
 The authors chose the option of selecting the observations where the category count occurred most frequently when considering duplicates. The most important categories could be retained without including more column vectors into the data set as in option two.
 
-To better facilitate the comparison of the different sizes of furniture items, the size in cubic meters was computed based on the depth, width and height values, and added as a column vector for further analysis. Options with only two of the measures filled were set to `NA`.
+To better facilitate the comparison of the different sizes of furniture items, the size in cubic meters was computed based on the depth, width and height values, and added as a column vector for further analysis. 
 
 Finally, the authors only selected columns that could have a potential impact on outcome of the analysis (See section \@ref(research-question)) for further investigation. A detailed comparison of the initial vs. transformed data structure can be seen in tables \@ref(tab:initial-ikea) and \@ref(tab:tidy-ikea).
 
 ```{r initial-ikea, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE,}
 library('kableExtra')
+library(tidyverse)
 library(modelr) 
 library(broom) 
 library(GGally) 
-library(gridExtra)
+library(gridExtra) 
 
 output_table <- data.frame(lapply(tail(ikea), as.character), stringsAsFactors = FALSE) %>%
   select(name, category, price, old_price, sellable_online, other_colors, designer) %>%
@@ -60,7 +61,7 @@ knitr::kable(output_table_two, caption = "Transformed Data Set formatting.") %>%
 ## Exploratory Data Analysis {#tbd}
 \textcolor{gray}{by P. Krück}
 
-The following sections explore the given data set based on the eight step data exploration protocol proposed by @Zuur2010. 
+The following sections explore our data based on the eight step data exploration protocol proposed by Zuur et al [@Zuur2010]. 
 
 
 ### Step 1: Outliers in Price and Independent Variables {#outliers}
@@ -71,7 +72,7 @@ Web scraping code is written in a generic form which makes it generalizable to a
 To verify this hypothesis, the authors randomly tested outlier observations and manually checked them against the ikea website information. With a high level of statistical confidence, the authors proceeded with further analysis without removing outliers as observation errors.
 
 
-```{r, outliers, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Boxplots showing the Price in € based on Independent Variables", out.width="100%"}
+```{r, outliers, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Boxplots for Price in € based on Independent Variables", out.width="100%"}
 ## Boxplots for all factor variables against the DV (hwy):
 p1 <- ggplot(tidy_ikea, aes(x = fct_lump(name, 8), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("name")
 p2 <- ggplot(tidy_ikea, aes(x = fct_lump(category, 8), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("category")
@@ -86,12 +87,12 @@ grid.arrange(p1, p2, p3, p4, p5, nrow = 3)
 \textcolor{gray}{by P. Krück}
 
 The homogeneity (homoscedasticity) of variance for price is explored by the means of conditional boxplotting. 
-Within each name, and within each category the variance is heterogenous (see fig. \@ref(fig:homogeneity)). However, looking at both name and category in conjunction, it is possible to explore homogeneous patterns of variance for price.
+Within each name, and within each category the variance is heterogenous (see fig. \@ref(fig:homogeneity)). However, looking at both name and category in conjunction, it is possible to explore homoscedasticity of variance for price.
 
-Due to the limited scope and length of this paper, the authors were not able to explore all variable combinations for the five categorical variables ($2^5=32$).
+Due to the limited scope and length of this paper, the authors were not able to inspect all variable combinations for the three categorical plus two logical variables ($2^5=32$).
 
 
-```{r, homogeneity, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="A Plot showing the Homogeneity of category for selected combinations of name and category", out.width="100%"}
+```{r, homogeneity, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Homogeneity of category for selected combinations of name and category", out.width="100%"}
 tidy_ikea %>%
   filter(name == "HEMNES" | name == "LIDHULT" | name == "VIMLE" | name == "VALLENTUNA" | name == "GRÖNLID") %>%
   filter(category == "Beds" | category == "Chairs" | category == "Sofas & armchairs") %>%
@@ -109,10 +110,10 @@ tidy_ikea %>%
 ### Step 3: Normality 
 \textcolor{gray}{by P. Krück}
 
-All numerical variables (```price```, ```old_price``` and ```size_m3```) are not arranged along a normal distribution (see fig. \@ref(fig:normality)), but rather follow an exponential decay function ($e^{-x}$).
+All numerical variables (```price```, ```old_price``` and ```size_m3```) aren't arranged along a normal distribution (see fig. \@ref(fig:normality)), but rather follow an exponential decay ($e^{-x}$).
 
 
-```{r, normality, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="A Histogram Showing Numerical Variables with a Bin Width of 100 Euro", out.width="100%"}
+```{r, normality, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Histogram of Numerical Variables with a Bin Width of 100 Euro", out.width="100%"}
 tidy_ikea %>%
   select(where(is.numeric)) %>%
   pivot_longer(everything(), names_to = "variable", values_to = "num") %>% group_by(variable) %>%
@@ -129,9 +130,11 @@ tidy_ikea %>%
 \textcolor{gray}{by P. Krück}
 
 All variables were examined for missing values. Only ```designer```, ```size_m3``` and ```old_price_eur``` have missing values with percentages of 3.44%, 45.9% and 81% respectively (see fig. \@ref(fig:missing-values)). 
-The abscence of many of the old price values is due to the fact that most items were not on sale and thus do not have an old price.
+The missing values for designer were deliberately set to ```NA``` by the authors in the case where the values contained digits, which is clearly a scraping error. 
+The ```NA``` values for the size can be explained due to the computation of this column vector. ```size_m3``` is the product of ```depth```, ```width``` and ```height```. If one of those three values is missing, the end result is also a missing value. 
+In contrast, the abscence of the old price variables is due to the fact that most items aren't on sale and thus don't have a missing value.
 
-```{r, missing-values, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="A Plot Showing the Percentage of Missing Values", out.width="100%"}
+```{r, missing-values, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Percentage of missing values", out.width="100%"}
 missing_values <- tidy_ikea %>%
   gather(key = "key", value = "val") %>%
   mutate(isna = is.na(val)) %>%
@@ -161,7 +164,7 @@ missing_values %>%
 ### Step 5: Collinearity between Independent Variables {#collinearity}
 \textcolor{gray}{by P. Krück}
 
-The old price has a rather high variance inflation factor (VIF) which corresponds to high multicollinearity (see table \@ref(tab:vif)). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table \@ref(tab:vif)).
+The old price has a rather high VIF which corresponds to high multicollinearity (see table \@ref(tab:vif)). Contrarily, size has a low VIF which translates to low multicollinearity among the other independent variables (see table \@ref(tab:vif)).
 
 ```{r vif, echo=FALSE}
 library('kableExtra')
@@ -184,7 +187,7 @@ Inspecting the relationship between the independent variables and price, a stron
 ```old_price_eur``` has a linear relationship (see fig. \@ref(fig:relationship-old-price)) whereas ```size_m3``` fits a second order polynomial to price (see fig. \@ref(fig:relationship-size-m3)).
 
 
-```{r relationship-old-price, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="A Plot Showing the Relationshihp of Price and Old Price", out.width="100%"}
+```{r relationship-old-price, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Relationshihp of Price and Old Price", out.width="100%"}
 tidy_ikea %>%
   filter(!is.na(old_price_eur)) %>%
   ggplot(aes(x = old_price_eur, y = price_eur)) +
@@ -194,7 +197,7 @@ tidy_ikea %>%
     labs(x = "old price in Euro", y = "price in Euro")
 ```
 
-```{r relationship-size-m3, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="A plot Showing the Relationship of Price size_m3", out.width="100%"}
+```{r relationship-size-m3, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Relationship of Price Size in Cubic Meters", out.width="100%"}
 tidy_ikea %>%
   filter(!is.na(size_m3)) %>%
   ggplot(aes(x = size_m3, y = price_eur, colour = "red")) +
@@ -208,14 +211,14 @@ tidy_ikea %>%
 ### Step 7: Interactions
 \textcolor{gray}{by P. Krück}
 
-The interactions between different variables is explored by the means of coplotting.
+The interactions between different variables is explored by the use of conditioning plots (coplots).
 Using this form plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables. 
-In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, ```old_price_eur``` has a very strong relationship with ```price``` (see fig \@ref(fig:relationship-old-price)). A more detailed breakdown by the categorical variables would not reveal new information. This leaves the exploration of ```size_m3``` and ```price_eur``` subdivided by designer, name and category resulting in (${3 \choose 2} = 3$) combinations of coplots.
+In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, ```old_price_eur``` has such a strong relationship with ```price``` (see fig \@ref(fig:relationship-old-price)). A more detailed breakdown by the categorical variables wouldn't reveal new information. This leaves the exploration of ```size_m3``` and ```price_eur``` subdivided by designer, name and category resulting in (${3 \choose 2} = 3$) combinations of coplots.
 
 #### Interaction of size and price coplotted by designer and name {#size-price-interaction}
 \textcolor{gray}{by P. Krück}
 
-It is unlikely that there is an interaction between size and price split by name and designer as is indicated by the non-parallelism of the fitted lines in the coplot @\ref(fig:coplot-code).
+It is unlikely that there is an interaction between size and price split by name and designer as is indicated by the non-parallelism of the fitted lines in the coplot (see figure \@ref(asdf))
 
 
 #### Problems with Coplot Development
@@ -223,13 +226,13 @@ It is unlikely that there is an interaction between size and price split by name
 
 This section describes a programming error the authors ran into regarding coplotting.
 
-Unfortunately, the authors of this papers were not able to fully explore all combinations.
+Unfortunately, the authors of this papers weren't able to fully explore all combinations.
 Plotting designer and name works (see section \@ref(size-price-interaction)) while the other two options would not plot properly. 
 The authors could not fully debug the problem with these plots.
-According to the error message, the linear model predicted infinite values for some of the coplotted combinations for both amalgamations that would not render correctly. 
+The linear model predicted infinite values for some of the coplotted combinations for both amalgamations that wouldn't render correctly. 
 Dropping all ```NA``` values left 354 observations and the coplot would correctly render for the combination of ```name``` and ```category``` while for ```name``` and ```designer``` it would not. The number of observations for ```name``` and ```category``` is rather low considering the additional categorical subdivision which lead the authors to discard it as an insignificant research finding.
-Still there seemed to be infinite values computed by the linear method. The authors hypothesized that those values were caused by a division by 0 of the internal algorithm mechanics. This however proved to be wrong after applying the respective filters.
-The code for the 3 plots can be viewed in Appendix section \@ref(fig:coplot-code).
+Still there seemed to be infinite values outputted by the linear method. The authors hypothesized that those values were caused by a division by 0 of the internal algorithm mechanics. This however proved to be wrong after applying the respective filters.
+The code for the 3 plots can be viewed in Appendix section \@ref(coplot-category-name) and \@ref(coplot-designer-category).
 
 The inclined reader is encouraged to dabble with the code. Sending any hints or even a solution to fix the code and fully render the plots would be highly appreciated by the authors.
 ^[Any questions, hints or solutions may kindly be sent to philip.krueck\@myhsba.de.]
@@ -250,7 +253,7 @@ The data cleaning step left the observed data set in a tidy format which implies
 
 This analysis was conducted using the R _randomForest_ package, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To learn more about how random forests work see chapter \@ref(chapter-2), to learn more about the _randomForest_ package see @Liaw2002. To reproduce the analysis conducted in this paper, the prepatory steps are described here. These steps are based on the cleaned ikea data set which is described in section \@ref(datacleaning). This data set is then transformed further allowing it to be used with the _randomForest_ package.
 
-First, the variable `old_price_eur` is removed from the cleaned ikea data set, due to a very high correlation and relationship to the response variable `price_eur` analyzed in section \@ref(collinearity) and section \@ref(relationship). Then, the `designers` and `names`, which are not part of the 50 `designers` and 49 `names` with the highest number of occurences, are grouped in the `other` value. This is because the `randomForest` method does not allow categorical variables with more than 53 predictors. The last step deals with the missing values in the data. As described in section \@ref(zeros), there are many missing values in the `size_m3` and `designer` variables. To apply the `randomForest` method of the _randomForest_ package on the data, those missing values are treated using three different approaches. In the first approach the rows with missing values are deleted, reducing the total number of rows by aproximately 50%. In the second approach the missing values are dummy coded with a value of -1000. The third approach uses the `na.roughfix = na.omit` argument, which is the built-in way of the _randomForest_ package to deal with missing values.
+First, the variable `old_price_eur` is removed from the cleaned ikea data set, due to a very high correlation and relationship to the response variable `price_eur` analyzed in section \@ref(collinearity) and section \@ref(relationship). Then, the `designers` and `names`, which are not part of the 50 `designers` and 49 `names` with the highest number of occurences, are grouped in the `other` value. This is because the `randomForest` method does not allow categorical variables with more than 53 predictors. The last step deals with the missing values in the data. As described in section \@ref(missing-values), there are many missing values in the `size_m3` and `designer` variables. To apply the `randomForest` method of the _randomForest_ package on the data, those missing values are treated using three different approaches. In the first approach the rows with missing values are deleted, reducing the total number of rows by aproximately 50%. In the second approach the missing values are dummy coded with a value of -1000. The third approach uses the `na.roughfix = na.omit` argument, which is the built-in way of the _randomForest_ package to deal with missing values.
 After preparing the data, the `randomForest` method of the _randomForest_ package is applied to the data with number of trees set to 2000 and importance set to `TRUE`, training the random forest model with the cleaned ikea data set.
 
 `randomForest(price_eur ~ ., rf_ikea, ntree=2000, importance=TRUE)`

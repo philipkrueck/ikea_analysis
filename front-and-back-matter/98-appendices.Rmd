@@ -7,24 +7,26 @@
 
 # Appendix
 
-```{r price-dist-per-designer,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="A Plot Showing the Price Distribution per Designer", out.width="100%"}
+```{r price-dist-per-designer, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="A Plot Showing the Price Distribution per Designer", out.width="100%"}
 tidy_ikea %>%
   ggplot(mapping = aes(x = fct_reorder(fct_lump(tidy_ikea$designer, 25), price_eur), y = price_eur, colour = fct_lump(tidy_ikea$designer, 25))) +
     geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
     theme_minimal() +
-    labs(x = "", y = "price in €", fill = "", title = "Price Distribution per Designer") +
+    labs(x = "", y = "price in €", fill = "") +
     coord_flip()
 ```
 
-```{r price-dist-per-category,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="A Plot Showing the Price Distribution per Category", out.width="100%"}
+
+```{r price-dist-per-category, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="A Plot Showing the Price Distribution per Category", out.width="100%"}
 tidy_ikea %>%
   ggplot(aes(x = reorder(fct_lump(tidy_ikea$category, 15), price_eur), y = price_eur, colour = fct_lump(tidy_ikea$category, 15))) +
     geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
     scale_color_manual(values = mycolors) +
     theme_minimal() +
-    labs(x = "", y = "price in €", fill = "", title = "Price Distribution per Category") +
+    labs(x = "", y = "price in €", fill = "") +
     coord_flip()
 ```
+
 
 ```{r price-dist-other-colors,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="A Plot Showing the Price Distribution Other Colors", out.width="100%"}
 knitr::opts_chunk$set(fig.pos = '!h')
@@ -34,9 +36,8 @@ tidy_ikea %>%
   geom_boxplot(width = 0.4, outlier.size = 0.5, outlier.alpha = 0.3,  show.legend = FALSE) +
   scale_color_manual(values = mycolors) +
   theme_minimal() +
-  labs(x = "price in €", y = "other_colors", fill = "", title = "Price Distribution Other Colors")
+  labs(x = "price in €", y = "other_colors", fill = "")
 ```
-
 
 ```{r price-dist-sellable-online,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="A Plot Showing the Price Distribution Sellable Online", out.width="100%"}
 tidy_ikea %>%
@@ -47,7 +48,7 @@ tidy_ikea %>%
     labs(x = "price in €", y = "sellable_online", fill = "", title = "Price Distribution Sellable Online")
 ```
 
-```{r relationship-x-y, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="A Plot Showing the Relationship between Independent Variables and Price", out.width="100%"}
+```{r relationship-x-y, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="Relationship between Independent Variables and Price", out.width="100%"}
 tidy_ikea %>%
   mutate(across(where(is.character), as.factor)) %>% mutate(across(where(is.factor), as.numeric)) %>%
   # select() %>% # De-select variables here if necessary
@@ -61,20 +62,34 @@ tidy_ikea %>%
   facet_wrap(~ variable, scales = "free_x") + ylab("Price in €") + xlab("")
 ```
 
-```{r coplot-code, warning = FALSE, message = FALSE, eval = FALSE, fig.cap="Code for Coplotting Combinations", out.width="100%"}
-coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + fct_lump_n(name, 5), data = tidy_ikea, ylab = "Size in m^3",
-       xlab = "Price in €", panel = function(x, y, ...) {
+
+
+
+
+
+```{r coplot-code-designer-name, echo = FALSE, warning = FALSE, message = FALSE, eval = TRUE, fig.cap="Coplot of Size and Price Split by Designer and Name", out.width="100%",}
+invisible(coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + 
+         fct_lump_n(name, 5), data = tidy_ikea,
+       ylab = c("Size in m^3", "Name"),
+       xlab = c("Price in €", "Designer"), panel = function(x, y, ...) {
+         tmp <- lm(y ~ x, na.action = na.omit)
+         abline(tmp)
+         points(x, y )}))
+```
+
+```{r coplot-code-category-name, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE, cap="Code for Coplotting Combinations", out.width="100%"}
+coplot(size_m3 ~ price_eur | fct_lump_n(category, 5) + 
+         fct_lump_n(name, 5), data = drop_na(tidy_ikea), ylab = "Size in m^3",
+       xlab = "Price in Euro", panel = function(x, y, ...) {
          tmp <- lm(y ~ x, na.action = na.omit)
          abline(tmp)
          points(x, y )})
+```
 
-coplot(size_m3 ~ price_eur | fct_lump_n(category, 5) + fct_lump_n(name, 5), data = drop_na(tidy_ikea), ylab = "Size in m^3",
-       xlab = "Price in €", panel = function(x, y, ...) {
-         tmp <- lm(y ~ x, na.action = na.omit)
-         abline(tmp)
-         points(x, y )})
-
-coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + fct_lump_n(category, 5), data = drop_na(tidy_ikea), ylab = "Size in m^3",
+```{r coplot-code-designer-category, warning = FALSE, message = FALSE, eval = FALSE, cap="Code for Coplotting Combinations", out.width="100%"}
+coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + 
+         fct_lump_n(category, 5), data = drop_na(tidy_ikea), 
+       ylab = "Size in m^3",
        xlab = "Price in €", panel = function(x, y, ...) {
          tmp <- lm(y ~ x, na.action = na.omit)
          abline(tmp)

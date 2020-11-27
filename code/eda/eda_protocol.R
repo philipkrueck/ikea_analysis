@@ -136,8 +136,10 @@ tidy_ikea %>% select(where(is.numeric)) %>%
 
 # 7. Interactions
 
-coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + fct_lump_n(name, 5), data = tidy_ikea, ylab = "Size in m^3",
-       xlab = "Price in €", panel = function(x, y, ...) {
+coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + fct_lump_n(name, 5), 
+       data = tidy_ikea, 
+       ylab = c("Size in m^3", "Name"),
+       xlab = c("Price in €", "Designer"), panel = function(x, y, ...) {
          tmp <- lm(y ~ x, na.action = na.omit)
          abline(tmp)
          points(x, y )})
