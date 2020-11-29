@@ -65,7 +65,7 @@ tidy_ikea %>%
 
 
 
-# Coplots
+# Coplots {#coplots}
 
 ```{r coplot-code-designer-name, echo = FALSE, warning = FALSE, message = FALSE, eval = TRUE, fig.cap="Coplot of Size and Price Split by Designer and Name", out.width="100%",}
 invisible(coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + 
