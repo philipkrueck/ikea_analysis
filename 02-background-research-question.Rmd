@@ -25,7 +25,7 @@ The data set has 13 variables and 2962 distinct observations after the removal o
 \textcolor{gray}{by J. Pein}
 
 In order to analyze the feature importance in relation to the price variable, a random forest regression model was chosen. A random forest consists of many decision trees, which predicts the response variable based on a majority decision process. In standard decision trees, each node is split to achieve the best performing model. In random forests however, the nodes are randomly split. 
-Compared to linear regression, random forests not only take the mean and covariance structure into account, but also include deeper aspects of the data [@Groemping2009, p.317] resulting in a more advanced and robust model. To learn more about random forests, please see @Breiman2001. 
+Compared to linear regression, random forests not only take the mean and covariance structure into account, but also include deeper aspects of the data [@Groemping2009] resulting in more advanced and robust model. To learn more about random forests, please see @Breiman2001. 
 
 ### Overfitting {#overfitting}
 \textcolor{gray}{by P. Krück}
@@ -36,11 +36,15 @@ In statistical modelling, overfitting refers to the phenomenon where an analysis
 ### Feature Importance {#feature-importance}
 \textcolor{gray}{by J. Pein}
 
-There are different ways to measure feature importance. In this analysis permuting feature importance by a random forest algorithm is used. This algorithm leaves each feature out once while leaving all others unchanged, at each step calculating the mean squared error (MSE) of the predictions. This is done for every tree, calculating the overall MSE of each feature for the whole model [@Breiman2001, p.23].
+There are different ways to measure feature importance. In this analysis permuting feature importance by a random forest algorithm is used. This algorithm leaves each feature out once while leaving all others unchanged, at each step calculating the mean squared error (MSE) of the predictions. This is done for each tree, calculating the overall MSE of each feature for the whole model [@Breiman2001].
 
 
 ## Research Question {#research-question}
 \textcolor{gray}{by P. Krück}
 
-This paper explores the following research question: *How important are the different features of Ikea products in regard to their price?* The motivating forces for this research question are the possible implications for price determination of new items.
+This paper explores the following research question:
+
+*How important are the different features of Ikea products in regard to their price?*
+
+The motivating forces for this research question are the possible implications for price determination of new items.
 
