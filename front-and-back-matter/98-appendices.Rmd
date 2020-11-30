@@ -68,13 +68,15 @@ tidy_ikea %>%
 # Coplots {#coplots}
 
 ```{r coplot-code-designer-name, echo = FALSE, warning = FALSE, message = FALSE, eval = TRUE, fig.cap="Coplot of Size and Price Split by Designer and Name", out.width="100%",}
-invisible(coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + 
-         fct_lump_n(name, 5), data = tidy_ikea,
+library('tidyr')
+
+coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + 
+         fct_lump_n(name, 5), data = drop_na(tidy_ikea),
        ylab = c("Size in m^3", "Name"),
        xlab = c("Price in Euro", "Designer"), panel = function(x, y, ...) {
          tmp <- lm(y ~ x, na.action = na.omit)
          abline(tmp)
-         points(x, y )}))
+         points(x, y )})
 ```
 
 ```{r coplot-code-category-name, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE, cap="Code for Coplotting Combinations", out.width="100%"}
