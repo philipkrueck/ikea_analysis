@@ -89,7 +89,7 @@ grid.arrange(p1, p2, p3, p4, p5, nrow = 3)
 The homogeneity (homoscedasticity) of variance for price is explored by the means of conditional boxplotting. 
 Within each name, and within each category the variance is heterogenous (see fig. \@ref(fig:homogeneity)). However, looking at both name and category in conjunction, it is possible to explore homoscedasticity of variance for price.
 
-Due to the limited scope and length of this paper, the authors were not able to inspect all variable combinations for the three categorical plus two logical variables of the data set($2^5=32$).
+Due to the limited scope and length of this paper, the authors were not able to inspect all variable combinations for the three categorical plus two logical variables of the data set ($2^5=32$).
 
 
 ```{r, homogeneity, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Homogeneity of category for selected combinations of name and category", out.width="100%"}
@@ -212,7 +212,7 @@ tidy_ikea %>%
 \textcolor{gray}{by P. Krück}
 
 The interactions between different variables are explored by the use of conditioning plots (coplots).
-Using this form plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables. 
+Utilizing this form of plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables. 
 In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, ```old_price_eur``` has such a strong relationship with ```price``` (see fig \@ref(fig:relationship-old-price)). A more detailed breakdown by the categorical variables would not reveal new information. This leaves the exploration of ```size_m3``` and ```price_eur``` subdivided by designer, name and category resulting in (${3 \choose 2} = 3$) combinations of coplots.
 
 #### Interaction of size and price coplotted by designer and name {#size-price-interaction}
@@ -256,7 +256,7 @@ To analyze the feature importance of different variables on the price variable, 
 In this analysis, the R _randomForest_ package was used, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To reproduce the results, the further data preparation steps are described here. These steps are based on the cleaned ikea data set which is described in section \@ref(datacleaning). This data set is then transformed further allowing it to be used with the _randomForest_ package. To learn more about how random forests work see chapter \@ref(chapter-2), to learn more about the _randomForest_ package see @Liaw2002. 
 
 First, the variable `old_price_eur` is removed from the cleaned ikea data set, due to a very high correlation and relationship to the response variable `price_eur` (price) analyzed in section \@ref(collinearity) and section \@ref(relationship). Then, the `designers` and `names`, which are not part of the 50 `designers` and 49 `names` with the highest number of occurences, are grouped in the `other` value. This is because the `randomForest` method does not allow categorical variables with more than 53 predictors. The last step deals with the missing values in the data. As described in section \@ref(missing-values), there are many missing values in the `size_m3` and `designer` variables. To apply the `randomForest` method of the _randomForest_ package on the data, those missing values are treated using three different approaches. In the first approach the rows with missing values are deleted, reducing the total number of rows by aproximately 50%. In the second approach the missing values are dummy coded with a value of -1000. The third approach uses the `na.roughfix = na.omit` argument, which is the built-in way of the _randomForest_ package to deal with missing values.
-After preparing the data, the `randomForest` method of the _randomForest_ package is applied to the data with number of trees set to 2000 and importance set to `TRUE`, training the random forest model with the prepared ikea data set.
+After preparing the data, the `randomForest` method of the _randomForest_ package is applied to the data with the number of trees set to 2000 and importance set to `TRUE`, training the random forest model with the prepared ikea data set.
 
 `randomForest(price_eur ~ ., rf_ikea, ntree=2000, importance=TRUE)`
 
