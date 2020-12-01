@@ -218,7 +218,7 @@ In the given data set there are three numerical and three categorical variables 
 #### Interaction of size and price coplotted by designer and name {#size-price-interaction}
 \textcolor{gray}{by P. Krück}
 
-It is unlikely that there is an interaction between size and price split by name and designer as is indicated by the non-parallelism of the fitted lines in the coplot (see figure \@ref(coplot-code-designer-name)).
+It is unlikely that there is an interaction between size and price split by name and designer as is indicated by the non-parallelism of the fitted lines in the coplot (see figure \@ref(fig:coplot-code-designer-name)).
 
 
 #### Problems with Coplot Development
@@ -227,12 +227,12 @@ It is unlikely that there is an interaction between size and price split by name
 This section describes a programming error the authors ran into regarding coplotting.
 
 Unfortunately, the authors of this papers weren't able to fully explore all combinations.
-Plotting designer and name works (see section \@ref(size-price-interaction)) while the other two options would not plot properly. 
+Plotting designer and name works (see above) while the other two options would not plot properly. 
 The authors could not fully debug the problem with these plots.
-The linear model predicted infinite values for some of the coplotted combinations for both amalgamations that wouldn't render correctly. 
+The linear model predicted infinite values for some of the coplotted combinations for both amalgamations that would not render correctly. 
 Dropping all ```NA``` values left 354 observations and the coplot would correctly render for the combination of ```name``` and ```category``` while for ```name``` and ```designer``` it would not. The number of observations for ```name``` and ```category``` is rather low considering the additional categorical subdivision which lead the authors to discard it as an insignificant research finding.
 Still there seemed to be infinite values outputted by the linear method. The authors hypothesized that those values were caused by a division by 0 of the internal algorithm mechanics. This however proved to be wrong after applying the respective filters.
-The code for the 3 plots can be viewed in Appendix chapter \@ref(coplots).
+The code for the two problematic plots can be viewed in Appendix chapter \@ref(code-chunks).
 
 The inclined reader is encouraged to dabble with the code. Sending any hints or even a solution to fix the code and fully render the plots would be highly appreciated by the authors.
 ^[Any questions, hints or solutions may kindly be sent to philip.krueck\@myhsba.de.]

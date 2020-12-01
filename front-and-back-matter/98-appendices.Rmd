@@ -5,7 +5,7 @@
 <!-- If you feel it necessary to include an appendix, it goes here. The first appendix should include the commands above. -->
 
 
-# Appendix
+# Plots
 
 ```{r price-dist-per-designer, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="A Plot Showing the Price Distribution per Designer", out.width="100%"}
 tidy_ikea %>%
@@ -51,7 +51,6 @@ tidy_ikea %>%
 ```{r relationship-x-y, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.cap="Relationship between Independent Variables and Price", out.width="100%"}
 tidy_ikea %>%
   mutate(across(where(is.character), as.factor)) %>% mutate(across(where(is.factor), as.numeric)) %>%
-  # select() %>% # De-select variables here if necessary
   pivot_longer(-price_eur, names_to = "variable", values_to = "num") %>% group_by(variable) %>%
   arrange(num) %>%
   mutate(observation = 1:n()) %>%
@@ -62,22 +61,13 @@ tidy_ikea %>%
   facet_wrap(~ variable, scales = "free_x") + ylab("Price in Euro") + xlab("")
 ```
 
-
-
-
-# Coplots {#coplots}
-
-```{r coplot-code-designer-name, echo = FALSE, warning = FALSE, message = FALSE, eval = TRUE, fig.cap="Coplot of Size and Price Split by Designer and Name", out.width="100%",}
-library('tidyr')
-
-coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) + 
-         fct_lump_n(name, 5), data = drop_na(tidy_ikea),
-       ylab = c("Size in m^3", "Name"),
-       xlab = c("Price in Euro", "Designer"), panel = function(x, y, ...) {
-         tmp <- lm(y ~ x, na.action = na.omit)
-         abline(tmp)
-         points(x, y )})
+```{r coplot-code-designer-name, echo = FALSE, out.width="150%", out.extra='angle=90', fig.cap="Coplot of Size and Price Split by Designer and Name"}
+knitr::include_graphics(rep('coplot.png', 1))
+# code for the plot can be found in code/eda/eda_protocol.R
 ```
+
+# Code Chunks {#code-chunks}
+
 
 ```{r coplot-code-category-name, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE, cap="Code for Coplotting Combinations", out.width="100%"}
 coplot(size_m3 ~ price_eur | fct_lump_n(category, 5) + 
@@ -99,6 +89,28 @@ coplot(size_m3 ~ price_eur | fct_lump_n(designer, 5) +
          points(x, y )})
 ```
 
+# Declaration of Honor
+
+Declaration: We hereby declare that we
+
+  1. wrote this project report without the assistance of others;
+
+  2. have marked direct quotes used from the literature and the use of ideas of other authors at the corresponding locations in the thesis;
+
+  3. have not presented this thesis for any other exam. We acknowledge that a false declaration will have legal consequences.
+
+&nbsp;&nbsp;
+
+(Place, date) (Signatures)
+
+&nbsp;&nbsp;
+
+We accept that HSBA may check the originality of my work using a range of manual and computer-based techniques, including transferring and storing my submission in a database for the purpose of data-matching to help detect plagiarism.
+
+&nbsp;&nbsp;
+
+(Place, date) (Signatures)
+  
 
 # Bibliography
 

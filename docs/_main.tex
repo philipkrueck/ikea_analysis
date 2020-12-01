@@ -393,7 +393,7 @@ To verify this hypothesis, the authors randomly tested outlier observations and 
 The homogeneity (homoscedasticity) of variance for price is explored by the means of conditional boxplotting.
 Within each name, and within each category the variance is heterogenous (see fig. \ref{fig:homogeneity}). However, looking at both name and category in conjunction, it is possible to explore homoscedasticity of variance for price.
 
-Due to the limited scope and length of this paper, the authors were not able to inspect all variable combinations for the three categorical plus two logical variables of the data set(\(2^5=32\)).
+Due to the limited scope and length of this paper, the authors were not able to inspect all variable combinations for the three categorical plus two logical variables of the data set (\(2^5=32\)).
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{_main_files/figure-latex/homogeneity-1} \caption{Homogeneity of category for selected combinations of name and category}\label{fig:homogeneity}
@@ -466,7 +466,7 @@ Inspecting the relationship between the independent variables and price, a stron
 \textcolor{gray}{by P. Krück}
 
 The interactions between different variables are explored by the use of conditioning plots (coplots).
-Using this form plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables.
+Utilizing this form of plotting the relationship of two numerical variables is explored by creating a matrix of plots subdivided by two categorical variables.
 In the given data set there are three numerical and three categorical variables which can be explored in this form of interaction. For the numerical variables, \texttt{old\_price\_eur} has such a strong relationship with \texttt{price} (see fig \ref{fig:relationship-old-price}). A more detailed breakdown by the categorical variables would not reveal new information. This leaves the exploration of \texttt{size\_m3} and \texttt{price\_eur} subdivided by designer, name and category resulting in (\({3 \choose 2} = 3\)) combinations of coplots.
 
 \hypertarget{size-price-interaction}{%
@@ -474,7 +474,7 @@ In the given data set there are three numerical and three categorical variables 
 
 \textcolor{gray}{by P. Krück}
 
-It is unlikely that there is an interaction between size and price split by name and designer as is indicated by the non-parallelism of the fitted lines in the coplot (see figure \ref{coplot-code-designer-name}).
+It is unlikely that there is an interaction between size and price split by name and designer as is indicated by the non-parallelism of the fitted lines in the coplot (see figure \ref{fig:coplot-code-designer-name}).
 
 \hypertarget{problems-with-coplot-development}{%
 \subsubsection{Problems with Coplot Development}\label{problems-with-coplot-development}}
@@ -484,12 +484,12 @@ It is unlikely that there is an interaction between size and price split by name
 This section describes a programming error the authors ran into regarding coplotting.
 
 Unfortunately, the authors of this papers weren't able to fully explore all combinations.
-Plotting designer and name works (see section \ref{size-price-interaction}) while the other two options would not plot properly.
+Plotting designer and name works (see above) while the other two options would not plot properly.
 The authors could not fully debug the problem with these plots.
-The linear model predicted infinite values for some of the coplotted combinations for both amalgamations that wouldn't render correctly.
+The linear model predicted infinite values for some of the coplotted combinations for both amalgamations that would not render correctly.
 Dropping all \texttt{NA} values left 354 observations and the coplot would correctly render for the combination of \texttt{name} and \texttt{category} while for \texttt{name} and \texttt{designer} it would not. The number of observations for \texttt{name} and \texttt{category} is rather low considering the additional categorical subdivision which lead the authors to discard it as an insignificant research finding.
 Still there seemed to be infinite values outputted by the linear method. The authors hypothesized that those values were caused by a division by 0 of the internal algorithm mechanics. This however proved to be wrong after applying the respective filters.
-The code for the 3 plots can be viewed in Appendix chapter \ref{coplots}.
+The code for the 3 plots can be viewed in Appendix chapter \ref{code-chunks}.
 
 The inclined reader is encouraged to dabble with the code. Sending any hints or even a solution to fix the code and fully render the plots would be highly appreciated by the authors.\footnote{Any questions, hints or solutions may kindly be sent to philip.krueck@myhsba.de.}
 
@@ -511,7 +511,7 @@ To analyze the feature importance of different variables on the price variable, 
 In this analysis, the R \emph{randomForest} package was used, which is based on the original Breiman and Cutler's Fortran code for random forest regression. To reproduce the results, the further data preparation steps are described here. These steps are based on the cleaned ikea data set which is described in section \ref{datacleaning}. This data set is then transformed further allowing it to be used with the \emph{randomForest} package. To learn more about how random forests work see chapter \ref{chapter-2}, to learn more about the \emph{randomForest} package see Liaw and Wiener.\footnote{``Classification and Regression by randomForest.''}
 
 First, the variable \texttt{old\_price\_eur} is removed from the cleaned ikea data set, due to a very high correlation and relationship to the response variable \texttt{price\_eur} (price) analyzed in section \ref{collinearity} and section \ref{relationship}. Then, the \texttt{designers} and \texttt{names}, which are not part of the 50 \texttt{designers} and 49 \texttt{names} with the highest number of occurences, are grouped in the \texttt{other} value. This is because the \texttt{randomForest} method does not allow categorical variables with more than 53 predictors. The last step deals with the missing values in the data. As described in section \ref{missing-values}, there are many missing values in the \texttt{size\_m3} and \texttt{designer} variables. To apply the \texttt{randomForest} method of the \emph{randomForest} package on the data, those missing values are treated using three different approaches. In the first approach the rows with missing values are deleted, reducing the total number of rows by aproximately 50\%. In the second approach the missing values are dummy coded with a value of -1000. The third approach uses the \texttt{na.roughfix\ =\ na.omit} argument, which is the built-in way of the \emph{randomForest} package to deal with missing values.
-After preparing the data, the \texttt{randomForest} method of the \emph{randomForest} package is applied to the data with number of trees set to 2000 and importance set to \texttt{TRUE}, training the random forest model with the prepared ikea data set.
+After preparing the data, the \texttt{randomForest} method of the \emph{randomForest} package is applied to the data with the number of trees set to 2000 and importance set to \texttt{TRUE}, training the random forest model with the prepared ikea data set.
 
 \texttt{randomForest(price\_eur\ \textasciitilde{}\ .,\ rf\_ikea,\ ntree=2000,\ importance=TRUE)}
 
@@ -576,8 +576,8 @@ If the high feature importance of the variables truly is not due to overfitting,
 
 \startappendices
 
-\hypertarget{appendix}{%
-\chapter{Appendix}\label{appendix}}
+\hypertarget{plots}{%
+\chapter{Plots}\label{plots}}
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-per-designer-1} \caption{A Plot Showing the Price Distribution per Designer}\label{fig:price-dist-per-designer}
@@ -599,12 +599,12 @@ If the high feature importance of the variables truly is not due to overfitting,
 \includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-x-y-1} \caption{Relationship between Independent Variables and Price}\label{fig:relationship-x-y}
 \end{figure}
 
-\hypertarget{coplots}{%
-\chapter{Coplots}\label{coplots}}
-
 \begin{figure}[!h]
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/coplot-code-designer-name-1} \caption{Coplot of Size and Price Split by Designer and Name}\label{fig:coplot-code-designer-name}
+\includegraphics[width=1.5\linewidth,angle=90]{coplot} \caption{Coplot of Size and Price Split by Designer and Name}\label{fig:coplot-code-designer-name}
 \end{figure}
+
+\hypertarget{code-chunks}{%
+\chapter{Code Chunks}\label{code-chunks}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -629,6 +629,33 @@ If the high feature importance of the variables truly is not due to overfitting,
          \KeywordTok{points}\NormalTok{(x, y )\})}
 \end{Highlighting}
 \end{Shaded}
+
+\hypertarget{declaration-of-honor}{%
+\chapter{Declaration of Honor}\label{declaration-of-honor}}
+
+Declaration: We hereby declare that we
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  wrote this project report without the assistance of others;
+\item
+  have marked direct quotes used from the literature and the use of ideas of other authors at the corresponding locations in the thesis;
+\item
+  have not presented this thesis for any other exam. We acknowledge that a false declaration will have legal consequences.
+\end{enumerate}
+
+~~
+
+(Place, date) (Signatures)
+
+~~
+
+We accept that HSBA may check the originality of my work using a range of manual and computer-based techniques, including transferring and storing my submission in a database for the purpose of data-matching to help detect plagiarism.
+
+~~
+
+(Place, date) (Signatures)
 
 \hypertarget{bibliography}{%
 \chapter{Bibliography}\label{bibliography}}
