@@ -150,7 +150,7 @@ $endif$
 
 %%%%% CHOOSE YOUR LINE SPACING HERE
 % This is the official option.  Use it for your submission copy and library copy:
-\setlength{\textbaselineskip}{22pt plus2pt}
+\setlength{\textbaselineskip}{28pt plus2pt}
 % This is closer spacing (about 1.5-spaced) that you might prefer for your personal copies:
 %\setlength{\textbaselineskip}{18pt plus2pt minus1pt}
 
@@ -205,6 +205,12 @@ $endif$
 
 % This is where the whole-document ToC appears:
 \tableofcontents
+
+$if(lof)$
+\listoffigures
+	\mtcaddchapter
+  	% \mtcaddchapter is needed when adding a non-chapter (but chapter-like) entity to avoid confusing minitoc
+$endif$
 
 %%%%% LIST OF ABBREVIATIONS
 % This example includes a list of abbreviations.  Look at text/abbreviations.tex to see how that file is

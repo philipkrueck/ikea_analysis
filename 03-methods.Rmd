@@ -72,7 +72,7 @@ Web scraping code is written in a generic form which makes it generalizable to a
 To verify this hypothesis, the authors randomly tested outlier observations and manually checked them against the ikea website information. With a high level of statistical confidence, the authors proceeded with further analysis without removing outliers as observation errors.
 
 
-```{r, outliers, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Boxplots for Price in € based on Independent Variables", out.width="100%"}
+```{r, outliers, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Boxplots for Price in Euro Based on Independent Variables", out.width="100%"}
 ## Boxplots for all factor variables against the DV (hwy):
 p1 <- ggplot(tidy_ikea, aes(x = fct_lump(name, 8), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("name")
 p2 <- ggplot(tidy_ikea, aes(x = fct_lump(category, 8), y = price_eur)) + geom_boxplot(outlier.alpha = 0.3) + coord_flip() + ylab("") + xlab("category")
@@ -92,7 +92,7 @@ Within each name, and within each category the variance is heterogenous (see fig
 Due to the limited scope and length of this paper, the authors were not able to inspect all variable combinations for the three categorical plus two logical variables of the data set ($2^5=32$).
 
 
-```{r, homogeneity, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Homogeneity of category for selected combinations of name and category", out.width="100%"}
+```{r, homogeneity, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Homogeneity of Category for Selected Combinations of Name and Category", out.width="100%"}
 tidy_ikea %>%
   filter(name == "HEMNES" | name == "LIDHULT" | name == "VIMLE" | name == "VALLENTUNA" | name == "GRÖNLID") %>%
   filter(category == "Beds" | category == "Chairs" | category == "Sofas & armchairs") %>%
@@ -134,7 +134,7 @@ The missing values for designer were deliberately set to ```NA``` by the authors
 The ```NA``` values for the size can be explained due to the computation of this column vector. ```size_m3``` is the product of ```depth```, ```width``` and ```height```. If one of those three values is missing, the end result is also a missing value. 
 In contrast, the abscence of the old price variables is due to the fact that most items are not on sale and thus do not have a missing value.
 
-```{r, missing-values, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Percentage of missing values", out.width="100%"}
+```{r, missing-values, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Percentage of Missing Values", out.width="100%"}
 missing_values <- tidy_ikea %>%
   gather(key = "key", value = "val") %>%
   mutate(isna = is.na(val)) %>%
@@ -187,7 +187,7 @@ Inspecting the relationship between the independent variables and price, a stron
 ```old_price_eur``` has a linear relationship (see fig. \@ref(fig:relationship-old-price)) whereas ```size_m3``` begins with a linear relationship as well, which is only disturbed by an outlier.  (see fig. \@ref(fig:relationship-size-m3)).
 
 
-```{r relationship-old-price, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Relationshihp of Price and Old Price", out.width="100%"}
+```{r relationship-old-price, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Relationship of Price and Old Price", out.width="100%"}
 tidy_ikea %>%
   filter(!is.na(old_price_eur)) %>%
   ggplot(aes(x = old_price_eur, y = price_eur)) +
@@ -197,7 +197,7 @@ tidy_ikea %>%
     labs(x = "old price in Euro", y = "price in Euro")
 ```
 
-```{r relationship-size-m3, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Relationship of Price Size in Cubic Meters", out.width="100%"}
+```{r relationship-size-m3, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.cap="Relationship of Price and Size in Cubic Meters", out.width="100%"}
 tidy_ikea %>%
   filter(!is.na(size_m3)) %>%
   ggplot(aes(x = size_m3, y = price_eur, colour = "red")) +

@@ -177,7 +177,7 @@
 
 %%%%% CHOOSE YOUR LINE SPACING HERE
 % This is the official option.  Use it for your submission copy and library copy:
-\setlength{\textbaselineskip}{22pt plus2pt}
+\setlength{\textbaselineskip}{28pt plus2pt}
 % This is closer spacing (about 1.5-spaced) that you might prefer for your personal copies:
 %\setlength{\textbaselineskip}{18pt plus2pt minus1pt}
 
@@ -224,6 +224,10 @@
 
 % This is where the whole-document ToC appears:
 \tableofcontents
+
+\listoffigures
+	\mtcaddchapter
+  	% \mtcaddchapter is needed when adding a non-chapter (but chapter-like) entity to avoid confusing minitoc
 
 %%%%% LIST OF ABBREVIATIONS
 % This example includes a list of abbreviations.  Look at text/abbreviations.tex to see how that file is
@@ -382,7 +386,7 @@ Web scraping code is written in a generic form which makes it generalizable to a
 To verify this hypothesis, the authors randomly tested outlier observations and manually checked them against the ikea website information. With a high level of statistical confidence, the authors proceeded with further analysis without removing outliers as observation errors.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/outliers-1} \caption{Boxplots for Price in € based on Independent Variables}\label{fig:outliers}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/outliers-1} \caption{Boxplots for Price in Euro Based on Independent Variables}\label{fig:outliers}
 \end{figure}
 
 \hypertarget{step-2-homogeneity-of-price}{%
@@ -396,7 +400,7 @@ Within each name, and within each category the variance is heterogenous (see fig
 Due to the limited scope and length of this paper, the authors were not able to inspect all variable combinations for the three categorical plus two logical variables of the data set (\(2^5=32\)).
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/homogeneity-1} \caption{Homogeneity of category for selected combinations of name and category}\label{fig:homogeneity}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/homogeneity-1} \caption{Homogeneity of Category for Selected Combinations of Name and Category}\label{fig:homogeneity}
 \end{figure}
 
 \hypertarget{step-3-normality}{%
@@ -421,7 +425,7 @@ The \texttt{NA} values for the size can be explained due to the computation of t
 In contrast, the abscence of the old price variables is due to the fact that most items are not on sale and thus do not have a missing value.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/missing-values-1} \caption{Percentage of missing values}\label{fig:missing-values}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/missing-values-1} \caption{Percentage of Missing Values}\label{fig:missing-values}
 \end{figure}
 
 \hypertarget{collinearity}{%
@@ -453,11 +457,11 @@ Inspecting the relationship between the independent variables and price, a stron
 \texttt{old\_price\_eur} has a linear relationship (see fig. \ref{fig:relationship-old-price}) whereas \texttt{size\_m3} begins with a linear relationship as well, which is only disturbed by an outlier. (see fig. \ref{fig:relationship-size-m3}).
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-old-price-1} \caption{Relationshihp of Price and Old Price}\label{fig:relationship-old-price}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-old-price-1} \caption{Relationship of Price and Old Price}\label{fig:relationship-old-price}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-size-m3-1} \caption{Relationship of Price Size in Cubic Meters}\label{fig:relationship-size-m3}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/relationship-size-m3-1} \caption{Relationship of Price and Size in Cubic Meters}\label{fig:relationship-size-m3}
 \end{figure}
 
 \hypertarget{step-7-interactions}{%
@@ -489,7 +493,7 @@ The authors could not fully debug the problem with these plots.
 The linear model predicted infinite values for some of the coplotted combinations for both amalgamations that would not render correctly.
 Dropping all \texttt{NA} values left 354 observations and the coplot would correctly render for the combination of \texttt{name} and \texttt{category} while for \texttt{name} and \texttt{designer} it would not. The number of observations for \texttt{name} and \texttt{category} is rather low considering the additional categorical subdivision which lead the authors to discard it as an insignificant research finding.
 Still there seemed to be infinite values outputted by the linear method. The authors hypothesized that those values were caused by a division by 0 of the internal algorithm mechanics. This however proved to be wrong after applying the respective filters.
-The code for the 3 plots can be viewed in Appendix chapter \ref{code-chunks}.
+The code for the two problematic plots can be viewed in Appendix chapter \ref{code-chunks}.
 
 The inclined reader is encouraged to dabble with the code. Sending any hints or even a solution to fix the code and fully render the plots would be highly appreciated by the authors.\footnote{Any questions, hints or solutions may kindly be sent to philip.krueck@myhsba.de.}
 
@@ -522,15 +526,12 @@ Then the \texttt{importance} method of the \emph{randomForest} package is used t
 
 \hfill\textcolor{gray}{by J. Pein}
 
-\hypertarget{todo-set-n_trees-to-2000-before-handing-in}{%
-\section{TODO: set n\_trees to 2000 before handing in}\label{todo-set-n_trees-to-2000-before-handing-in}}
-
 In this chapter, the result of the analysis of the feature importance of different features on the response variable price of Ikea products are presented.
 
 As described in section \ref{rf}, the feature importance was calculated using permuting feature importance of the \emph{randomForest} R package. In this analysis, feature importance is derived from the percentage increase of the mean squared error (MSE) of the overall random forest regression model in regard to the response variable \texttt{price\_eur}. A larger percentage increase of the MSE implies greater feature importance. Conversely, a lower percentage increase of the MSE translates to less feature importance.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/mean-feature-importance-1} \caption{A Plot Showing the Mean Feature Importance of the Predictor Variables on the Response Variable}\label{fig:mean-feature-importance}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/mean-feature-importance-1} \caption{Mean Feature Importance of the Predictor Variables on the Response Variable}\label{fig:mean-feature-importance}
 \end{figure}
 
 Thus, as can be seen in figure \ref{fig:mean-feature-importance}, the most important feature is \texttt{size\_m3} with an increase of the MSE of 182\%. The second, third and fourth most important features are \texttt{designer} with an MSE increase of 120\%, \texttt{name} with an increase of 114\% and \texttt{category} with an increase of 105\%. The fifth most important feature is \texttt{other\_colors} with a MSE increase of 78\% and the least important feature is \texttt{sellable\_online} with a 9\% increase.
@@ -580,19 +581,19 @@ If the high feature importance of the variables truly is not due to overfitting,
 \chapter{Plots}\label{plots}}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-per-designer-1} \caption{A Plot Showing the Price Distribution per Designer}\label{fig:price-dist-per-designer}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-per-designer-1} \caption{Price Distribution per Designer}\label{fig:price-dist-per-designer}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-per-category-1} \caption{A Plot Showing the Price Distribution per Category}\label{fig:price-dist-per-category}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-per-category-1} \caption{Price Distribution per Category}\label{fig:price-dist-per-category}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-other-colors-1} \caption{A Plot Showing the Price Distribution Other Colors}\label{fig:price-dist-other-colors}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-other-colors-1} \caption{Price Distribution Other Colors}\label{fig:price-dist-other-colors}
 \end{figure}
 
 \begin{figure}[!h]
-\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-sellable-online-1} \caption{A Plot Showing the Price Distribution Sellable Online}\label{fig:price-dist-sellable-online}
+\includegraphics[width=1\linewidth]{_main_files/figure-latex/price-dist-sellable-online-1} \caption{Price Distribution Sellable Online}\label{fig:price-dist-sellable-online}
 \end{figure}
 
 \begin{figure}[!h]
